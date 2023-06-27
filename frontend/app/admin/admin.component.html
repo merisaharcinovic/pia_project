@@ -1,1 +1,124 @@
-<p>admin works!</p>
+<h1>Admin</h1>
+
+  <h2>Zahtevi za registraciju</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Korisnicko ime</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let request of pendingRequests">
+        <td>{{ request.username }}</td>
+        <td>{{ request.email }}</td>
+        <td>{{ request.status }}</td>
+        <td>
+          <button (click)="acceptRequest(request)">Prihvati</button>
+        </td>
+        <td>
+          <button (click)="declineRequest(request)">Odbij</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+<!-- Tabela sa klijentima -->
+<h2>Klijenti</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Ime</th>
+      <th>Prezime</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let c of allClients">
+      <td>{{ c.client.firstname }}</td>
+      <td>{{ c.client.lastname }}</td>
+      <td>
+        <button (click)="deleteClient(c)">Obriši</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Forma za dodavanje novog klijenta -->
+<table>
+  <tr>
+    <td>Korisničko ime:</td>
+    <td><input type="text" [(ngModel)]="newClient.username"></td>
+  </tr>
+  <tr>
+    <td>Lozinka:</td>
+    <td><input type="password" [(ngModel)]="newClient.password"></td>
+  </tr>
+  <tr>
+    <td>Potvrda lozinke:</td>
+    <td><input type="password" [(ngModel)]="newClient.confirmPassword"></td>
+  </tr>
+  <tr>
+    <td>Kontakt telefon:</td>
+    <td><input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="newClient.phone"></td>
+  </tr>
+  <tr>
+    <td>E-mail adresa:</td>
+    <td><input type="email" [(ngModel)]="newClient.email"></td>
+  </tr>
+  <tr>
+    <td>Ime:</td>
+    <td><input type="text" onkeypress="return /[a-z]/i.test(event.key)" [(ngModel)]="newClient.firstname"></td>
+  </tr>
+  <tr>
+    <td>Prezime:</td>
+    <td><input type="text" onkeypress="return /[a-z]/i.test(event.key)" [(ngModel)]="newClient.lastname"></td>
+  </tr>
+  <tr><td>
+    <button (click)="addClient()">Dodaj klijenta</button>
+  </td>
+  </tr>
+
+</table>
+<span class="error">{{addClientMessage}}</span>
+
+<!-- Tabela sa agencijama -->
+<!-- <h2>Agencije</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Naziv</th>
+      <th>Adresa</th>
+      <th>PIB</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let a of allAgencies">
+      <td>{{ a.agency.name }}</td>
+      <td>{{ a.agency.address }}</td>
+      <td>{{ a.agency.PIB }}</td>
+      <td>
+        <button (click)="deleteAgency(a)">Obriši</button>
+      </td>
+    </tr>
+  </tbody>
+</table> -->
+
+<!-- Forma za iizmenu agencije -->
+
+
+<!-- Forma za dodavanje nove agencije -->
+<!-- <h3>Dodaj novu agenciju</h3>
+<form id="addAgencyForm" (submit)="addAgency()">
+  <input type="text" id="agencyNameInput" placeholder="Naziv agencije" required [(ngModel)]="newAgency.name">
+  <input type="text" id="agencyAddressInput" placeholder="Adresa agencije" required [(ngModel)]="newAgency.address">
+  <input type="text" id="agencyPibInput" placeholder="PIB agencije" required [(ngModel)]="newAgency.PIB"> -->
+  <!-- Dodajte ostala polja za unos podataka o agenciji -->
+  <!-- <button type="submit">Dodaj agenciju</button>
+</form> -->

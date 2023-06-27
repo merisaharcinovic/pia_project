@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-let User=new Schema({
+let RegistrationRequest=new Schema({
     username: { type: String },
     password: { type: String},
     email: { type: String},
@@ -20,6 +20,7 @@ let User=new Schema({
         description: { type: String }
     }, default:null},
     profilePicture: { type: String },
+    status:{type:String, default:'pending'}
 })
 
-export default mongoose.model('User', User, 'users');
+export default mongoose.model('RegistrationRequest', RegistrationRequest, 'registrationRequests');

@@ -52,10 +52,10 @@
     <tr>
       <td>Adresa sedišta agencije:</td>
       <td>
-        <input type="text" placeholder="Država" onkeypress="return /[a-z]/i.test(event.key)"  [(ngModel)]="agencyAddress.country">
-        <input type="text" placeholder="Grad" onkeypress="return /[a-z]/i.test(event.key)"  [(ngModel)]="agencyAddress.city">
+        <input type="text" placeholder="Država" onkeypress="return /[a-z\s]/i.test(event.key)"  [(ngModel)]="agencyAddress.country">
+        <input type="text" placeholder="Grad" onkeypress="return /[a-z\s]/i.test(event.key)"  [(ngModel)]="agencyAddress.city">
         <input type="text" placeholder="Ulica" [(ngModel)]="agencyAddress.street">
-        <input type="text" placeholder="Broj" [(ngModel)]="agencyAddress.number">
+        <input type="text" placeholder="Broj" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="agencyAddress.number">
       </td>
     </tr>
     <tr>
@@ -69,4 +69,12 @@
     </tr>
   </ng-container>
 
+  <tr>
+    <td colspan="2">
+      <button (click)="register()">Registruj se</button>
+    </td>
+
+  </tr>
+
 </table>
+<span class="error">{{message}}</span>

@@ -1,0 +1,26 @@
+<input type="text" [(ngModel)]="searchQuery" placeholder="Pretraga po nazivu ili adresi">
+
+<table>
+  <thead>
+    <tr>
+      <th>Profilna slika</th>
+      <th>Naziv</th>
+      <th>Opis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let a of allAgencies" (click)="viewAgencyDetails(a)">
+      <td>
+        <img [src]="a.profilePicture" alt="Profilna slika" width="50" height="50">
+      </td>
+      <td>{{ a.agency.name }}</td>
+      <td>{{ a.agency.description }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+

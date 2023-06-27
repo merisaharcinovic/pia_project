@@ -6,9 +6,11 @@ import { AdminComponent } from './admin/admin.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { AgencyComponent } from './agency/agency.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { NonregisteredComponent } from './nonregistered/nonregistered.component';
 
 const routes: Routes = [
-  {path: "", component: LoginComponent},
+  {path: "", component: NonregisteredComponent},
+  {path: "login", component: LoginComponent},
   {path: "client", component: ClientComponent},
   {path: "admin-login", component:AdminLoginComponent},
   {path: "admin", component: AdminComponent},
