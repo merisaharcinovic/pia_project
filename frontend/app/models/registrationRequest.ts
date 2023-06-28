@@ -11,7 +11,12 @@ export class RegistrationRequest {
   } | null;
   agency: {
     name: string;
-    address: string;
+    address: {
+      country:String,
+      city:String,
+      street:String,
+      number:String
+  },
     PIB: string;
     description: string;
   } | null;

@@ -12,7 +12,12 @@ export class User{
   }
   agency: {
       name:String;
-      address:String;
+      address:{
+        country:string,
+        city:string,
+        street:string,
+        number:string
+      };
       PIB: String;
       description:String;
   }

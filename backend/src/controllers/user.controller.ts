@@ -4,7 +4,7 @@ import RegistrationRequest from "../models/registrationRequests";
 
 export class UserController{
     registerAgency=(req:express.Request, res:express.Response)=>{
-
+        console.log(req.body.agencyAddress)
         let registrationRequest = new RegistrationRequest({
             username : req.body.username,
             password :req.body.password,
@@ -13,7 +13,7 @@ export class UserController{
             role:'agency',
             agency:{
                 name :req.body.agencyName,
-                adress : req.body.agencyAddress,
+                address : req.body.agencyAddress,
                 PIB :req.body.agencyPIB,
                 description : req.body.agencyDescription
             },
@@ -110,52 +110,54 @@ export class UserController{
     }
 
     searchAgencies = (req: express.Request, res: express.Response) => {
-        let searchParam = req.query.param;
-        let searchByAddress = req.query.searchByAddress === 'true';
-        let searchByName = req.query.searchByName === 'true';
-      
-        let query: any = {
-          role: 'agency'
-        };
-      
-        if (searchByAddress && searchByName) {
-          query.$or = [
-            { 'agency.name': { $regex: searchParam, $options: 'i' } },
-            {
-              'agency.address': {
-                $elemMatch: {
-                  $or: [
-                    { country: { $regex: searchParam, $options: 'i' } },
-                    { city: { $regex: searchParam, $options: 'i' } },
-                    { street: { $regex: searchParam, $options: 'i' } },
-                    { number: { $regex: searchParam, $options: 'i' } }
-                  ]
-                }
+      let searchParam = req.query.param;
+      let searchByAddress = req.query.searchByAddress === 'true';
+      let searchByName = req.query.searchByName === 'true';
+    
+      let query: any = {
+        role: 'agency'
+      };
+    
+      if (searchByAddress && searchByName) {
+        query.$or = [
+          { 'agency.name': { $regex: searchParam, $options: 'i' } },
+          {
+            'agency.address': {
+              $elemMatch: {
+                $or: [
+                  { country: { $regex: searchParam, $options: 'i' } },
+                  { city: { $regex: searchParam, $options: 'i' } },
+                  { street: { $regex: searchParam, $options: 'i' } },
+                  { number: { $regex: searchParam, $options: 'i' } }
+                ]
               }
             }
-          ];
-        } else if (searchByAddress) {
-          query['agency.address'] = {
+          }
+        ];
+      } else if (searchByAddress) {
+        query['agency.address'] = {
+          $elemMatch: {
             $or: [
               { country: { $regex: searchParam, $options: 'i' } },
               { city: { $regex: searchParam, $options: 'i' } },
               { street: { $regex: searchParam, $options: 'i' } },
               { number: { $regex: searchParam, $options: 'i' } }
             ]
-          };
-        } else if (searchByName) {
-          query['agency.name'] = { $regex: searchParam, $options: 'i' };
-        }
-      
-        User.find(query, (err, agencies) => {
-          if (err) {
-            console.error(err);
-            return res.status(500).json({ message: 'Error searching agencies' });
           }
-      
-          res.json(agencies);
-        });
-      };
-      
+        };
+      } else if (searchByName) {
+        query['agency.name'] = { $regex: searchParam, $options: 'i' };
+      }
+    
+      User.find(query, (err, agencies) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ message: 'Error searching agencies' });
+        }
+    
+        res.json(agencies);
+      });
+    };
+    
       
 }

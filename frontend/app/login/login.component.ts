@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
 
   username:string;
   password:string;
+  message:string;
 
   login(){
     this.userService.login(this.username, this.password).subscribe( (user:User)=>{
@@ -24,11 +25,19 @@ export class LoginComponent implements OnInit {
           if(user.role=='client'){
             this.router.navigate(['/client'])
           }
-          else{
+          else if (user.role=='agency'){
             this.router.navigate(['/agency'])
           }
+          else if(user.role == 'admin'){
+            alert("Administrator se prijavljuje na posebnoj formi.")
+            this.router.navigate(['/admin-login'])
+          }
+
+          localStorage.setItem('loggedUser', JSON.stringify(user));
         }
-        else alert("USER IS NULL")
+        else {
+          this.message='Neispravno korisnicko ime ili lozinka.'
+        }
       });
 
   }

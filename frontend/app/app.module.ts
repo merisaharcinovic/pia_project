@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { NonregisteredComponent } from './nonregistered/nonregistered.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { NonregisteredComponent } from './nonregistered/nonregistered.component'
     AgencyComponent,
     RegistrationComponent,
     AdminLoginComponent,
-    NonregisteredComponent
+    NonregisteredComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

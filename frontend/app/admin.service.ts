@@ -6,8 +6,22 @@ import { RegistrationRequest } from './models/registrationRequest';
   providedIn: 'root'
 })
 export class AdminService {
-  deleteClient(username: String) {
-    return this.http.post('http://localhost:4000/admin/deleteClient', {'username':username})
+  addAgency(username: string, password: string, phone: string, email: string, name: string, address:{country:string, city:string, street:string, number:string}, PIB: string, description: string, profilePicture: string) {
+    const data={
+      'username':username,
+      'password':password,
+      'phone':phone,
+      'email':email,
+      'name':name,
+      'address':address,
+      'PIB':PIB,
+      'description':description,
+      'profilePicture':profilePicture
+    }
+    return this.http.post('http://localhost:4000/admin/addAgency', data)
+  }
+  deleteUser(username: String) {
+    return this.http.post('http://localhost:4000/admin/deleteUser', {'username':username})
   }
   acceptRequest(toAccept: RegistrationRequest) {
     return this.http.post('http://localhost:4000/admin/acceptRequest',toAccept)
@@ -16,14 +30,15 @@ export class AdminService {
     return this.http.post('http://localhost:4000/admin/declineRequest',toDecline)
   }
 
-  addClient(username: string, password: string, phone: string, email: string, firstname: string, lastname: string) {
+  addClient(username: string, password: string, phone: string, email: string, firstname: string, lastname: string, profilePicture:string) {
     const data={
       'username':username,
       'password':password,
       'phone':phone,
       'email':email,
       'firstname':firstname,
-      'lastname':lastname
+      'lastname':lastname,
+      'profilePicture':profilePicture
     }
     return this.http.post('http://localhost:4000/admin/addClient', data)
   }

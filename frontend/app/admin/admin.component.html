@@ -1,7 +1,7 @@
 <h1>Admin</h1>
 
   <h2>Zahtevi za registraciju</h2>
-  <table>
+  <table *ngIf="pendingRequests && pendingRequests.length">
     <thead>
       <tr>
         <th>Korisnicko ime</th>
@@ -31,7 +31,7 @@
 <!-- Tabela sa klijentima -->
 <h2>Klijenti</h2>
 <table>
-  <thead>
+  <thead *ngIf="allClients && allClients.length>0">
     <tr>
       <th>Ime</th>
       <th>Prezime</th>
@@ -43,13 +43,15 @@
       <td>{{ c.client.firstname }}</td>
       <td>{{ c.client.lastname }}</td>
       <td>
-        <button (click)="deleteClient(c)">Obriši</button>
+        <button (click)="deleteUser(c)">Obriši</button>
       </td>
     </tr>
   </tbody>
 </table>
 
-<!-- Forma za dodavanje novog klijenta -->
+
+<hr>
+<h2>Novi klijent</h2>
 <table>
   <tr>
     <td>Korisničko ime:</td>
@@ -87,9 +89,11 @@
 </table>
 <span class="error">{{addClientMessage}}</span>
 
-<!-- Tabela sa agencijama -->
-<!-- <h2>Agencije</h2>
-<table>
+<hr>
+
+
+<h2>Agencije</h2>
+<table *ngIf="allAgencies && allAgencies.length>0">
   <thead>
     <tr>
       <th>Naziv</th>
@@ -101,14 +105,75 @@
   <tbody>
     <tr *ngFor="let a of allAgencies">
       <td>{{ a.agency.name }}</td>
-      <td>{{ a.agency.address }}</td>
+      <td>{{ a.agency.address.street }} {{ a.agency.address.number }}, {{ a.agency.address.city }}, {{ a.agency.address.country }} </td>
       <td>{{ a.agency.PIB }}</td>
       <td>
-        <button (click)="deleteAgency(a)">Obriši</button>
+        <button (click)="deleteUser(a)">Obriši</button>
       </td>
     </tr>
   </tbody>
-</table> -->
+</table>
+
+
+<hr>
+<h2>Nova agencija</h2>
+<table>
+  <tr>
+    <td>Korisničko ime:</td>
+    <td><input type="text" [(ngModel)]="newAgency.username"></td>
+  </tr>
+  <tr>
+    <td>Lozinka:</td>
+    <td><input type="password" [(ngModel)]="newAgency.password"></td>
+  </tr>
+  <tr>
+    <td>Potvrda lozinke:</td>
+    <td><input type="password" [(ngModel)]="newAgency.confirmPassword"></td>
+  </tr>
+  <tr>
+    <td>Kontakt telefon:</td>
+    <td><input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="newAgency.phone"></td>
+  </tr>
+  <tr>
+    <td>E-mail adresa:</td>
+    <td><input type="email" [(ngModel)]="newAgency.email"></td>
+  </tr>
+
+  <tr>
+    <td>Naziv agencije:</td>
+    <td><input type="text" [(ngModel)]="newAgency.name"></td>
+  </tr>
+  <tr>
+    <td>Adresa sedišta agencije:</td>
+    <td>
+      <input type="text" placeholder="Država" onkeypress="return /[a-z\s]/i.test(event.key)"  [(ngModel)]="newAgency.address.country">
+      <input type="text" placeholder="Grad" onkeypress="return /[a-z\s]/i.test(event.key)"  [(ngModel)]="newAgency.address.city">
+      <input type="text" placeholder="Ulica" [(ngModel)]="newAgency.address.street">
+      <input type="text" placeholder="Broj" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="newAgency.address.number">
+    </td>
+  </tr>
+  <tr>
+    <td>Matični broj agencije:</td>
+    <td>
+      <input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="newAgency.PIB"></td>
+  </tr>
+  <tr>
+    <td>Kratki opis agencije:</td>
+    <td><textarea [(ngModel)]="newAgency.description"></textarea></td>
+  </tr>
+  <tr><td>
+    <button (click)="addAgency()">Dodaj klijenta</button>
+  </td>
+  </tr>
+
+</table>
+<span class="error">{{addAgencyMessage}}</span>
+
+<hr>
+
+<!-- <app-registration></app-registration> -->
+
+
 
 <!-- Forma za iizmenu agencije -->
 

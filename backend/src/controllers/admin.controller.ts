@@ -5,14 +5,14 @@ import RegistrationRequest from "../models/registrationRequests";
 
 
 export class AdminController{
-    deleteClient=(req:express.Request, res:express.Response)=>{
+    deleteUser=(req:express.Request, res:express.Response)=>{
         let username=req.body.username
         User.deleteOne({'username':username}, (err) => {
             if (err) {
               console.log(err);
               res.status(500).json({ error: 'Internal Server Error' });
             } else {
-              res.json({ message: 'client deleted' });
+              res.json({ message: 'user deleted' });
             }
           });
 
@@ -104,7 +104,7 @@ export class AdminController{
             role:'client',
             client: clientDict,
             agency:null,
-            profilePicture:""
+            profilePicture:req.body.profilePicture
         })
 
         added.save((err, resp)=>{
@@ -113,6 +113,33 @@ export class AdminController{
                 res.status(400).json({"message": "error"})
             }
             else res.json({"message": "added new client"})
+        })
+      };
+
+      addAgency = (req: express.Request, res: express.Response) => {
+        const agencyDict={
+          name: req.body.name,
+          address: req.body.address,
+          PIB: req.body.PIB,
+          description: req.body.description,
+        }
+        let added = new User({
+            username : req.body.username,
+            password :req.body.password,
+            phone : req.body.phone,
+            email : req.body.email,
+            role:'agency',
+            agency: agencyDict,
+            client:null,
+            profilePicture:req.body.profilePicture
+        })
+
+        added.save((err, resp)=>{
+            if(err) {
+                console.log(err);
+                res.status(400).json({"message": "error"})
+            }
+            else res.json({"message": "added new agency"})
         })
       };
     

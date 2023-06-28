@@ -26,6 +26,40 @@ message: string;
 
   constructor(private userService:UserService,private router: Router) { }
 
+  profilePicture: File | undefined;
+
+  onProfilePictureSelected(event: any) {
+    let file: File = event.target.files[0];
+
+    const image = new Image();
+    image.src = URL.createObjectURL(file);
+
+    const allowedFormats = ['image/jpeg', 'image/png'];
+    if (!allowedFormats.includes(file.type)) {
+      alert('Nedozvoljen format slike. Dozvoljeni formati su JPG i PNG.');
+      this.profilePicture=undefined;
+      file=undefined;
+      event.target.value = null;
+      return;
+    }
+
+    image.onload = () => {
+      const width = image.width;
+      const height = image.height;
+
+      if (width > 300 || height > 300) {
+        alert('Slika je prevelika. Maksimalna dozvoljena dimenzija je 300x300 piksela.');
+        this.profilePicture=null;
+        file=undefined
+        event.target.value = null;
+        return;
+      }
+
+      this.profilePicture = file;
+    };
+  }
+
+
   ngOnInit(): void {
     this.agencyAddress = {
       country: '',

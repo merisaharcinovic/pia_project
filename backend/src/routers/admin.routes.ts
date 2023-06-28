@@ -26,8 +26,12 @@ adminRouter.route('/addClient').post(
     (req,res)=>new AdminController().addClient(req,res)
 )
 
-adminRouter.route('/deleteClient').post(
-    (req,res)=>new AdminController().deleteClient(req,res)
+adminRouter.route('/addAgency').post(
+    (req,res)=>new AdminController().addAgency(req,res)
+)
+
+adminRouter.route('/deleteUser').post(
+    (req,res)=>new AdminController().deleteUser(req,res)
 )
 
 export default adminRouter;

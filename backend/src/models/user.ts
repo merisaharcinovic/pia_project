@@ -15,7 +15,12 @@ let User=new Schema({
     }, default:null},
     agency: {type:{
         name: { type: String },
-        address: { type: String },
+        address: { type:{
+            country:String,
+            city:String,
+            street:String,
+            number:String
+        }},
         PIB: { type: String },
         description: { type: String }
     }, default:null},

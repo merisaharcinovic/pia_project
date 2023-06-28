@@ -70,6 +70,14 @@
   </ng-container>
 
   <tr>
+    <td><label for="profilePicture">Profilna slika:</label></td>
+    <td><input type="file" id="profilePicture" (change)="onProfilePictureSelected($event)"></td>
+
+  </tr>
+
+
+
+  <tr>
     <td colspan="2">
       <button (click)="register()">Registruj se</button>
     </td>
