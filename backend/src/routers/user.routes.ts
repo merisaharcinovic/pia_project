@@ -20,4 +20,8 @@ userRouter.route('/registerAgency').post(
 userRouter.route('/allAgencies').get(
     (req,res)=>new UserController().allAgencies(req,res)
 )
+
+userRouter.route('/searchAgencies').get(
+    (req, res) => new UserController().searchAgencies(req, res)
+)
 export default userRouter;

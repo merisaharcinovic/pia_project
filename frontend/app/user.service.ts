@@ -50,6 +50,20 @@ export class UserService {
   }
 
   allAgencies() {
-    return this.http.get('http://localhost:4000/user/allAgencies')
+    return this.http.get('http://localhost:4000/users/allAgencies')
+  }
+
+  searchAgencies(searchParam, searchByAddress:boolean, searchByName:boolean){
+    let url = `http://localhost:4000/users/searchAgencies/?param=${searchParam}`;
+
+    if (searchByAddress && searchByName) {
+      url += '&address=true&name=true';
+    } else if (searchByAddress) {
+      url += '&address=true';
+    } else if (searchByName) {
+      url += '&name=true';
+    }
+
+  return this.http.get(url);
   }
 }

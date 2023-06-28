@@ -11,16 +11,25 @@ import { AdminService } from '../admin.service';
 export class NonregisteredComponent implements OnInit {
 
 
-  allAgencies:User[];
-  searchQuery: string;
   filteredAgencies: User[];
-  constructor(private adminService:AdminService) { }
+  searchByAddress: boolean;
+  searchByName: boolean;
+  constructor(private adminService:AdminService, private userService:UserService) { }
 
   ngOnInit(): void {
-    this.adminService.allAgencies().subscribe((data: User[]) => {
-      this.allAgencies = data;
-      console.log(this.allAgencies)
+    this.userService.allAgencies().subscribe((data: User[]) => {
+      this.filteredAgencies = data;
+      console.log(this.filteredAgencies)
     });
+  }
+
+  searchParam: string;
+
+  search(){
+    this.userService.searchAgencies(this.searchParam, this.searchByAddress, this.searchByName).subscribe((agencies: User[])=>{
+      this.filteredAgencies = agencies;
+      console.log(this.filteredAgencies)
+    })
   }
 
   viewAgencyDetails(agency:User) {
