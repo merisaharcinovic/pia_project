@@ -5,6 +5,13 @@ import {HttpClient} from '@angular/common/http'
   providedIn: 'root'
 })
 export class UserService {
+  changePassword(username: string, newPassword: any) {
+    const data={
+      'username':username,
+      'newPassword':newPassword
+    }
+    return this.http.post('http://localhost:4000/users/changePassword', data)
+  }
 
 
   constructor(private http:HttpClient) { }

@@ -187,6 +187,23 @@ export class UserController{
         }
       );
     };
+
+
     
+    changePassword=(req: express.Request, res: express.Response) => {
+      let username=req.body.username
+      let newPassword=req.body.newPassword
       
+      User.updateOne(
+        { username: username },
+        { password: newPassword },
+        (err) => {
+          if (err) {
+            res.status(500).json({ message: 'Greška pri promeni lozinke' });
+          } else {
+            res.status(200).json({ message: 'Uspesno promenjena lozinka' });
+          }
+        }
+      );
+    }
 }

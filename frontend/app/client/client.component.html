@@ -68,7 +68,27 @@
 
         <div class="profile-actions">
           <button (click)="updateProfile()">Ažuriraj profil</button>
-          <button (click)="changePassword()">Promeni lozinku</button>
+          <button (click)="showChangePassword = true" class="btn btn-primary">Promena lozinke</button>
+        </div>
+
+        <div *ngIf="showChangePassword">
+          <h2>Promena lozinke</h2>
+          <div>
+            <div>
+              <label for="oldPassword">Stara lozinka</label>
+              <input type="password" id="oldPassword" [(ngModel)]="oldPassword" name="oldPassword" >
+            </div>
+            <div>
+              <label for="newPassword">Nova lozinka</label>
+              <input type="password" id="newPassword" [(ngModel)]="newPassword" name="newPassword" >
+            </div>
+            <div>
+              <label for="confirmPassword">Potvrdi lozinku</label>
+              <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" >
+            </div>
+            <button (click)="changePassword()">Promeni lozinku</button>
+            <span>{{passMessage}}</span>
+          </div>
         </div>
 
       </section>
