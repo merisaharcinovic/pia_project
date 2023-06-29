@@ -188,6 +188,40 @@ export class UserController{
       );
     };
 
+    updateAgencyProfile = (req: express.Request, res: express.Response) => {
+      let username = req.body.username;
+      let updatedProfile = req.body.updatedProfile;
+
+      console.log(updatedProfile)
+    
+      User.updateOne(
+        { 'username': username },
+        {
+          $set: {
+            'agency.name': updatedProfile.name,
+            'agency.description': updatedProfile.description,
+            'agency.address.country': updatedProfile.address.country,
+            'agency.address.city': updatedProfile.address.city,
+            'agency.address.street': updatedProfile.address.street,
+            'agency.address.number': updatedProfile.address.number,
+            'email': updatedProfile.email,
+            'phone': updatedProfile.phone,
+          },
+        },
+        (err) => {
+          if (err) {
+            res.status(500).json({ 'message': 'Greska pri azuriranju profila' });
+          } else {
+            res.status(200).json({
+              'message': 'Uspesno azuriran profil',
+              'updatedProfile': updatedProfile
+            });
+          }
+        }
+      );
+    };
+    
+
 
     
     changePassword=(req: express.Request, res: express.Response) => {

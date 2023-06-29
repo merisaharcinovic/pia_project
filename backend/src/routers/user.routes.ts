@@ -30,6 +30,11 @@ userRouter.route('/updateProfile').post(
 
 )
 
+userRouter.route('/updateAgencyProfile').post(
+    (req, res) => new UserController().updateAgencyProfile(req, res)
+
+)
+
 userRouter.route('/changePassword').post(
     (req, res) => new UserController().changePassword(req, res)
 

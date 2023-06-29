@@ -1,1 +1,125 @@
-<p>agency works!</p>
+<div class="container">
+  <nav class="main-menu">
+    <ul>
+      <li><a (click)="showComponent('profil')">Profil</a></li>
+      <li><a (click)="showComponent('objekti')">Objekti</a></li>
+      <li><a (click)="showComponent('agencije')">Agencije</a></li>
+      <li><a (click)="showComponent('poslovi')">Poslovi</a></li>
+    </ul>
+  </nav>
+
+  <div class="content">
+    <div class="menu-content">
+      <section *ngIf="showProfile" id="profil" class="profile-section">
+        <h2>Profil</h2>
+        <div class="profile-field">
+          <label>Profilna slika:</label>
+          <img [src]="profile.profilePicture" alt="img" width="100" height="100">
+          <div class="file-input">
+            <input type="file" (change)="onProfilePictureChange($event)">
+            <label class="file-label">Odaberi sliku</label>
+          </div>
+        </div>
+
+        <div class="profile-field">
+          <label>Naziv:</label>
+          <div *ngIf="!editingName" class="field-value">
+            <span>{{ profile.name }}</span>
+            <button (click)="editName()">Ažuriraj</button>
+          </div>
+          <div *ngIf="editingName" class="field-value">
+            <input type="text" [(ngModel)]="updatedName">
+            <button (click)="updateName()">Sačuvaj</button>
+          </div>
+        </div>
+        <div class="profile-field">
+          <label>Adresa:</label>
+          <div *ngIf="!editingAddress" class="field-value">
+            <span>{{ profile.address.country }}, {{ profile.address.city }}, {{ profile.address.street }} {{ profile.address.number }}</span>
+            <button (click)="editAddress()">Ažuriraj</button>
+          </div>
+          <div *ngIf="editingAddress" class="field-value">
+            <input type="text" [(ngModel)]="updatedAddress.country" placeholder="Država">
+            <input type="text" [(ngModel)]="updatedAddress.city" placeholder="Grad">
+            <input type="text" [(ngModel)]="updatedAddress.street" placeholder="Ulica">
+            <input type="text" [(ngModel)]="updatedAddress.number" placeholder="Broj">
+            <button (click)="updateAddress()">Sačuvaj</button>
+          </div>
+        </div>
+
+        <div class="profile-field">
+          <label>Kratak opis:</label>
+          <div *ngIf="!editingDescription" class="field-value">
+            <span>{{ profile.description }}</span>
+            <button (click)="editDescription()">Ažuriraj</button>
+          </div>
+          <div *ngIf="editingDescription" class="field-value">
+            <input type="text" [(ngModel)]="updatedDescription">
+            <button (click)="updateDescription()">Sačuvaj</button>
+          </div>
+        </div>
+
+        <div class="profile-field">
+          <label>Email adresa:</label>
+          <div *ngIf="!editingEmail" class="field-value">
+            <span>{{ profile.email }}</span>
+            <button (click)="editEmail()">Ažuriraj</button>
+          </div>
+          <div *ngIf="editingEmail" class="field-value">
+            <input type="text" [(ngModel)]="updatedEmail">
+            <button (click)="updateEmail()">Sačuvaj</button>
+          </div>
+        </div>
+        <div class="profile-field">
+          <label>Kontakt telefon:</label>
+          <div *ngIf="!editingPhone" class="field-value">
+            <span>{{ profile.phone }}</span>
+            <button (click)="editPhone()">Ažuriraj</button>
+          </div>
+          <div *ngIf="editingPhone" class="field-value">
+            <input type="text" [(ngModel)]="updatedPhone">
+            <button (click)="updatePhone()">Sačuvaj</button>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <button (click)="updateProfile()">Ažuriraj profil</button>
+          <button (click)="showChangePassword = true" class="btn btn-primary">Promena lozinke</button>
+        </div>
+
+        <div *ngIf="showChangePassword">
+          <h2>Promena lozinke</h2>
+          <div>
+            <div>
+              <label for="oldPassword">Stara lozinka</label>
+              <input type="password" id="oldPassword" [(ngModel)]="oldPassword" name="oldPassword" >
+            </div>
+            <div>
+              <label for="newPassword">Nova lozinka</label>
+              <input type="password" id="newPassword" [(ngModel)]="newPassword" name="newPassword" >
+            </div>
+            <div>
+              <label for="confirmPassword">Potvrdi lozinku</label>
+              <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" >
+            </div>
+            <button (click)="changePassword()">Promeni lozinku</button>
+            <span>{{passMessage}}</span>
+          </div>
+        </div>
+
+      </section>
+
+      <section *ngIf="showObjects" id="objekti">
+        objekti
+      </section>
+
+      <section *ngIf="showAgencies" id="agencije">
+        agencije
+      </section>
+
+      <section *ngIf="showJobs" id="poslovi">
+        poslovi
+      </section>
+    </div>
+  </div>
+</div>

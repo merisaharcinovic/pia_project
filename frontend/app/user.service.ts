@@ -5,6 +5,14 @@ import {HttpClient} from '@angular/common/http'
   providedIn: 'root'
 })
 export class UserService {
+  updateAgencyProfile(username: string, updatedProfile: {name: string; description:string;
+    address: {country: string;city: string;street: string;number: string;}; email: string;phone: string;}) {
+      const data={
+        'username':username,
+        'updatedProfile':updatedProfile
+      }
+      return this.http.post('http://localhost:4000/users/updateAgencyProfile', data)
+  }
   changePassword(username: string, newPassword: any) {
     const data={
       'username':username,
