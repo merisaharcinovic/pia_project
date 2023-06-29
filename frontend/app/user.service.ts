@@ -17,19 +17,20 @@ export class UserService {
     return this.http.post('http://localhost:4000/users/login', data)
   }
 
-  registerClient(username: string, password: string, phoneNumber: string, email: string, firstName: string, lastName: string) {
+  registerClient(username: string, password: string, phoneNumber: string, email: string, firstName: string, lastName: string, profilePicture:string) {
     const data={
       'username':username,
       'password':password,
       'phone':phoneNumber,
       'email':email,
       'firstname':firstName,
-      'lastname':lastName
+      'lastname':lastName,
+      'profilePicture':profilePicture
     }
     return this.http.post('http://localhost:4000/users/registerClient', data)
   }
 
-  registerAgency(username: string, password: string, phoneNumber: string, email: string, agencyName: string, agencyAddress: { country: string; city: string; street: string; number: string; }, agencyPIB: string, agencyDescription: string) {
+  registerAgency(username: string, password: string, phoneNumber: string, email: string, agencyName: string, agencyAddress: { country: string; city: string; street: string; number: string; }, agencyPIB: string, agencyDescription: string, profilePicture:string) {
     const data={
       'username':username,
       'password':password,
@@ -38,7 +39,8 @@ export class UserService {
       'agencyName':agencyName,
       'agencyAddress':agencyAddress,
       'agencyPIB':agencyPIB,
-      'agencyDescription':agencyDescription
+      'agencyDescription':agencyDescription,
+      'profilePicture':profilePicture
     }
     return this.http.post('http://localhost:4000/users/registerAgency', data)
   }
@@ -65,5 +67,14 @@ export class UserService {
     }
 
   return this.http.get(url);
+  }
+
+  updateProfile(username: string,
+    updatedProfile :{firstname: string,lastname: string,email: string,phone: string,profilePicture:string}) {
+    const data={
+      'username':username,
+      'updatedProfile':updatedProfile
+    }
+    return this.http.post('http://localhost:4000/users/updateProfile', data)
   }
 }

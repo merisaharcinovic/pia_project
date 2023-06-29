@@ -18,7 +18,7 @@ export class UserController{
                 description : req.body.agencyDescription
             },
             client:null,
-            profilePicture:""
+            profilePicture:req.body.profilePicture
         })
 
         registrationRequest.save((err, resp)=>{
@@ -44,7 +44,7 @@ export class UserController{
                 lastname : req.body.lastname
             },
             agency:null,
-            profilePicture:""
+            profilePicture:req.body.profilePicture
         })
 
         registrationRequest.save((err, resp)=>{
@@ -157,6 +157,35 @@ export class UserController{
     
         res.json(agencies);
       });
+    };
+
+    updateProfile=(req: express.Request, res: express.Response) => {
+      let username=req.body.username;
+      let updatedProfile = req.body.updatedProfile
+
+      User.updateOne(
+        { 'username':username },
+        {
+          $set: {
+            'client.firstname': updatedProfile.firstname,
+            'client.lastname': updatedProfile.lastname,
+            email: updatedProfile.email,
+            phone: updatedProfile.phone,
+            profilePicture: updatedProfile.profilePicture,
+          },
+        },
+        (err) => {
+          if (err) {
+            res.status(500).json({ 'message': 'Greska pri azuriranju profila' });
+          } else {
+            // Vratite ažurirane podatke profila kao deo odgovora
+            res.status(200).json({
+              'message': 'Uspesno azuriran profil',
+              'updatedProfile': updatedProfile
+            });
+          }
+        }
+      );
     };
     
       

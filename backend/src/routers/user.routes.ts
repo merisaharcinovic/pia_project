@@ -24,4 +24,9 @@ userRouter.route('/allAgencies').get(
 userRouter.route('/searchAgencies').get(
     (req, res) => new UserController().searchAgencies(req, res)
 )
+
+userRouter.route('/updateProfile').post(
+    (req, res) => new UserController().updateProfile(req, res)
+
+)
 export default userRouter;

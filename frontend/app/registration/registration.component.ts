@@ -26,7 +26,7 @@ message: string;
 
   constructor(private userService:UserService,private router: Router) { }
 
-  profilePicture: File | undefined;
+  profilePicture: string = ""
 
   onProfilePictureSelected(event: any) {
     let file: File = event.target.files[0];
@@ -37,7 +37,7 @@ message: string;
     const allowedFormats = ['image/jpeg', 'image/png'];
     if (!allowedFormats.includes(file.type)) {
       alert('Nedozvoljen format slike. Dozvoljeni formati su JPG i PNG.');
-      this.profilePicture=undefined;
+      this.profilePicture="";
       file=undefined;
       event.target.value = null;
       return;
@@ -47,15 +47,22 @@ message: string;
       const width = image.width;
       const height = image.height;
 
-      if (width > 300 || height > 300) {
-        alert('Slika je prevelika. Maksimalna dozvoljena dimenzija je 300x300 piksela.');
-        this.profilePicture=null;
+      if (width > 300 || width<100 || height<100 || height > 300) {
+        alert('Velicina slike moze biti minimalno 100x100px, a maksimalno 300x300px.');
+        this.profilePicture="";
         file=undefined
         event.target.value = null;
         return;
       }
 
-      this.profilePicture = file;
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+
+      reader.onload = (_event) => {
+        this.profilePicture = reader.result as string;
+        console.log(this.profilePicture)
+
+      }
     };
   }
 
@@ -96,7 +103,7 @@ message: string;
     this.userService.checkUsernameAndEmail(this.username, this.email).subscribe( (data:{'username':boolean, 'email':boolean})=>{
       console.log(data)
       if (data.username) {
-        this.message = 'Korisničko ime vec postoji.'
+        this.message = 'Korisnicko ime vec postoji.'
         return
       }
       else if(data.email) {
@@ -110,7 +117,7 @@ message: string;
             return
           }
           this.userService.registerClient(this.username, this.password, this.phoneNumber,
-            this.email,this.firstName,this.lastName).subscribe((resp)=>{
+            this.email,this.firstName,this.lastName, this.profilePicture).subscribe((resp)=>{
               if(resp['message']=='ok'){
                 alert('Uspesno ste se poslali zahtev za registraciju kao klijent.')
                 this.router.navigate(['/login'])
@@ -140,7 +147,7 @@ message: string;
             return
           }
           this.userService.registerAgency(this.username, this.password, this.phoneNumber,
-            this.email,this.agencyName,this.agencyAddress, this.agencyPIB, this.agencyDescription).subscribe((resp)=>{
+            this.email,this.agencyName,this.agencyAddress, this.agencyPIB, this.agencyDescription, this.profilePicture).subscribe((resp)=>{
               if(resp['message']=='ok'){
                 alert('Uspesno ste poslali zahtev za registraciju kao agencija.')
                 this.router.navigate(['/login'])

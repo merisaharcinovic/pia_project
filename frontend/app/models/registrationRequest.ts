@@ -12,10 +12,10 @@ export class RegistrationRequest {
   agency: {
     name: string;
     address: {
-      country:String,
-      city:String,
-      street:String,
-      number:String
+      country:string,
+      city:string,
+      street:string,
+      number:string
   },
     PIB: string;
     description: string;

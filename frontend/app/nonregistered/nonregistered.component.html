@@ -1,11 +1,13 @@
-<input type="text" [(ngModel)]="searchParam" placeholder="Pretraga po nazivu ili adresi">
-<label>
-  <input type="checkbox" [(ngModel)]="searchByAddress"> Pretraži po adresi
-</label>
-<label>
-  <input type="checkbox" [(ngModel)]="searchByName"> Pretraži po nazivu
-</label>
-<button (click)="search()">Pretraga</button>
+<div class="search-bar">
+  <input type="text" [(ngModel)]="searchParam" placeholder="Pretraga po nazivu ili adresi">
+  <label>
+    <input type="checkbox" [(ngModel)]="searchByAddress"> Pretraži po adresi
+  </label>
+  <label>
+    <input type="checkbox" [(ngModel)]="searchByName"> Pretraži po nazivu
+  </label>
+  <button (click)="search()">Pretraga</button>
+</div>
 
 <table>
   <thead>

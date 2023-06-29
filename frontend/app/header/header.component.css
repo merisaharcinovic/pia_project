@@ -1,8 +1,28 @@
+/* Stilizacija naslova */
+h1 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Stilizacija navigacione trake */
 .navbar {
+  background-color: #f2f2f2;
+  padding: 10px;
   display: flex;
   justify-content: center;
 }
 
 .navbar a {
-  margin: 0 10px;
+  margin-right: 10px;
+  text-decoration: none;
+  color: #333;
+  padding: 5px;
+}
+
+.navbar a:last-child {
+  margin-right: 0;
+}
+
+.navbar a:hover {
+  background-color: #ccc;
 }

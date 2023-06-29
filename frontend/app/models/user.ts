@@ -1,25 +1,25 @@
 export class User{
 
-  username:String;
-  password:String;
-  email:  String;
-  phone:  String;
-  role: String;
+  username:string;
+  password:string;
+  email:  string;
+  phone:  string;
+  role: string;
 
   client: {
-      firstname:String;
-      lastname:String;
+      firstname:string;
+      lastname:string;
   }
   agency: {
-      name:String;
+      name:string;
       address:{
         country:string,
         city:string,
         street:string,
         number:string
       };
-      PIB: String;
-      description:String;
+      PIB: string;
+      description:string;
   }
-  profilePicture:String;
+  profilePicture:string;
 }

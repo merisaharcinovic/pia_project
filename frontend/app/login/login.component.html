@@ -1,18 +1,22 @@
-<table>
-  <tr>
-    <td>Korisnicko ime:</td>
-    <td><input type="text" name='username' [(ngModel)]='username'></td>
-  </tr>
-  <tr>
-    <td>Lozinka:</td>
-    <td><input type="password" name='password' [(ngModel)]='password'></td>
-  </tr>
-  <tr>
-    <td colspan="2">
-      <button (click)="login()">Prijavi se</button>
-    </td>
 
-  </tr>
-</table>
 
-<span class="error">{{message}}</span>
+<div class="login-container">
+  <form class="login-form">
+    <table>
+      <tr>
+        <td>Korisničko ime:</td>
+        <td><input type="text" name="username" [(ngModel)]="username"></td>
+      </tr>
+      <tr>
+        <td>Lozinka:</td>
+        <td><input type="password" name="password" [(ngModel)]="password"></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button (click)="login()">Prijavi se</button>
+        </td>
+      </tr>
+    </table>
+    <span class="error">{{message}}</span>
+  </form>
+</div>
