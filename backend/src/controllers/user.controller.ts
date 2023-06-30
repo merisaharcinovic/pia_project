@@ -240,4 +240,23 @@ export class UserController{
         }
       );
     }
+
+    getObjects=(req: express.Request, res: express.Response) => {
+      const userId = req.params.id
+
+      User.findById(userId, (err, user) => {
+        if (err) {
+          res.status(500).json({ message: 'Greska pri dohvatanju korisnika' });
+        } else if (!user) {
+          res.status(404).json({ message: 'Korisnik nije pronađen' });
+        } else {
+          const objects = user.client.objects;
+          res.status(200).json({ objects });
+        }
+      });
+    }
+
+    deleteObject=(req: express.Request, res: express.Response) => {
+      
+    }
 }

@@ -2,29 +2,62 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-let User=new Schema({
-    username: { type: String },
-    password: { type: String},
-    email: { type: String},
-    phone: { type: String},
-    role: { type: String},
-    
-    client: {type:{
-        firstname: { type: String },
-        lastname: { type: String }
-    }, default:null},
-    agency: {type:{
-        name: { type: String },
-        address: { type:{
-            country:String,
-            city:String,
-            street:String,
-            number:String
-        }},
-        PIB: { type: String },
-        description: { type: String }
-    }, default:null},
-    profilePicture: { type: String },
-})
+const RoomSketchSchema = new Schema({
+  x: { type: Number },
+  y: { type: Number },
+  width: { type: Number },
+  height: { type: Number },
+  door: {
+    type: {
+      x: { type: Number },
+      y: { type: Number },
+    },
+  },
+});
 
-export default mongoose.model('User', User, 'users');
+const SketchSchema = new Schema({
+  roomSketches: { type: [RoomSketchSchema] },
+});
+
+const ClientObjectSchema = new Schema({
+  objectType: { type: String },
+  address: { type: String },
+  numRooms: { type: Number },
+  area: { type: Number },
+  sketch: { type: SketchSchema },
+});
+
+const UserSchema = new Schema({
+  username: { type: String },
+  password: { type: String },
+  email: { type: String },
+  phone: { type: String },
+  role: { type: String },
+  client: {
+    type: {
+      firstname: { type: String },
+      lastname: { type: String },
+      objects: [ClientObjectSchema],
+    },
+    default: null,
+  },
+  agency: {
+    type: {
+      name: { type: String },
+      address: {
+        type: {
+          country: String,
+          city: String,
+          street: String,
+          number: String,
+        },
+      },
+      PIB: { type: String },
+      description: { type: String },
+    },
+    default: null,
+  },
+  profilePicture: { type: String },
+});
+
+export default mongoose.model("User", UserSchema, "users");

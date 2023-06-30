@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { NonregisteredComponent } from './nonregistered/nonregistered.component';
 import { HeaderComponent } from './header/header.component';
+import { ObjectsComponent } from './objects/objects.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { HeaderComponent } from './header/header.component';
     RegistrationComponent,
     AdminLoginComponent,
     NonregisteredComponent,
-    HeaderComponent
+    HeaderComponent,
+    ObjectsComponent
   ],
   imports: [
     BrowserModule,

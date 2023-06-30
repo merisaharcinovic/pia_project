@@ -1,0 +1,24 @@
+<table class="object-table">
+  <thead>
+    <tr>
+      <th>Tip objekta</th>
+      <th>Adresa</th>
+      <th>Broj prostorija</th>
+      <th>Kvadratura</th>
+      <th>Akcije</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let object of objects">
+      <td>{{ object.objectType }}</td>
+      <td>{{ object.address }}</td>
+      <td>{{ object.numRooms }}</td>
+      <td>{{ object.area }}</td>
+      <td class="object-actions">
+        <button (click)="viewSketch(object)">Pregledaj skicu</button>
+        <button (click)="editObject(object)">Izmeni</button>
+        <button (click)="deleteObject(object)">Obriši</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

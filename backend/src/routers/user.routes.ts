@@ -39,4 +39,13 @@ userRouter.route('/changePassword').post(
     (req, res) => new UserController().changePassword(req, res)
 
 )
+
+userRouter.route('/getObjects/:id').get(
+    (req, res) => new UserController().getObjects(req, res)
+);
+
+userRouter.route('/deleteObject').post(
+    (req, res) => new UserController().deleteObject(req, res)
+
+)
 export default userRouter;
