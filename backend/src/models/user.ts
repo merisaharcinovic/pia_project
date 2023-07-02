@@ -15,16 +15,14 @@ const RoomSketchSchema = new Schema({
   },
 });
 
-const SketchSchema = new Schema({
-  roomSketches: { type: [RoomSketchSchema] },
-});
 
 const ClientObjectSchema = new Schema({
+  _id: Schema.Types.ObjectId,
   objectType: { type: String },
   address: { type: String },
   numRooms: { type: Number },
   area: { type: Number },
-  sketch: { type: SketchSchema },
+  sketch: { type: [RoomSketchSchema] },
 });
 
 const UserSchema = new Schema({

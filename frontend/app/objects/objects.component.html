@@ -9,16 +9,49 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let object of objects">
-      <td>{{ object.objectType }}</td>
-      <td>{{ object.address }}</td>
-      <td>{{ object.numRooms }}</td>
-      <td>{{ object.area }}</td>
-      <td class="object-actions">
-        <button (click)="viewSketch(object)">Pregledaj skicu</button>
-        <button (click)="editObject(object)">Izmeni</button>
-        <button (click)="deleteObject(object)">Obriši</button>
+    <tr *ngFor="let object of objectsEdit; let i = index">
+      <td *ngIf="!object.editMode">{{ object.objectType }}</td>
+      <td *ngIf="object.editMode"><input type="text" [(ngModel)]="object.objectType"></td>
+      <td *ngIf="!object.editMode">{{ object.address }}</td>
+      <td *ngIf="object.editMode"><input type="text" [(ngModel)]="object.address"></td>
+      <td *ngIf="!object.editMode">{{ object.numRooms }}</td>
+      <td *ngIf="object.editMode"><input type="number" [(ngModel)]="object.numRooms"></td>
+      <td *ngIf="!object.editMode">{{ object.area }}</td>
+      <td *ngIf="object.editMode"><input type="number" [(ngModel)]="object.area"></td>
+      <td>
+        <button *ngIf="!object.editMode" (click)="toggleEditMode(i)">Izmeni</button>
+        <button *ngIf="object.editMode" (click)="saveChanges(i)">Sacuvaj</button>
+        <button (click)="deleteObject(object)">Obrisi</button>
       </td>
     </tr>
   </tbody>
 </table>
+
+<button (click)="displayForm=true">Novi objekat</button>
+
+<div *ngIf="displayForm">
+  <h2>Dodavanje objekta</h2>
+  <table>
+    <tr>
+      <td>
+        <input type="radio" name="option" value="json" (change)="option='json'"> Dodavanje putem JSON fajla
+      </td>
+      <td>
+        <input type="radio" name="option" value="unos" (change)="option='manual'"> Unos podataka
+      </td>
+    </tr>
+  </table>
+
+  <div *ngIf="option === 'json'">
+    <input type="file" (change)="handleFileInput($event)">
+    <button (click)="addObjectJSON()">Dodaj</button>
+  </div>
+
+  <div *ngIf="option === 'manual'">
+    <!-- Forma za rucni unos podataka -->
+    <!-- Dodajte odgovarajuće input elemente za unos podataka -->
+    <button (click)="addObject()">Dodaj</button>
+  </div>
+</div>
+
+<span class="error">{{addMessage}}</span>

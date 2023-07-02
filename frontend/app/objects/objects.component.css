@@ -31,3 +31,7 @@
 .object-actions button:hover {
   background-color: gray;
 }
+
+.error{
+  color:red
+}

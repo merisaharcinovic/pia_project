@@ -257,6 +257,90 @@ export class UserController{
     }
 
     deleteObject=(req: express.Request, res: express.Response) => {
-      
-    }
+      const { id, object } = req.body;
+      console.log(object)
+
+      User.updateOne(
+        { _id: id },
+        {
+          $pull: {
+            'client.objects': {
+              // _id:object._id
+              address: object.address,
+              objectType: object.objectType,
+              area: object.area,
+              numRooms: object.numRooms
+            }
+          }
+        },
+        (err, result) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Greška prilikom brisanja objekta.' });
+          }
+    
+          if (result.nModified === 0) {
+            return res.status(404).json({ message: 'Objekat nije pronađen.' });
+          }
+    
+          return res.status(200).json({ message: 'Objekat uspešno obrisan.' });
+        }
+      );
+    }  
+
+    editObject = (req: express.Request, res: express.Response) => {
+      const { id, editObject } = req.body; 
+      console.log(editObject)
+    
+      User.findById(id, (err, user) => {
+        if (err) {
+          return res.status(500).json({ message: 'Greska prilikom pronalazenja korisnika.' });
+        }
+    
+        if (!user) {
+          return res.status(404).json({ message: 'Korisnik nije pronadken.' });
+        }
+    
+        const objectToUpdate = user.client.objects.find((object) => object._id.equals(editObject._id));
+    
+        if (!objectToUpdate) {
+          return res.status(404).json({ message: 'Objekat nije pronadjen.' });
+        }
+    
+        objectToUpdate.objectType = editObject.objectType;
+        objectToUpdate.address = editObject.address;
+        objectToUpdate.numRooms = editObject.numRooms;
+        objectToUpdate.area = editObject.area;
+    
+        user.save((err) => {
+          if (err) {
+            
+            return res.status(500).json({ message: 'Greska prilikom cuvanja objekta.' });
+          }
+    
+          return res.status(200).json({ message: 'Objekat je uspesno azuriran.' });
+        });
+      });
+    };
+
+    addObject = (req: express.Request, res: express.Response) => {
+      const userId = req.body.id; 
+      const objectToAdd = req.body.object;
+    
+      User.findById(userId, (err, user) => {
+        if (err || !user) {
+          return res.status(404).json({ message: "Korisnik nije pronadjen." });
+        }
+    
+        user.client.objects.push(objectToAdd);
+    
+        user.save((err) => {
+          if (err) {
+            return res.status(500).json({ message: "Greska prilikom dodavanja objekta." });
+          }
+    
+          return res.status(200).json({ message: "Objekat uspesno dodat korisniku." });
+        });
+    });
+  }
 }

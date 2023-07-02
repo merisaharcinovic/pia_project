@@ -48,4 +48,14 @@ userRouter.route('/deleteObject').post(
     (req, res) => new UserController().deleteObject(req, res)
 
 )
+
+userRouter.route('/editObject').post(
+    (req, res) => new UserController().editObject(req, res)
+
+)
+
+userRouter.route('/addObject').post(
+    (req, res) => new UserController().addObject(req, res)
+
+)
 export default userRouter;
