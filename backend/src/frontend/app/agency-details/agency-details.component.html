@@ -1,0 +1,54 @@
+
+<div *ngIf="agency">
+  <h2>Agencija {{agency.agency.name}}</h2>
+  <table>
+
+    <tr>
+      <th>Adresa:</th>
+      <td>{{ agency.agency.address.street }} {{ agency.agency.address.number }}, {{ agency.agency.address.city }}, {{ agency.agency.address.country }}</td>
+    </tr>
+    <tr>
+      <th>PIB:</th>
+      <td>{{ agency.agency.PIB }}</td>
+    </tr>
+    <tr>
+      <th>Opis:</th>
+      <td>{{ agency.agency.description }}</td>
+    </tr>
+  </table>
+  <div *ngIf="isLoggedIn">
+    personalizovane ocene
+  </div>
+  <div *ngIf="!isLoggedIn">
+    depersonalizovane ocene
+  </div>
+
+  <button *ngIf="isLoggedIn" (click)="showRequestForm=true">Zatrazi saradnju</button>
+
+
+
+  <div *ngIf="showRequestForm && isLoggedIn">
+    <h4>Unos podataka:</h4>
+    <table>
+      <tr>
+        <td>Objekat:</td>
+        <td>
+          <select [(ngModel)]="selectedObject">
+            <option *ngFor="let object of user.client.objects" [value]="object">{{ object.objectType }}</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Vremenski period za zavrsetak:</td>
+        <td>
+          <input type="date" [(ngModel)]="deadline">
+        </td>
+      </tr>
+    </table>
+
+    <button (click)="requestCollaboration()">Pošalji zahtev</button>
+    <span>{{reqMessage}}</span>
+  </div>
+</div>
+
+

@@ -1,0 +1,36 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.login-form {
+  width: 300px;
+  text-align: center;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.login-form button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  cursor: pointer;
+}
+
+.login-form button:hover {
+  opacity: 0.8;
+}
+
+.error {
+  color: red;
+}
