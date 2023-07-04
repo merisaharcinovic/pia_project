@@ -111,6 +111,5 @@ export class UserService {
   }
   sendOffer(offer: { requestId: string; price: number; }) {
     return this.http.post('http://localhost:4000/collaboration/sendOffer', {offer:offer})
-
   }
 }

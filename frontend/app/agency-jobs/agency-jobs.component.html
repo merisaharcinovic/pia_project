@@ -6,7 +6,8 @@
       <strong>Klijent:</strong> {{ request.client.client.firstname }} {{ request.client.client.lastname }}
     </div>
     <div>
-      <strong>Objekat:</strong> {{ request.object.objectType }}, {{ request.object.address }} Broj soba: {{ request.object.numRooms }}, Povrsina: {{ request.object.area }}
+      <strong>Objekat:</strong> {{ request.object.objectType }}, {{ request.object.address }} <br>
+      Broj soba: {{ request.object.numRooms }}, Povrsina: {{ request.object.area }}
     </div>
     <div>
       <strong>Rok za zavrsetak:</strong> {{ request.deadline }}
