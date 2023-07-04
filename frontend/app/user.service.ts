@@ -7,6 +7,7 @@ import { User } from './models/user';
 })
 export class UserService {
 
+
   updateAgencyProfile(username: string, updatedProfile: {name: string; description:string;
     address: {country: string;city: string;street: string;number: string;}; email: string;phone: string;}) {
       const data={
@@ -109,6 +110,12 @@ export class UserService {
   getCollaborationsForAgency(id:string){
     return this.http.post('http://localhost:4000/collaboration/getCollaborationsForAgency', {id:id})
   }
+
+  declineCollaborationRequest(id: string) {
+    return this.http.post('http://localhost:4000/collaboration/declineCollaborationRequest', {id:id})
+
+  }
+
   sendOffer(offer: { requestId: string; price: number; }) {
     return this.http.post('http://localhost:4000/collaboration/sendOffer', {offer:offer})
   }

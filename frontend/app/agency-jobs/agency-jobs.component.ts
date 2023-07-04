@@ -42,9 +42,18 @@ export class AgencyJobsComponent implements OnInit {
   }
 
   rejectRequest(request: CollaborationRequest) {
-    // Logika za odbijanje zahteva
-    // Pozovite odgovarajuću metodu u servisu za agenciju
+    this.userService.declineCollaborationRequest(request._id).subscribe((response) => {
+        if(response['message']=='Zahtev odbijen.'){
+          this.getCollaborationRequests();
+        }
+        else{
+          console.log(response['messageß'])
+        }
+
+      }
+    );
   }
+
 
   sendOffer(request: CollaborationRequest) {
     const offer= {
