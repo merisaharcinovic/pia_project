@@ -2,8 +2,7 @@
   <nav class="main-menu">
     <ul>
       <li><a (click)="showComponent('profil')">Profil</a></li>
-      <li><a (click)="showComponent('objekti')">Objekti</a></li>
-      <li><a (click)="showComponent('agencije')">Agencije</a></li>
+      <li><a (click)="showComponent('radnici')">Radnici</a></li>
       <li><a (click)="showComponent('poslovi')">Poslovi</a></li>
     </ul>
   </nav>
@@ -109,16 +108,12 @@
 
       </section>
 
-      <section *ngIf="showObjects" id="objekti">
-        objekti
-      </section>
-
-      <section *ngIf="showAgencies" id="agencije">
-        agencije
+      <section *ngIf="showWorkers" id="radnici">
+        radnici
       </section>
 
       <section *ngIf="showJobs" id="poslovi">
-        poslovi
+        <app-agency-jobs></app-agency-jobs>
       </section>
     </div>
   </div>

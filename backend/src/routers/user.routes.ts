@@ -25,6 +25,11 @@ userRouter.route('/searchAgencies').get(
     (req, res) => new UserController().searchAgencies(req, res)
 )
 
+userRouter.route('/getAgency').post(
+    (req, res) => new UserController().getAgency(req, res)
+
+)
+
 userRouter.route('/updateProfile').post(
     (req, res) => new UserController().updateProfile(req, res)
 
@@ -58,4 +63,5 @@ userRouter.route('/addObject').post(
     (req, res) => new UserController().addObject(req, res)
 
 )
+
 export default userRouter;

@@ -205,6 +205,7 @@ export class ClientComponent implements OnInit {
     this.showChangePassword = false;
   }
 
+  
   logout() {
     localStorage.removeItem('loggedUser');
     this.router.navigate(['/login']);

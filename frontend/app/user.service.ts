@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
+import { User } from './models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
   updateAgencyProfile(username: string, updatedProfile: {name: string; description:string;
     address: {country: string;city: string;street: string;number: string;}; email: string;phone: string;}) {
       const data={
@@ -91,5 +93,24 @@ export class UserService {
       'updatedProfile':updatedProfile
     }
     return this.http.post('http://localhost:4000/users/updateProfile', data)
+  }
+
+  getAgency(id:string){
+    return this.http.post('http://localhost:4000/users/getAgency', {id:id})
+  }
+
+  requestCollaboration(request:any){
+    const data={
+      request:request
+    }
+    return this.http.post('http://localhost:4000/collaboration/requestCollaboration', data)
+  }
+
+  getCollaborationsForAgency(id:string){
+    return this.http.post('http://localhost:4000/collaboration/getCollaborationsForAgency', {id:id})
+  }
+  sendOffer(offer: { requestId: string; price: number; }) {
+    return this.http.post('http://localhost:4000/collaboration/sendOffer', {offer:offer})
+
   }
 }

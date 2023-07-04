@@ -54,8 +54,7 @@ export class AgencyComponent implements OnInit {
   updatedPhone: string;
 
   showProfile: boolean = false;
-  showObjects: boolean = false;
-  showAgencies: boolean = false;
+  showWorkers: boolean = false;
   showJobs: boolean = false;
 
   loggedUser: User;
@@ -94,17 +93,17 @@ export class AgencyComponent implements OnInit {
 
   showComponent(componentId: string) {
     this.showProfile = false;
-    this.showAgencies = false;
-    this.showObjects = false;
+    this.showJobs = false;
+    this.showWorkers = false;
     this.showJobs = false;
     if (componentId == 'profil') {
       this.showProfile = true;
     }
-    else if (componentId == 'objekti') {
-      this.showObjects = true;
+    else if (componentId == 'radnici') {
+      this.showWorkers = true;
     }
     else if (componentId == 'agencije') {
-      this.showAgencies = true;
+      this.showJobs = true;
     }
     else if (componentId == 'poslovi') {
       this.showJobs = true;

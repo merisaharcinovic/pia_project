@@ -1,0 +1,27 @@
+
+<div>
+  <h2>Trenutni zahtevi od klijenata</h2>
+  <div *ngFor="let request of requests">
+    <div>
+      <strong>Klijent:</strong> {{ request.client.client.firstname }} {{ request.client.client.lastname }}
+    </div>
+    <div>
+      <strong>Objekat:</strong> {{ request.object.objectType }}, {{ request.object.address }} Broj soba: {{ request.object.numRooms }}, Povrsina: {{ request.object.area }}
+    </div>
+    <div>
+      <strong>Rok za zavrsetak:</strong> {{ request.deadline }}
+    </div>
+    <div>
+      <strong>Status:</strong> {{ request.status }}
+    </div>
+    <div *ngIf="request.status === 'pending' && !request.isAccepted">
+      <button (click)="request.isAccepted=true">Prihvati</button>
+      <button (click)="rejectRequest(request)">Odbij</button>
+    </div>
+    <div *ngIf="request.status === 'pending' && request.isAccepted">
+      <input type="number" [(ngModel)]="request.price" placeholder="Cena">
+      <button (click)="sendOffer(request)">Pošalji ponudu</button>
+    </div>
+    <hr>
+  </div>
+</div>

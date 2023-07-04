@@ -51,7 +51,7 @@ const UserSchema = new Schema({
         },
       },
       PIB: { type: String },
-      description: { type: String },
+      description: { type: String }
     },
     default: null,
   },

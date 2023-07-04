@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user';
 import { UserService } from '../user.service';
 import { AdminService } from '../admin.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nonregistered',
@@ -14,7 +15,7 @@ export class NonregisteredComponent implements OnInit {
   filteredAgencies: User[];
   searchByAddress: boolean;
   searchByName: boolean;
-  constructor(private adminService:AdminService, private userService:UserService) { }
+  constructor(private adminService:AdminService, private userService:UserService, private router:Router) { }
 
   ngOnInit(): void {
     this.userService.allAgencies().subscribe((data: User[]) => {
@@ -33,8 +34,8 @@ export class NonregisteredComponent implements OnInit {
   }
 
   viewAgencyDetails(agency:User) {
-
+    const agencyId = agency._id;
+    this.router.navigate(['/agency-details', agencyId]);
   }
-
 
 }

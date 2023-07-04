@@ -14,6 +14,9 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { NonregisteredComponent } from './nonregistered/nonregistered.component';
 import { HeaderComponent } from './header/header.component';
 import { ObjectsComponent } from './objects/objects.component';
+import { AgencyDetailsComponent } from './agency-details/agency-details.component';
+import { JobsComponent } from './jobs/jobs.component';
+import { AgencyJobsComponent } from './agency-jobs/agency-jobs.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,11 @@ import { ObjectsComponent } from './objects/objects.component';
     AdminLoginComponent,
     NonregisteredComponent,
     HeaderComponent,
-    ObjectsComponent
+    ObjectsComponent,
+    AgencyDetailsComponent,
+    JobsComponent,
+    AgencyJobsComponent,
+    
   ],
   imports: [
     BrowserModule,

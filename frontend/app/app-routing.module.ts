@@ -7,6 +7,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { AgencyComponent } from './agency/agency.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { NonregisteredComponent } from './nonregistered/nonregistered.component';
+import { AgencyDetailsComponent } from './agency-details/agency-details.component';
 
 const routes: Routes = [
   {path: "", component: NonregisteredComponent},
@@ -15,7 +16,8 @@ const routes: Routes = [
   {path: "admin-login", component:AdminLoginComponent},
   {path: "admin", component: AdminComponent},
   {path: "registration", component: RegistrationComponent},
-  {path: "agency", component: AgencyComponent}
+  {path: "agency", component: AgencyComponent},
+  { path: 'agency-details/:id', component: AgencyDetailsComponent }
 ];
 
 @NgModule({

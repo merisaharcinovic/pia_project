@@ -159,6 +159,21 @@ export class UserController{
       });
     };
 
+    getAgency = (req: express.Request, res: express.Response) => {
+      let id= req.body.id
+      User.findById(id, (err, user) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ error: 'Server error' });
+        }
+    
+        if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+    
+        res.json(user);
+      });
+    }
     updateProfile=(req: express.Request, res: express.Response) => {
       let username=req.body.username;
       let updatedProfile = req.body.updatedProfile
@@ -233,7 +248,7 @@ export class UserController{
         { password: newPassword },
         (err) => {
           if (err) {
-            res.status(500).json({ message: 'Greška pri promeni lozinke' });
+            res.status(500).json({ message: 'Greska pri promeni lozinke' });
           } else {
             res.status(200).json({ message: 'Uspesno promenjena lozinka' });
           }
@@ -248,7 +263,7 @@ export class UserController{
         if (err) {
           res.status(500).json({ message: 'Greska pri dohvatanju korisnika' });
         } else if (!user) {
-          res.status(404).json({ message: 'Korisnik nije pronađen' });
+          res.status(404).json({ message: 'Korisnik nije pronadjen' });
         } else {
           const objects = user.client.objects;
           res.status(200).json({ objects });
@@ -276,14 +291,14 @@ export class UserController{
         (err, result) => {
           if (err) {
             console.error(err);
-            return res.status(500).json({ message: 'Greška prilikom brisanja objekta.' });
+            return res.status(500).json({ message: 'Greska prilikom brisanja objekta.' });
           }
     
           if (result.nModified === 0) {
-            return res.status(404).json({ message: 'Objekat nije pronađen.' });
+            return res.status(404).json({ message: 'Objekat nije pronadjen.' });
           }
     
-          return res.status(200).json({ message: 'Objekat uspešno obrisan.' });
+          return res.status(200).json({ message: 'Objekat uspesno obrisan.' });
         }
       );
     }  
@@ -343,4 +358,6 @@ export class UserController{
         });
     });
   }
+
+ 
 }

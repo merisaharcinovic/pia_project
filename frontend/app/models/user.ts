@@ -1,16 +1,15 @@
 export class User {
+  _id: string;
   username: string;
   password: string;
   email: string;
   phone: string;
   role: string;
-
   client: {
     firstname: string;
     lastname: string;
     objects: ClientObject[];
   };
-
   agency: {
     name: string;
     address: {
@@ -22,20 +21,16 @@ export class User {
     PIB: string;
     description: string;
   };
-
   profilePicture: string;
 }
 
 export class ClientObject {
+  _id: string;
   objectType: string;
   address: string;
   numRooms: number;
   area: number;
-  sketch: Sketch;
-}
-
-export class Sketch {
-  roomSketches: RoomSketch[];
+  sketch: RoomSketch[]
 }
 
 export class RoomSketch {
@@ -48,3 +43,4 @@ export class RoomSketch {
     y: number;
   };
 }
+

@@ -3,6 +3,7 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import userRouter from './routers/user.routes';
 import adminRouter from './routers/admin.routes';
+import collaborationRouter from './routers/collaboration.routes';
 
 const app = express();
 app.use(cors())
@@ -17,6 +18,7 @@ connection.once('open', ()=>{
 const router = express.Router();
 router.use('/users', userRouter)
 router.use('/admin', adminRouter)
+router.use('/collaboration', collaborationRouter)
 
 
 app.use('/', router)
