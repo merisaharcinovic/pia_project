@@ -62,6 +62,7 @@ export class AgencyJobsComponent implements OnInit {
     };
     this.userService.sendOffer(offer).subscribe((response) => {
         if(response['message']=='Ponuda je poslata.'){
+          alert('Ponuda je uspesno poslata.');
           this.getCollaborationRequests();
         }
         else{

@@ -59,7 +59,6 @@ export class JobsComponent implements OnInit {
     console.log("ZAHTEV",request)
     this.userService.acceptOffer(request).subscribe((response) => {
       if(response['message']=='Ponuda prihvacena.'){
-        //dohvatanje
         this.getCollaborationRequests();
         this.getJobs();
       }

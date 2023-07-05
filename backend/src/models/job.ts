@@ -9,6 +9,7 @@ let JobSchema = new Schema({
     agency: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     object: { type: ClientObjectSchema, required: true },
     numWorkers: { type: Number, default: 0 },
+    deadline: {type: Date,required: true},
     status: { type: String, default: "aktivan" },
     price: { type: Number, required: true }
 });

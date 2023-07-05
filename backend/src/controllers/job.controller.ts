@@ -28,6 +28,7 @@ export class JobController {
                 object: job.object,
                 numWorkers: job.numWorkers,
                 price:job.price,
+                deadline: job.deadline.toISOString().slice(0, 10),
                 status: job.status,
                 };
         
@@ -77,6 +78,7 @@ export class JobController {
               object: job.object,
               numWorkers: job.numWorkers,
               price: job.price,
+              deadline: job.deadline.toISOString().slice(0, 10),
               status: job.status,
             };
       

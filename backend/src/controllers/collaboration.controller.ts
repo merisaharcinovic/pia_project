@@ -12,7 +12,7 @@ export class CollaborationController {
       agency: request.agency,
       client: request.client,
       object: request.object,
-      deadline: request.deadline,
+      deadline: request.deadline.toISOString().slice(0, 10),
       status: request.status,
       price: request.price
     });
@@ -208,6 +208,7 @@ export class CollaborationController {
         agency: request.agency,
         object: request.object,
         status: 'aktivan',
+        deadline:request.deadline,
         numWorkers: 0,
         price:request.price
     };

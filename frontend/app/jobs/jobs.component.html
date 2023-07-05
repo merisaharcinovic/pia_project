@@ -14,12 +14,36 @@
   <div *ngIf="showFinished">
     <h3>Zavrseni poslovi</h3>
     <table>
+
     </table>
   </div>
 
   <div *ngIf="showActive">
     <h3>Trenutno aktivni poslovi</h3>
     <table>
+      <thead>
+        <tr>
+          <th>Agencija</th>
+          <th>Objekat</th>
+          <th>Rok za završetak</th>
+          <th>Status</th>
+          <th>Cena</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let job of jobs">
+          <tr>
+            <td>{{ job.agency.agency.name }}</td>
+            <td>
+              {{ job.object.objectType }}, {{ job.object.address }} <br>
+              Broj soba: {{ job.object.numRooms }}, Povrsina: {{ job.object.area }}
+            </td>
+            <td>{{ job.deadline }}</td>
+            <td>{{ job.status }}</td>
+            <td >{{ job.price }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
     </table>
   </div>
 

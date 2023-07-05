@@ -7,5 +7,6 @@ export class Job {
   object: ClientObject;
   numWorkers: number;
   status: string;
+  deadline:Date;
   price: number;
 }
