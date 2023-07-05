@@ -32,7 +32,7 @@ export class AdminController{
     }
 
     pendingRequests=(req:express.Request, res:express.Response)=>{
-        RegistrationRequest.find({status:'pending'}, (err, requests)=>{
+        RegistrationRequest.find({status:'na cekanju'}, (err, requests)=>{
             if(err) console.log(err);
             else res.json(requests)
         })
@@ -78,7 +78,7 @@ export class AdminController{
 
         RegistrationRequest.findOneAndUpdate(
           { _id: requestId },
-          { $set: { status: 'declined' } },
+          { $set: { status: 'odbijen' } },
           { new: true },
           (err, updatedRequest) => {
             if (err) {

@@ -26,4 +26,14 @@ collaborationRouter.route('/deleteRequest').post(
     (req, res) => new CollaborationController().deleteRequest(req, res)
 
 )
+
+collaborationRouter.route('/sendOffer').post(
+    (req, res) => new CollaborationController().sendOffer(req, res)
+
+)
+
+collaborationRouter.route('/acceptOffer').post(
+    (req, res) => new CollaborationController().acceptOffer(req, res)
+
+)
 export default collaborationRouter;

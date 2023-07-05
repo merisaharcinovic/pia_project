@@ -80,12 +80,12 @@ export class UserController{
             result.username = true;
           }
 
-          const declinedbyUsername = await RegistrationRequest.findOne({ username: username, status:'declined'});
+          const declinedbyUsername = await RegistrationRequest.findOne({ username: username, status:'odbijen'});
           if (userByUsername) {
             result.username = true;
           }
 
-          const declinedbyEmail = await RegistrationRequest.findOne({ email: email, status:'declined'});
+          const declinedbyEmail = await RegistrationRequest.findOne({ email: email, status:'odbijen'});
           if (declinedbyEmail) {
             result.email = true;
           }

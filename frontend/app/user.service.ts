@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
 import { User } from './models/user';
+import { CollaborationRequest } from './models/collaborationRequest';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
 
 
   updateAgencyProfile(username: string, updatedProfile: {name: string; description:string;
@@ -125,8 +125,20 @@ export class UserService {
     return this.http.post('http://localhost:4000/collaboration/sendOffer', {offer:offer})
   }
 
+  acceptOffer(request: CollaborationRequest) {
+    return this.http.post('http://localhost:4000/collaboration/acceptOffer', {request:request})
+  }
+
   deleteRequest(id: string) {
     return this.http.post('http://localhost:4000/collaboration/deleteRequest', {id:id})
 
+  }
+
+  getJobsForClient(id: string) {
+    return this.http.post('http://localhost:4000/job/getJobsForClient', {id:id})
+  }
+
+  getJobsForAgency(id: string) {
+    return this.http.post('http://localhost:4000/job/getJobsForAgency', {id:id})
   }
 }

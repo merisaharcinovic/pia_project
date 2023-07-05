@@ -13,7 +13,7 @@ export const RoomSketchSchema = new Schema({
       y: { type: Number },
     },
   },
-  status: { type: String, default: "unfinished" }
+  status: { type: String, default: "nedovrseno" }
 });
 
 

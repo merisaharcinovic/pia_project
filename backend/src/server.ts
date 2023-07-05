@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import userRouter from './routers/user.routes';
 import adminRouter from './routers/admin.routes';
 import collaborationRouter from './routers/collaboration.routes';
+import jobRouter from './routers/job.routes';
 
 const app = express();
 app.use(cors())
@@ -19,6 +20,8 @@ const router = express.Router();
 router.use('/users', userRouter)
 router.use('/admin', adminRouter)
 router.use('/collaboration', collaborationRouter)
+router.use('/job', jobRouter)
+
 
 
 app.use('/', router)

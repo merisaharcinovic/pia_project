@@ -38,7 +38,7 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let request of requests">
-          <tr [ngClass]="{'declined': request.status === 'declined', 'accepted': request.status === 'accepted'}">
+          <tr [ngClass]="{'declined': request.status === 'odbijen', 'accepted': request.status === 'prihvacen'}">
             <td>{{ request.agency.agency.name }}</td>
             <td>
               {{ request.object.objectType }}, {{ request.object.address }} <br>
@@ -46,9 +46,9 @@
             </td>
             <td>{{ request.deadline }}</td>
             <td>{{ request.status }}</td>
-            <td *ngIf="request.status === 'accepted'">{{ request.price }}</td>
-            <td *ngIf="request.status != 'accepted'"> </td>
-            <td *ngIf="request.status === 'accepted'">
+            <td *ngIf="request.status === 'prihvacen'">{{ request.price }}</td>
+            <td *ngIf="request.status != 'prihvacen'"> </td>
+            <td *ngIf="request.status === 'prihvacen'">
               <button (click)="acceptOffer(request)">Prihvati</button>
               <button (click)="declineOffer(request)">Odbij</button>
             </td>

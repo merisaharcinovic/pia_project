@@ -25,7 +25,7 @@ let RegistrationRequest=new Schema({
         description: { type: String }
     }, default:null},
     profilePicture: { type: String },
-    status:{type:String, default:'pending'}
+    status:{type:String, default:'na cekanju'}
 })
 
 export default mongoose.model('RegistrationRequest', RegistrationRequest, 'registrationRequests');

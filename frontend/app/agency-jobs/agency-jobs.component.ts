@@ -27,7 +27,7 @@ export class AgencyJobsComponent implements OnInit {
     this.userService.getCollaborationsForAgency(this.loggedUser._id).subscribe((response) => {
       if (response['requests']) {
         this.requests = response['requests'].map((request: CollaborationRequest) => {
-          if (request.status === 'pending') {
+          if (request.status === 'na cekanju') {
             return { ...request, isAccepted: false };
           }
           return request;
@@ -60,13 +60,15 @@ export class AgencyJobsComponent implements OnInit {
       requestId: request._id,
       price: request.price
     };
-    this.userService.sendOffer(offer).subscribe(
-      (response) => {
-        // Obrada uspešnog slanja ponude
-      },
-      (error) => {
-        // Obrada greške pri slanju ponude
+    this.userService.sendOffer(offer).subscribe((response) => {
+        if(response['message']=='Ponuda je poslata.'){
+          this.getCollaborationRequests();
+        }
+        else{
+          console.log(response['message'])
+        }
       }
+
     );
   }
 

@@ -1,7 +1,7 @@
 <div>
   <h2>Trenutni zahtevi od klijenata</h2>
   <ng-container *ngFor="let request of requests">
-    <div *ngIf="request.status === 'pending'">
+    <div *ngIf="request.status === 'na cekanju'">
       <div>
         <strong>Klijent:</strong> {{ request.client.client.firstname }} {{ request.client.client.lastname }}
       </div>

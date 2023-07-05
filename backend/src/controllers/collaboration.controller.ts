@@ -1,6 +1,8 @@
 import * as express from "express";
 import CollaborationRequest from "../models/collaborationRequest";
 import User from "../models/user";
+import Job from "../models/job"
+import mongoose from "mongoose";
 
 export class CollaborationController {
   requestCollaboration = (req: express.Request, res: express.Response) => {
@@ -143,7 +145,7 @@ export class CollaborationController {
   declineCollaborationRequest = (req: express.Request, res: express.Response) => {
     let id = req.body.id;
 
-    CollaborationRequest.findByIdAndUpdate(id, { status: 'declined' }, { new: true }, (err, updatedRequest) => {
+    CollaborationRequest.findByIdAndUpdate(id, { status: 'odbijen' }, { new: true }, (err, updatedRequest) => {
       if (err) {
         res.status(500).json({ message: 'Greska prilikom odbijanja zahteva.' });
       } else if (!updatedRequest) {
@@ -167,5 +169,66 @@ export class CollaborationController {
       }
     });
   };
+
+
+  sendOffer = (req: express.Request, res: express.Response) => {
+    const offer = req.body.offer;
+    const requestId = offer.requestId;
+    const price = offer.price;
   
+    CollaborationRequest.findById(requestId, (err, request) => {
+      if (err) {
+        return res.status(500).json({ message: 'Greska prilikom pronalazenja zahteva.' });
+      }
+  
+      if (!request) {
+        return res.status(404).json({ message: 'Zahtev nije pronadjen.' });
+      }
+  
+      request.price = price;
+      request.status = 'prihvacen';
+  
+      request.save((err) => {
+        if (err) {
+          return res.status(500).json({ message: 'Greska prilikom cuvanja ponude.' });
+        }
+  
+        res.status(200).json({ message: 'Ponuda je poslata.' });
+      });
+    });
+  };
+  
+
+  acceptOffer = (req: express.Request, res: express.Response) => {
+    let request=req.body.request
+
+    const jobData ={
+        _id: new mongoose.Types.ObjectId(),
+        client: request.client,
+        agency: request.agency,
+        object: request.object,
+        status: 'aktivan',
+        numWorkers: 0,
+        price:request.price
+    };
+    console.log(jobData)
+
+    const job = new Job(jobData);
+    console.log(job)
+
+    job.save((err) => {
+        if (err) {
+          console.log(err)
+        } else {
+          
+          CollaborationRequest.deleteOne({ _id: request._id }, (err) => {
+            if (err) {
+                res.status(500).json({ message: 'Greska prilikom prihvatanja ponude.' });
+            } else {
+                res.status(200).json({ message: 'Ponuda prihvacena.' });
+            }
+          });
+        }
+    });
+  };
 }

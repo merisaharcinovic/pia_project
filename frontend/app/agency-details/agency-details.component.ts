@@ -56,7 +56,7 @@ export class AgencyDetailsComponent implements OnInit {
       client: this.user._id,
       object: this.selectedObjectId,
       deadline: this.deadline,
-      status: 'pending',
+      status: 'na cekanju',
       price: null
     };
     console.log(request);
