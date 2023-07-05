@@ -6,6 +6,7 @@ export class CollaborationRequest {
   client: User;
   object: ClientObject;
   agency: User;
+  deadline:Date;
   status: string;
   price: number;
 }

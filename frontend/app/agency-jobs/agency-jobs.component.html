@@ -17,7 +17,7 @@
       </div>
       <div *ngIf="!request.isAccepted">
         <button (click)="request.isAccepted=true">Prihvati</button>
-        <button (click)="rejectRequest(request)">Odbij</button>
+        <button (click)="declineRequest(request)">Odbij</button>
       </div>
       <div *ngIf="request.isAccepted">
         <input type="number" [(ngModel)]="request.price" placeholder="Cena">

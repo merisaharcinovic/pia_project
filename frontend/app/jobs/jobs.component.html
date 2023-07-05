@@ -1,1 +1,61 @@
-<p>jobs works!</p>
+
+
+<div>
+  <h2>Moji poslovi</h2>
+  <div>
+    <input type="checkbox" id="zavrseni" [(ngModel)]="showFinished" />
+    <label for="zavrseni">Završeni</label>
+    <input type="checkbox" id="trenutnoAktivni" [(ngModel)]="showActive" />
+    <label for="trenutnoAktivni">Trenutno aktivni</label>
+    <input type="checkbox" id="zahtevi" [(ngModel)]="showRequests" />
+    <label for="zahtevi">Zahtevi</label>
+  </div>
+
+  <div *ngIf="showFinished">
+    <h3>Zavrseni poslovi</h3>
+    <table>
+    </table>
+  </div>
+
+  <div *ngIf="showActive">
+    <h3>Trenutno aktivni poslovi</h3>
+    <table>
+    </table>
+  </div>
+
+  <div *ngIf="showRequests">
+    <h3>Zahtevi za saradnjom</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Agencija</th>
+          <th>Objekat</th>
+          <th>Rok za završetak</th>
+          <th>Status</th>
+          <th>Ponuda</th>
+          <th>Akcije</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let request of requests">
+          <tr [ngClass]="{'declined': request.status === 'declined', 'accepted': request.status === 'accepted'}">
+            <td>{{ request.agency.agency.name }}</td>
+            <td>
+              {{ request.object.objectType }}, {{ request.object.address }} <br>
+              Broj soba: {{ request.object.numRooms }}, Povrsina: {{ request.object.area }}
+            </td>
+            <td>{{ request.deadline }}</td>
+            <td>{{ request.status }}</td>
+            <td *ngIf="request.status === 'accepted'">{{ request.price }}</td>
+            <td *ngIf="request.status != 'accepted'"> </td>
+            <td *ngIf="request.status === 'accepted'">
+              <button (click)="acceptOffer(request)">Prihvati</button>
+              <button (click)="declineOffer(request)">Odbij</button>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+
+  </div>
+</div>

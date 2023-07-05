@@ -25,7 +25,6 @@ export class CollaborationController {
 
   getCollaborationsForAgency = (req: express.Request, res: express.Response) => {
     const agencyId = req.body.id;
-    console.log(agencyId);
   
     let resultArray = [];
   
@@ -34,7 +33,6 @@ export class CollaborationController {
         return res.status(500).json({ message: 'Greska prilikom dohvatanja zahteva za agenciju.' });
       }
   
-      console.log(requests);
   
       const requestCount = requests.length;
   
@@ -66,26 +64,79 @@ export class CollaborationController {
             const objectId = request.object;
   
             const clientObjects = client?.client?.objects || [];
-            console.log(clientObjects);
   
             const object = clientObjects.find((obj) => obj._id.toString() == objectId);
-            console.log("OBJECT: ", object);
             result.object = object;
   
-            console.log("RESULT", result);
   
             resultArray.push(result);
   
             processedCount++;
   
             if (processedCount === requestCount) {
-              console.log("ARRAY", resultArray);
               res.status(200).json({requests: resultArray});
             }
           }
         });
       }
     });
+  };
+  
+
+  getCollaborationsForClient = async (req: express.Request, res: express.Response) => {
+    try {
+      const clientId = req.body.id;
+    
+      const requests = await CollaborationRequest.find({ client: clientId }).exec();
+    
+      const requestCount = requests.length;
+    
+      if (requestCount === 0) {
+        return res.status(200).json([]);
+      }
+    
+      const resultArray = [];
+    
+      for (let i = 0; i < requests.length; i++) {
+        const request = requests[i];
+        const result = {
+          _id: request._id,
+          client: null,
+          agency: null,
+          object: null,
+          deadline: request.deadline.toISOString().slice(0, 10),
+          status: request.status,
+          price: request.price
+        };
+  
+        const agencyId = request.agency;
+  
+        const agency = await User.findById(agencyId).exec();
+        if (agency) {
+          result.agency = agency;
+        }
+    
+        const clientId = request.client;
+    
+        const client = await User.findById(clientId).exec();
+        if (client) {
+          result.client = client;
+    
+          const objectId = request.object;
+    
+          const clientObjects = client?.client?.objects || [];
+    
+          const object = clientObjects.find((obj) => obj._id.toString() == objectId);
+          result.object = object;
+    
+          resultArray.push(result);
+        }
+      }
+      console.log("RESULT ARRAY: ", resultArray)
+      return res.status(200).json({ requests: resultArray });
+    } catch (error) {
+      return res.status(500).json({ message: 'Greska prilikom dohvatanja zahteva za klijenta.' });
+    }
   };
   
 
@@ -102,4 +153,19 @@ export class CollaborationController {
       }
     });
   };
+
+  deleteRequest = (req: express.Request, res: express.Response) => {
+    const id = req.body.id;
+  
+    CollaborationRequest.findOneAndDelete({ _id: id }, (err, deletedRequest) => {
+      if (err) {
+        res.status(500).json({ message: 'Greska prilikom brisanja zahteva.' });
+      } else if (!deletedRequest) {
+        res.status(404).json({ message: 'Zahtev nije pronadjen.' });
+      } else {
+        res.status(200).json({ message: 'Zahtev obrisan.' });
+      }
+    });
+  };
+  
 }

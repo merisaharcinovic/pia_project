@@ -41,13 +41,13 @@ export class AgencyJobsComponent implements OnInit {
     });
   }
 
-  rejectRequest(request: CollaborationRequest) {
+  declineRequest(request: CollaborationRequest) {
     this.userService.declineCollaborationRequest(request._id).subscribe((response) => {
         if(response['message']=='Zahtev odbijen.'){
           this.getCollaborationRequests();
         }
         else{
-          console.log(response['messageß'])
+          console.log(response['message'])
         }
 
       }

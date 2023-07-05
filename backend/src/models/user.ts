@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const RoomSketchSchema = new Schema({
+export const RoomSketchSchema = new Schema({
   x: { type: Number },
   y: { type: Number },
   width: { type: Number },
@@ -13,10 +13,11 @@ const RoomSketchSchema = new Schema({
       y: { type: Number },
     },
   },
+  status: { type: String, default: "unfinished" }
 });
 
 
-const ClientObjectSchema = new Schema({
+export const ClientObjectSchema = new Schema({
   _id: Schema.Types.ObjectId,
   objectType: { type: String },
   address: { type: String },
