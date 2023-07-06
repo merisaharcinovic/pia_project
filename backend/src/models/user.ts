@@ -26,7 +26,7 @@ export const ClientObjectSchema = new Schema({
   sketch: { type: [RoomSketchSchema] },
 });
 
-const WorkerSchema = new Schema({
+export const WorkerSchema = new Schema({
   _id: Schema.Types.ObjectId,
   firstname: { type: String, required: true },
   lastname: { type: String, required: true },

@@ -1,5 +1,7 @@
 import * as express from "express"
 import User from "../models/user";
+import WorkerSchema from "../models/user";
+
 import RegistrationRequest from "../models/registrationRequests";
 
 
@@ -176,5 +178,55 @@ export class AdminController{
           else res.json({"message": "added new agency"})
       })
     };
+
+    addWorker = (req: express.Request, res: express.Response) => {
+      const agencyId = req.body.agency._id;
+    
+      const worker = new WorkerSchema({
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        email: req.body.email,
+        phone: req.body.phone,
+        specialization: req.body.specialization
+      });
+    
+      User.updateOne(
+        { _id: agencyId },
+        { $push: { 'agency.workers': worker } },
+        (err) => {
+          if (err) {
+            res.status(500).json({ message: 'Greska prilikom dodavanja radnika.' });
+          } else {
+            res.status(200).json({ message: 'Radnik uspesno dodat.' });
+          }
+        }
+      );
+    };
+    
+    editWorker = (req: express.Request, res: express.Response) => {
+      const agencyId = req.body.agency._id;
+      const worker = req.body.worker;
+    
+      User.updateOne(
+        { _id: agencyId, "agency.workers._id": worker._id },
+        { $set: { "agency.workers.$": worker } },
+        (err) => {
+          if (err) {
+            res.status(500).json({ message: 'Greska prilikom izmene radnika.' });
+          } else {
+            res.status(200).json({ message: 'Radnik uspesno izmenjen.' });
+          }
+        }
+      );
+    };
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }

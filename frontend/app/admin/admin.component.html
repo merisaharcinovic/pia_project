@@ -129,19 +129,24 @@
     </thead>
     <tbody>
       <tr *ngFor="let worker of selectedAgency.agency.workers">
-        <td>{{ worker.firstname }}</td>
-        <td>{{ worker.lastname }}</td>
-        <td>{{ worker.email }}</td>
-        <td>{{ worker.phone }}</td>
-        <td>{{ worker.specialization }}</td>
+        <td *ngIf="!worker.editMode">{{ worker.firstname }}</td>
+        <td *ngIf="worker.editMode"><input type="text" [(ngModel)]="worker.firstname"></td>
+        <td *ngIf="!worker.editMode">{{ worker.lastname }}</td>
+        <td *ngIf="worker.editMode"><input type="text" [(ngModel)]="worker.lastname"></td>
+        <td *ngIf="!worker.editMode">{{ worker.email }}</td>
+        <td *ngIf="worker.editMode"><input type="email" [(ngModel)]="worker.email"></td>
+        <td *ngIf="!worker.editMode">{{ worker.phone }}</td>
+        <td *ngIf="worker.editMode"><input type="text" [(ngModel)]="worker.phone"></td>
+        <td *ngIf="!worker.editMode">{{ worker.specialization }}</td>
+        <td *ngIf="worker.editMode"><input type="text" [(ngModel)]="worker.specialization"></td>
         <td>
-          <button (click)="editWorker(worker)">Izmeni</button>
+          <button *ngIf="!worker.editMode" (click)="worker.editMode=!worker.editMode">Izmeni</button>
+          <button *ngIf="worker.editMode" (click)="saveChanges(worker)">Sacuvaj</button>
         </td>
         <td>
           <button (click)="deleteWorker(worker)">Obriši</button>
         </td>
       </tr>
-
     </tbody>
   </table>
 <button (click)="showAddWorker=!showAddWorker">Dodaj radnika</button>

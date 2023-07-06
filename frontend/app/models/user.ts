@@ -52,4 +52,5 @@ export class Worker {
   email: string;
   phone: string;
   specialization: string;
+  editMode:boolean = false;
 }

@@ -38,4 +38,12 @@ adminRouter.route('/deleteWorker').post(
     (req,res)=>new AdminController().deleteWorker(req,res)
 )
 
+adminRouter.route('/addWorker').post(
+    (req,res)=>new AdminController().addWorker(req,res)
+)
+
+adminRouter.route('/editWorker').post(
+    (req,res)=>new AdminController().editWorker(req,res)
+)
+
 export default adminRouter;

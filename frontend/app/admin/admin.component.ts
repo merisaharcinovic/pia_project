@@ -93,7 +93,8 @@ export class AdminComponent implements OnInit {
       phone:  "",
       firstname:"",
       lastname:"",
-      specialization:""
+      specialization:"",
+      editMode:false
     }
 
     this.newAgency={
@@ -152,7 +153,7 @@ export class AdminComponent implements OnInit {
         this.adminService.addClient(this.newClient.username,this.newClient.password,this.newClient.phone,this.newClient.email,this.newClient.firstname,this.newClient.lastname, this.newClient.profilePicture).subscribe((resp)=>{
           console.log(resp['message'])
           if(resp['message']=='added new client'){
-            alert('Uspesno ste se dodali klijenta')
+            alert('Uspesno ste dodali klijenta')
             this.getAllUsers();
           }
           else{
@@ -188,7 +189,7 @@ export class AdminComponent implements OnInit {
         this.adminService.addAgency(this.newAgency.username,this.newAgency.password,this.newAgency.phone,this.newAgency.email, this.newAgency.name, this.newAgency.address, this.newAgency.PIB, this.newAgency.description, this.newAgency.profilePicture).subscribe((resp)=>{
           console.log(resp['message'])
           if(resp['message']=='added new agency'){
-            alert('Uspesno ste se dodali agenciju')
+            alert('Uspesno ste dodali agenciju')
             this.getAllUsers();
           }
           else{
@@ -205,7 +206,7 @@ export class AdminComponent implements OnInit {
     this.adminService.deleteUser(toDelete.username).subscribe((resp)=>{
       console.log(resp['message'])
       if(resp['message']=='user deleted'){
-        alert('Uspesno ste se obrisali korisnika')
+        alert('Uspesno ste obrisali korisnika')
         this.getAllUsers();
       }
       else{
@@ -214,15 +215,26 @@ export class AdminComponent implements OnInit {
   })
   }
 
-  editWorker(_t140: Worker) {
-    throw new Error('Method not implemented.');
+
+  saveChanges(worker: Worker) {
+    this.adminService.editWorker(this.selectedAgency._id, worker).subscribe((resp)=>{
+      console.log(resp['message'])
+      if(resp['message']=='Radnik uspesno izmenjen.'){
+        alert('Uspesno ste izmenili radnika')
+        this.getAllUsers();
+        worker.editMode=false;
+      }
+      else{
+        alert('Neuspesno brisanje radnika. Pokusajte ponovo.')
+      }
+    })
   }
 
   deleteWorker(toDelete: Worker) {
     this.adminService.deleteWorker(this.selectedAgency._id, toDelete).subscribe((resp)=>{
       console.log(resp['message'])
       if(resp['message']=='Radnik je uspesno obrisan iz agencije.'){
-        alert('Uspesno ste se obrisali radnika')
+        alert('Uspesno ste obrisali radnika')
         this.getAllUsers();
       }
       else{
@@ -232,7 +244,31 @@ export class AdminComponent implements OnInit {
   }
 
   addWorker() {
-    throw new Error('Method not implemented.');
+    if(!this.newWorker.firstname || !this.newWorker.lastname || !this.newWorker.email  || !this.newWorker.phone || !this.newWorker.specialization ){
+      this.addWorkerMessage = 'Morate uneti ispravne podatke'
+      return
+    }
+    else{
+      this.adminService.addWorker(this.selectedAgency,this.newWorker.firstname,this.newWorker.lastname,this.newWorker.email,this.newWorker.phone,this.newWorker.specialization).subscribe((resp)=>{
+        console.log(resp['message'])
+        if(resp['message']=='Radnik uspesno dodat.' ){
+          alert('Uspesno ste dodali radnika')
+          this.getAllUsers();
+          this.newWorker = {
+            _id:'',
+            firstname: '',
+            lastname: '',
+            email: '',
+            phone: '',
+            specialization: '',
+            editMode:false
+          };
+        }
+        else{
+          alert('Neuspesno dodavanje radnika. Pokusajte ponovo.')
+        }
+    })
+    }
   }
 
 }
