@@ -11,4 +11,9 @@ jobRouter.route('/getJobsForAgency').post(
     (req, res) => new JobController().getJobsForAgency(req, res)
 
 )
+
+jobRouter.route('/assignWorkers').post(
+    (req, res) => new JobController().assignWorkers(req, res)
+
+)
 export default jobRouter;

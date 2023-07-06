@@ -27,3 +27,36 @@
     </div>
   </ng-container>
 </div>
+
+<div>
+  <h3>Trenutno aktivni poslovi</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Klijent</th>
+        <th>Objekat</th>
+        <th>Rok za završetak</th>
+        <th>Status</th>
+        <th>Cena</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let job of jobs">
+        <tr>
+          <td>{{ job.client.client.firstname }} {{ job.client.client.lastname }}</td>
+          <td>
+            {{ job.object.objectType }}, {{ job.object.address }} <br>
+            Broj soba: {{ job.object.numRooms }}, Povrsina: {{ job.object.area }}
+          </td>
+          <td>{{ job.deadline }}</td>
+          <td>{{ job.status }}</td>
+          <td >{{ job.price }}</td>
+          <td *ngIf="job.numWorkers==0">
+            <input type="number" name="numWorkers" id="numWorkers" [(ngModel)]="numWorkers" placeholder="Potreban broj radnika">
+            <button (click)="assignWorkers(job)">Dodeli</button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

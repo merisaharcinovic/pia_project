@@ -11,15 +11,45 @@ import { CollaborationRequest } from '../models/collaborationRequest';
 export class AgencyJobsComponent implements OnInit {
 
 
+
+
   constructor(private userService:UserService) { }
 
   requests: any;
+  jobs:any;
   loggedUser: User
+  numWorkers: number;
 
 
   ngOnInit(): void {
     this.loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
     this.getCollaborationRequests();
+    this.getJobs();
+  }
+
+  assignWorkers(job: any) {
+    
+
+    this.userService.assignWorkers(job._id, this.numWorkers).subscribe((response) => {
+      if (response['message']=='Uspesno dodeljen broj radnika.') {
+        console.log(response['message'])
+        this.getJobs();
+      } else {
+        console.log(response['message']);
+      }
+    });
+  }
+
+  getJobs(){
+    this.userService.getJobsForAgency(this.loggedUser._id).subscribe((response) => {
+      if (response['jobs']) {
+        this.jobs = response['jobs'];
+        console.log("JOBS:", this.jobs)
+
+      } else if (response['message']) {
+        console.log(response['message']);
+      }
+    });
   }
 
   getCollaborationRequests() {

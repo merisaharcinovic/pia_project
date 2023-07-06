@@ -7,6 +7,14 @@ import { CollaborationRequest } from './models/collaborationRequest';
   providedIn: 'root'
 })
 export class UserService {
+  assignWorkers(id: string, numWorkers: number) {
+    const data={
+      'id':id,
+      'numWorkers':numWorkers
+    }
+    return this.http.post('http://localhost:4000/job/assignWorkers', data)
+
+  }
 
 
   updateAgencyProfile(username: string, updatedProfile: {name: string; description:string;

@@ -28,7 +28,6 @@
 
   <hr>
 
-<!-- Tabela sa klijentima -->
 <h2>Klijenti</h2>
 <table>
   <thead *ngIf="allClients && allClients.length>0">
@@ -91,7 +90,6 @@
 
 <hr>
 
-
 <h2>Agencije</h2>
 <table *ngIf="allAgencies && allAgencies.length>0">
   <thead>
@@ -103,16 +101,84 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let a of allAgencies">
-      <td>{{ a.agency.name }}</td>
-      <td>{{ a.agency.address.street }} {{ a.agency.address.number }}, {{ a.agency.address.city }}, {{ a.agency.address.country }} </td>
-      <td>{{ a.agency.PIB }}</td>
+    <tr *ngFor="let agency of allAgencies" >
+      <td>{{ agency.agency.name }}</td>
+      <td>{{ agency.agency.address.street }} {{ agency.agency.address.number }}, {{ agency.agency.address.city }}, {{ agency.agency.address.country }}</td>
+      <td>{{ agency.agency.PIB }}</td>
       <td>
-        <button (click)="deleteUser(a)">Obriši</button>
+        <button (click)="selectedAgency=agency">Prikazi radnike</button>
+        <button (click)="deleteUser(agency)">Obriši</button>
       </td>
     </tr>
   </tbody>
 </table>
+
+<div *ngIf="selectedAgency">
+  <h2>Radnici - {{ selectedAgency.agency.name }}</h2>
+  <table *ngIf="selectedAgency.agency.workers && selectedAgency.agency.workers.length > 0">
+    <thead>
+      <tr>
+        <th>Ime</th>
+        <th>Prezime</th>
+        <th>Email</th>
+        <th>Kontakt telefon</th>
+        <th>Specijalizacija</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let worker of selectedAgency.agency.workers">
+        <td>{{ worker.firstname }}</td>
+        <td>{{ worker.lastname }}</td>
+        <td>{{ worker.email }}</td>
+        <td>{{ worker.phone }}</td>
+        <td>{{ worker.specialization }}</td>
+        <td>
+          <button (click)="editWorker(worker)">Izmeni</button>
+        </td>
+        <td>
+          <button (click)="deleteWorker(worker)">Obriši</button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+<button (click)="showAddWorker=!showAddWorker">Dodaj radnika</button>
+
+  <div *ngIf="showAddWorker">
+    <h2>Dodaj radnika</h2>
+    <table>
+      <tr>
+        <td>Ime:</td>
+        <td><input type="text" [(ngModel)]="newWorker.firstname"></td>
+      </tr>
+      <tr>
+        <td>Prezime:</td>
+        <td><input type="text" [(ngModel)]="newWorker.lastname"></td>
+      </tr>
+      <tr>
+        <td>Email adresa:</td>
+        <td><input type="email" [(ngModel)]="newWorker.email"></td>
+      </tr>
+      <tr>
+        <td>Kontakt telefon:</td>
+        <td><input type="text" [(ngModel)]="newWorker.phone"></td>
+      </tr>
+      <tr>
+        <td>Specijalizacija:</td>
+        <td><input type="text" [(ngModel)]="newWorker.specialization"></td>
+      </tr>
+      <tr>
+        <td>
+          <button (click)="addWorker()">Dodaj radnika</button>
+        </td>
+      </tr>
+    </table>
+    <span class="error">{{ addWorkerMessage }}</span>
+  </div>
+
+</div>
 
 
 <hr>
@@ -171,19 +237,3 @@
 
 <hr>
 
-<!-- <app-registration></app-registration> -->
-
-
-
-<!-- Forma za iizmenu agencije -->
-
-
-<!-- Forma za dodavanje nove agencije -->
-<!-- <h3>Dodaj novu agenciju</h3>
-<form id="addAgencyForm" (submit)="addAgency()">
-  <input type="text" id="agencyNameInput" placeholder="Naziv agencije" required [(ngModel)]="newAgency.name">
-  <input type="text" id="agencyAddressInput" placeholder="Adresa agencije" required [(ngModel)]="newAgency.address">
-  <input type="text" id="agencyPibInput" placeholder="PIB agencije" required [(ngModel)]="newAgency.PIB"> -->
-  <!-- Dodajte ostala polja za unos podataka o agenciji -->
-  <!-- <button type="submit">Dodaj agenciju</button>
-</form> -->

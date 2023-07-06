@@ -34,4 +34,8 @@ adminRouter.route('/deleteUser').post(
     (req,res)=>new AdminController().deleteUser(req,res)
 )
 
+adminRouter.route('/deleteWorker').post(
+    (req,res)=>new AdminController().deleteWorker(req,res)
+)
+
 export default adminRouter;

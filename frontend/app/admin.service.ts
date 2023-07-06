@@ -23,6 +23,10 @@ export class AdminService {
   deleteUser(username: String) {
     return this.http.post('http://localhost:4000/admin/deleteUser', {'username':username})
   }
+
+  deleteWorker(agencyId:string, worker: any) {
+    return this.http.post('http://localhost:4000/admin/deleteWorker', {'agencyId':agencyId, 'worker':worker})
+  }
   acceptRequest(toAccept: RegistrationRequest) {
     return this.http.post('http://localhost:4000/admin/acceptRequest',toAccept)
   }

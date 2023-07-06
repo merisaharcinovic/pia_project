@@ -99,5 +99,24 @@ export class JobController {
           return res.status(500).json({ message: 'Greska prilikom dohvatanja poslova za agenciju.' });
         }
       };
-      
-}      
+
+    assignWorkers = (req: express.Request, res: express.Response) => {
+    let id = req.body.id;
+    let numWorkers = req.body.numWorkers;
+
+    Job.findByIdAndUpdate(
+        id,
+        { $set: { numWorkers: numWorkers } },
+        (err, job) => {
+            if (err) {
+                res.status(500).json({ message: 'Greska pri dodeli radnika' });
+            } 
+            else if (!job) {
+                res.status(404).json({ message: 'Posao nije pronadjen' });
+            } 
+            else {
+                res.status(200).json({ message: 'Uspesno dodeljen broj radnika.' });
+            }
+        });
+    }
+};

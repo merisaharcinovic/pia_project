@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RegistrationRequest } from '../models/registrationRequest';
 import { AdminService } from '../admin.service';
-import { User } from '../models/user';
+import { User, Worker } from '../models/user';
 import { UserService } from '../user.service';
 
 @Component({
@@ -11,6 +11,10 @@ import { UserService } from '../user.service';
 })
 export class AdminComponent implements OnInit {
 
+  selectedAgency: User;
+  newWorker: Worker;
+  addWorkerMessage: string;
+  showAddWorker: boolean;
 
   constructor(private adminService:AdminService, private userService:UserService) { }
 
@@ -83,6 +87,15 @@ export class AdminComponent implements OnInit {
       profilePicture:""
     }
 
+    this.newWorker= {
+      _id:"",
+      email:  "",
+      phone:  "",
+      firstname:"",
+      lastname:"",
+      specialization:""
+    }
+
     this.newAgency={
       username:"",
         password:"",
@@ -102,6 +115,7 @@ export class AdminComponent implements OnInit {
         profilePicture:""
     }
 
+    this.showAddWorker=false;
   }
 
 
@@ -198,6 +212,27 @@ export class AdminComponent implements OnInit {
         alert('Neuspesno brisanje korisnika. Pokusajte ponovo.')
       }
   })
+  }
+
+  editWorker(_t140: Worker) {
+    throw new Error('Method not implemented.');
+  }
+
+  deleteWorker(toDelete: Worker) {
+    this.adminService.deleteWorker(this.selectedAgency._id, toDelete).subscribe((resp)=>{
+      console.log(resp['message'])
+      if(resp['message']=='Radnik je uspesno obrisan iz agencije.'){
+        alert('Uspesno ste se obrisali radnika')
+        this.getAllUsers();
+      }
+      else{
+        alert('Neuspesno brisanje radnika. Pokusajte ponovo.')
+      }
+    })
+  }
+
+  addWorker() {
+    throw new Error('Method not implemented.');
   }
 
 }

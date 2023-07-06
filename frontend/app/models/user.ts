@@ -20,6 +20,7 @@ export class User {
     };
     PIB: string;
     description: string;
+    workers: Worker[];
   };
   profilePicture: string;
 }
@@ -30,7 +31,7 @@ export class ClientObject {
   address: string;
   numRooms: number;
   area: number;
-  sketch: RoomSketch[]
+  sketch: RoomSketch[];
 }
 
 export class RoomSketch {
@@ -44,3 +45,11 @@ export class RoomSketch {
   };
 }
 
+export class Worker {
+  _id:string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  phone: string;
+  specialization: string;
+}
