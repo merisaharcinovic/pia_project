@@ -149,4 +149,9 @@ export class UserService {
   getJobsForAgency(id: string) {
     return this.http.post('http://localhost:4000/job/getJobsForAgency', {id:id})
   }
+
+  getJobs(){
+    return this.http.get('http://localhost:4000/job/getJobs')
+
+  }
 }

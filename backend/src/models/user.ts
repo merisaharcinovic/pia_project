@@ -18,7 +18,7 @@ export const RoomSketchSchema = new Schema({
 
 
 export const ClientObjectSchema = new Schema({
-  _id: Schema.Types.ObjectId,
+  _id: { type: Schema.Types.ObjectId, auto: true },
   objectType: { type: String },
   address: { type: String },
   numRooms: { type: Number },
@@ -27,7 +27,7 @@ export const ClientObjectSchema = new Schema({
 });
 
 export const WorkerSchema = new Schema({
-  _id: Schema.Types.ObjectId,
+  _id: { type: Schema.Types.ObjectId, auto: true },
   firstname: { type: String, required: true },
   lastname: { type: String, required: true },
   email: { type: String, required: true },
@@ -45,7 +45,7 @@ const UserSchema = new Schema({
     type: {
       firstname: { type: String },
       lastname: { type: String },
-      objects: [ClientObjectSchema],
+      objects:{type:[ClientObjectSchema]},
     },
     default: null,
   },
@@ -62,7 +62,7 @@ const UserSchema = new Schema({
       },
       PIB: { type: String },
       description: { type: String },
-      workers: [WorkerSchema]
+      workers: [{ type: WorkerSchema }]
     },
     default: null,
   },

@@ -203,7 +203,6 @@ export class CollaborationController {
     let request=req.body.request
 
     const jobData ={
-        _id: new mongoose.Types.ObjectId(),
         client: request.client,
         agency: request.agency,
         object: request.object,

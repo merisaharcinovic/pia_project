@@ -4,7 +4,53 @@ import User from "../models/user";
 import mongoose from "mongoose";
 
 export class JobController {
-  
+
+    getJobs = async (req: express.Request, res: express.Response) => {
+        try {
+          const jobs = await Job.find({}).exec();
+      
+          const jobCount = jobs.length;
+      
+          if (jobCount === 0) {
+            return res.status(200).json([]);
+          }
+      
+          const resultArray = [];
+      
+          for (let i = 0; i < jobs.length; i++) {
+            const job = jobs[i];
+            const result = {
+              _id: job._id,
+              client: null,
+              agency: null,
+              object: job.object,
+              numWorkers: job.numWorkers,
+              price: job.price,
+              deadline: job.deadline.toISOString().slice(0, 10),
+              status: job.status,
+            };
+      
+            const clientId = job.client;
+            const agencyId = job.agency;
+      
+            const [client, agency] = await Promise.all([
+              User.findById(clientId).exec(),
+              User.findById(agencyId).exec(),
+            ]);
+      
+            result.client = client;
+            result.agency = agency;
+      
+            resultArray.push(result);
+          }
+      
+          return res.status(200).json({ jobs: resultArray });
+        } catch (error) {
+          return res.status(500).json({ message: 'Greska prilikom dohvatanja poslova.' });
+        }
+      };
+      
+
     getJobsForClient = async (req: express.Request, res: express.Response) => {
         try {
             const clientId = req.body.id;

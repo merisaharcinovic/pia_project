@@ -7,6 +7,13 @@ import { User, Worker } from './models/user';
   providedIn: 'root'
 })
 export class AdminService {
+  editAgency(agency: any) {
+    return this.http.post('http://localhost:4000/admin/editAgency', {agency:agency})
+  }
+
+  editClient(client: any) {
+    return this.http.post('http://localhost:4000/admin/editClient', {client:client})
+  }
   editWorker(agencyId: string, worker: Worker) {
     const data={
       'agencyId':agencyId,
@@ -24,6 +31,7 @@ export class AdminService {
       'email':email,
       'specialization':specialization
     }
+    console.log("DATA:",data)
     return this.http.post('http://localhost:4000/admin/addWorker', data)
   }
   addAgency(username: string, password: string, phone: string, email: string, name: string, address:{country:string, city:string, street:string, number:string}, PIB: string, description: string, profilePicture: string) {

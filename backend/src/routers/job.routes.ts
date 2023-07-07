@@ -12,6 +12,11 @@ jobRouter.route('/getJobsForAgency').post(
 
 )
 
+jobRouter.route('/getJobs').get(
+    (req, res) => new JobController().getJobs(req, res)
+
+)
+
 jobRouter.route('/assignWorkers').post(
     (req, res) => new JobController().assignWorkers(req, res)
 

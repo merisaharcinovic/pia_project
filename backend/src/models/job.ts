@@ -4,7 +4,7 @@ import { ClientObjectSchema } from "./user";
 const Schema = mongoose.Schema;
 
 let JobSchema = new Schema({
-    _id: Schema.Types.ObjectId,
+    _id: { type: Schema.Types.ObjectId, auto: true },
     client: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     agency: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     object: { type: ClientObjectSchema, required: true },

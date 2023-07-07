@@ -28,25 +28,54 @@
 
   <hr>
 
-<h2>Klijenti</h2>
-<table>
-  <thead *ngIf="allClients && allClients.length>0">
-    <tr>
-      <th>Ime</th>
-      <th>Prezime</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let c of allClients">
-      <td>{{ c.client.firstname }}</td>
-      <td>{{ c.client.lastname }}</td>
-      <td>
-        <button (click)="deleteUser(c)">Obriši</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <h2>Klijenti</h2>
+  <table>
+    <thead *ngIf="allClients && allClients.length > 0">
+      <tr>
+        <th>Ime</th>
+        <th>Prezime</th>
+        <th>Korisničko ime</th>
+        <th>Email</th>
+        <th>Telefon</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let client of allClients">
+        <td>
+          <ng-container *ngIf="!client.editMode">{{ client.client.firstname }}</ng-container>
+          <input type="text" [(ngModel)]="client.client.firstname" *ngIf="client.editMode" />
+        </td>
+        <td>
+          <ng-container *ngIf="!client.editMode">{{ client.client.lastname }}</ng-container>
+          <input type="text" [(ngModel)]="client.client.lastname" *ngIf="client.editMode" />
+        </td>
+        <td>
+          <ng-container *ngIf="!client.editMode">{{ client.username }}</ng-container>
+          <input type="text" [(ngModel)]="client.username" *ngIf="client.editMode" />
+        </td>
+        <td>
+          <ng-container *ngIf="!client.editMode">{{ client.email }}</ng-container>
+          <input type="text" [(ngModel)]="client.email" *ngIf="client.editMode" />
+        </td>
+        <td>
+          <ng-container *ngIf="!client.editMode">{{ client.phone }}</ng-container>
+          <input type="text" [(ngModel)]="client.phone" *ngIf="client.editMode" />
+        </td>
+        <td>
+          <ng-container *ngIf="!client.editMode">
+            <button (click)="client.editMode = true">Izmeni</button>
+          </ng-container>
+          <ng-container *ngIf="client.editMode">
+            <button (click)="client.editMode = false">Odustani</button>
+            <button (click)="saveClientChanges(client)">Sačuvaj</button>
+          </ng-container>
+          <button (click)="deleteUser(client)">Obriši</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
 
 
 <hr>
@@ -91,27 +120,64 @@
 <hr>
 
 <h2>Agencije</h2>
-<table *ngIf="allAgencies && allAgencies.length>0">
+<table *ngIf="allAgencies && allAgencies.length > 0">
   <thead>
     <tr>
       <th>Naziv</th>
       <th>Adresa</th>
       <th>PIB</th>
+      <th>Opis</th>
+      <th>Korisničko ime</th>
+      <th>Email</th>
+      <th>Telefon</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let agency of allAgencies" >
-      <td>{{ agency.agency.name }}</td>
-      <td>{{ agency.agency.address.street }} {{ agency.agency.address.number }}, {{ agency.agency.address.city }}, {{ agency.agency.address.country }}</td>
-      <td>{{ agency.agency.PIB }}</td>
+    <tr *ngFor="let agency of allAgencies">
+      <td>
+        <ng-container *ngIf="!agency.editMode">{{ agency.agency.name }}</ng-container>
+        <input type="text" [(ngModel)]="agency.agency.name" *ngIf="agency.editMode">
+      </td>
+      <td>
+        <ng-container *ngIf="!agency.editMode">{{ agency.agency.address.street }} {{ agency.agency.address.number }}, {{ agency.agency.address.city }}, {{ agency.agency.address.country }}</ng-container>
+        <input type="text" [(ngModel)]="agency.agency.address.street" *ngIf="agency.editMode">
+        <input type="text" [(ngModel)]="agency.agency.address.number" *ngIf="agency.editMode">
+        <input type="text" [(ngModel)]="agency.agency.address.city" *ngIf="agency.editMode">
+        <input type="text" [(ngModel)]="agency.agency.address.country" *ngIf="agency.editMode">
+      </td>
+      <td>
+        <ng-container *ngIf="!agency.editMode">{{ agency.agency.PIB }}</ng-container>
+        <input type="text" [(ngModel)]="agency.agency.PIB" *ngIf="agency.editMode">
+      </td>
+      <td>
+        <ng-container *ngIf="!agency.editMode">{{ agency.agency.description }}</ng-container>
+        <input type="text" [(ngModel)]="agency.agency.description" *ngIf="agency.editMode">
+      </td>
+      <td>
+        <ng-container *ngIf="!agency.editMode">{{ agency.username }}</ng-container>
+        <input type="text" [(ngModel)]="agency.username" *ngIf="agency.editMode">
+      </td>
+      <td>
+        <ng-container *ngIf="!agency.editMode">{{ agency.email }}</ng-container>
+        <input type="text" [(ngModel)]="agency.email" *ngIf="agency.editMode">
+      </td>
+      <td>
+        <ng-container *ngIf="!agency.editMode">{{ agency.phone }}</ng-container>
+        <input type="text" [(ngModel)]="agency.phone" *ngIf="agency.editMode">
+      </td>
       <td>
         <button (click)="selectedAgency=agency">Prikazi radnike</button>
-        <button (click)="deleteUser(agency)">Obriši</button>
+        <button (click)="agency.editMode=!agency.editMode" *ngIf="!agency.editMode">Izmeni</button>
+        <button (click)="agency.editMode=!agency.editMode" *ngIf="agency.editMode">Otkazi</button>
+        <button (click)="saveChangesAgency(agency)" *ngIf="agency.editMode">Sacuvaj izmene</button>
+        <button (click)="deleteUser(agency)">Obrisi</button>
       </td>
     </tr>
   </tbody>
 </table>
+
+
 
 <div *ngIf="selectedAgency">
   <h2>Radnici - {{ selectedAgency.agency.name }}</h2>
@@ -144,6 +210,7 @@
           <button *ngIf="worker.editMode" (click)="saveChanges(worker)">Sacuvaj</button>
         </td>
         <td>
+
           <button (click)="deleteWorker(worker)">Obriši</button>
         </td>
       </tr>
@@ -233,7 +300,7 @@
     <td><textarea [(ngModel)]="newAgency.description"></textarea></td>
   </tr>
   <tr><td>
-    <button (click)="addAgency()">Dodaj klijenta</button>
+    <button (click)="addAgency()">Dodaj agenciju</button>
   </td>
   </tr>
 
@@ -241,4 +308,33 @@
 <span class="error">{{addAgencyMessage}}</span>
 
 <hr>
+
+<h1>Poslovi</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Klijent</th>
+      <th>Agencija</th>
+      <th>Objekat</th>
+      <th>Broj radnika</th>
+      <th>Cena</th>
+      <th>Rok</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let job of jobs">
+      <td>{{ job.client?.client.firstname }} {{ job.client?.client.lastname }}</td>
+      <td>{{ job.agency?.agency.name }}</td>
+      <td>{{ job.object.objectType }} Adresa: {{ job.object.address }} <br>
+         Broj soba: {{job.object.numRooms }} Povrsina: {{ job.object.area }}</td>
+      <td>{{ job.numWorkers }}</td>
+      <td>{{ job.price }}</td>
+      <td>{{ job.deadline | date }}</td>
+      <td>{{ job.status }}</td>
+    </tr>
+  </tbody>
+</table>
+
 

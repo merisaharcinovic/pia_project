@@ -3,6 +3,7 @@ import { RegistrationRequest } from '../models/registrationRequest';
 import { AdminService } from '../admin.service';
 import { User, Worker } from '../models/user';
 import { UserService } from '../user.service';
+import { Job } from '../models/job';
 
 @Component({
   selector: 'app-admin',
@@ -19,8 +20,9 @@ export class AdminComponent implements OnInit {
   constructor(private adminService:AdminService, private userService:UserService) { }
 
   pendingRequests: RegistrationRequest[];
-  allClients:User[];
-  allAgencies:User[];
+  allClients:any;
+  allAgencies:any;
+  jobs:any;
 
   newClient: {
     username:string;
@@ -65,16 +67,33 @@ export class AdminComponent implements OnInit {
   getAllUsers() {
     this.adminService.allClients().subscribe((data: User[]) => {
       this.allClients = data;
+      this.allClients = data.map((client) => {
+        return { ...client, editMode: false };
+      });
     });
 
     this.adminService.allAgencies().subscribe((data: User[]) => {
       this.allAgencies = data;
+      this.allAgencies = data.map((agency) => {
+        return { ...agency, editMode: false };
+      });
+    });
+  }
+
+  getJobs() {
+    this.userService.getJobs().subscribe((response) => {
+      if(response['jobs']){
+        this.jobs = response['jobs'];
+        console.log("JOBS ", this.jobs)
+      }
+      else console.log('greska')
     });
   }
 
   ngOnInit(): void {
     this.getAllPendingRequests();
     this.getAllUsers();
+    this.getJobs();
     this.newClient= {
       username:"",
       password:"",
@@ -166,6 +185,24 @@ export class AdminComponent implements OnInit {
 
   }
 
+  saveClientChanges(client: any) {
+    console.log(client)
+    this.adminService.editClient(client).subscribe((resp)=>{
+      console.log(resp['message'])
+      if(resp['message']=='Podaci klijenta su uspesno azurirani.'){
+        alert('Uspesno ste izmenili klijenta')
+        client.editMode=false;
+        console.log(client);
+
+        this.getAllUsers();
+
+      }
+      else{
+        alert('Neuspesna izmena klijenta. Pokusajte ponovo.')
+      }
+    })
+  }
+
   addAgency() {
     this.userService.checkUsernameAndEmail(this.newAgency.username, this.newAgency.email).subscribe( (data:{'username':boolean, 'email':boolean})=>{
       console.log(data)
@@ -202,6 +239,22 @@ export class AdminComponent implements OnInit {
 
   }
 
+  saveChangesAgency(agency: any) {
+    console.log(agency)
+
+    this.adminService.editAgency(agency).subscribe((resp)=>{
+      console.log(resp['message'])
+      if(resp['message']=='Podaci agencije su uspesno azurirani.'){
+        alert('Uspesno ste izmenili agenciju')
+        agency.editMode=false;
+        this.getAllUsers();
+      }
+      else{
+        alert('Neuspesna izmena agencije. Pokusajte ponovo.')
+      }
+    })
+  }
+
   deleteUser(toDelete: User) {
     this.adminService.deleteUser(toDelete.username).subscribe((resp)=>{
       console.log(resp['message'])
@@ -225,7 +278,7 @@ export class AdminComponent implements OnInit {
         worker.editMode=false;
       }
       else{
-        alert('Neuspesno brisanje radnika. Pokusajte ponovo.')
+        alert('Neuspesna izmena radnika. Pokusajte ponovo.')
       }
     })
   }
@@ -249,6 +302,7 @@ export class AdminComponent implements OnInit {
       return
     }
     else{
+      console.log("TO ADD: ", this.newWorker)
       this.adminService.addWorker(this.selectedAgency,this.newWorker.firstname,this.newWorker.lastname,this.newWorker.email,this.newWorker.phone,this.newWorker.specialization).subscribe((resp)=>{
         console.log(resp['message'])
         if(resp['message']=='Radnik uspesno dodat.' ){

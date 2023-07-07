@@ -36,9 +36,6 @@
           <select [(ngModel)]="selectedObjectId">
             <option *ngFor="let object of user.client.objects" [value]="object._id">{{ object.objectType }}</option>
           </select>
-          <!-- <select [(ngModel)]="selectedObject">
-            <option *ngFor="let object of user.client.objects" [value]="object">{{ object.objectType }}</option>
-          </select> -->
         </td>
       </tr>
       <tr>

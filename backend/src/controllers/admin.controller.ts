@@ -8,39 +8,42 @@ import RegistrationRequest from "../models/registrationRequests";
 
 export class AdminController{
 
-  deleteWorker = (req: express.Request, res: express.Response) => {
-    const agencyId = req.body.agencyId;
-    const workerId = req.body.worker._id
-    console.log(workerId)
+  editClient = async (req: express.Request, res: express.Response) => {
+    try {
+      const clientId = req.body.client._id;
+      const updatedClient = req.body.client;
   
-    User.findById(agencyId, (err, agency) => {
-      if (err) {
-        return res.status(500).json({ message: 'Greska prilikom pronalazenja agencije.' });
+      const client = await User.findByIdAndUpdate(clientId, updatedClient, { new: true }).exec();
+  
+      if (!client) {
+        return res.status(404).json({ message: 'Klijent nije pronadjen.' });
       }
+  
+      return res.status(200).json({ message: 'Podaci klijenta su uspesno azurirani.', client });
+    } catch (error) {
+      return res.status(500).json({ message: 'Greska prilikom azuriranja podataka klijenta.' });
+    }
+  };
+  
+  editAgency = async (req: express.Request, res: express.Response) => {
+    try {
+      const agencyId = req.body.agency._id;
+      const updatedAgency = req.body.agency;
+  
+      const agency = await User.findByIdAndUpdate(agencyId, updatedAgency, { new: true }).exec();
   
       if (!agency) {
         return res.status(404).json({ message: 'Agencija nije pronadjena.' });
       }
   
-      const workerIndex = agency.workers.findIndex((worker) => worker._id.toString() === workerId);
-  
-      if (workerIndex === -1) {
-        return res.status(404).json({ message: 'Radnik nije pronadjen u agenciji.' });
-      }
-  
-      agency.workers.splice(workerIndex, 1);
-  
-      agency.save((err) => {
-        if (err) {
-          return res.status(500).json({ message: 'Greska prilikom brisanja radnika.' });
-        }
-  
-        return res.status(200).json({ message: 'Radnik je uspesno obrisan iz agencije.' });
-      });
-    });
+      return res.status(200).json({ message: 'Podaci agencije su uspesno azurirani.', agency });
+    } catch (error) {
+      return res.status(500).json({ message: 'Greska prilikom azuriranja podataka agencije.' });
+    }
   };
   
 
+  
   deleteUser=(req:express.Request, res:express.Response)=>{
       let username=req.body.username
       User.deleteOne({'username':username}, (err) => {
@@ -179,47 +182,163 @@ export class AdminController{
       })
     };
 
-    addWorker = (req: express.Request, res: express.Response) => {
-      const agencyId = req.body.agency._id;
+    // addWorker = (req: express.Request, res: express.Response) => {
+    //   const agencyId = req.body.agency._id;
+    //   console.log("AGENCIJA: ",agencyId)
+    //   const worker ={
+    //     firstname: req.body.firstname,
+    //     lastname: req.body.lastname,
+    //     email: req.body.email,
+    //     phone: req.body.phone,
+    //     specialization: req.body.specialization
+    //   }
+    //   console.log("WORKER: ",worker)
+
+    //   User.updateOne(
+    //     { _id: agencyId },
+    //     { $push: { 'agency.workers': worker } },
+    //     (err) => {
+    //       if (err) {
+    //         res.status(500).json({ message: 'Greska prilikom dodavanja radnika.' });
+    //       } else {
+            
+    //         res.status(200).json({ message: 'Radnik uspesno dodat.' });
+    //       }
+    //     }
+    //   );
+    // };
     
-      const worker = new WorkerSchema({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email: req.body.email,
-        phone: req.body.phone,
-        specialization: req.body.specialization
-      });
+    // editWorker = (req: express.Request, res: express.Response) => {
+    //   const agencyId=req.body.agencyId;
+    //   console.log("AGENCY:", agencyId)
+    //   const worker = req.body.worker;
+
+    //   console.log("WORKER:",worker)
     
-      User.updateOne(
-        { _id: agencyId },
-        { $push: { 'agency.workers': worker } },
-        (err) => {
-          if (err) {
-            res.status(500).json({ message: 'Greska prilikom dodavanja radnika.' });
-          } else {
-            res.status(200).json({ message: 'Radnik uspesno dodat.' });
-          }
+    //   User.updateOne(
+    //     { _id: agencyId, "agency.workers._id": worker._id },
+    //     { $set: { "agency.workers.$": worker } },
+    //     (err) => {
+    //       if (err) {
+    //         res.status(500).json({ message: 'Greska prilikom izmene radnika.' });
+    //       } else {
+    //         res.status(200).json({ message: 'Radnik uspesno izmenjen.' });
+    //       }
+    //     }
+    //   );
+    // };
+    
+    // deleteWorker = (req: express.Request, res: express.Response) => {
+    //   const agencyId = req.body.agencyId;
+    //   const workerId = req.body.worker._id
+    //   console.log(workerId)
+    //   console.log(agencyId)
+    
+    //   User.findById(agencyId, (err, agency) => {
+    //     if (err) {
+    //       return res.status(500).json({ message: 'Greska prilikom pronalazenja agencije.' });
+    //     }
+    
+    //     if (!agency) {
+    //       return res.status(404).json({ message: 'Agencija nije pronadjena.' });
+    //     }
+  
+    //     console.log(agency)
+    //     console.log(JSON.stringify(agency));
+  
+    //     console.log("WORKERS",agency.workers)
+    
+    //     const workerIndex = agency.workers.findIndex((worker) => worker._id.toString() == workerId);
+    
+    //     if (workerIndex === -1) {
+    //       return res.status(404).json({ message: 'Radnik nije pronadjen u agenciji.' });
+    //     }
+    
+    //     agency.workers.splice(workerIndex, 1);
+    
+    //     agency.save((err) => {
+    //       if (err) {
+    //         return res.status(500).json({ message: 'Greska prilikom brisanja radnika.' });
+    //       }
+    
+    //       return res.status(200).json({ message: 'Radnik je uspesno obrisan iz agencije.' });
+    //     });
+    //   });
+    // };
+
+    addWorker = async (req: express.Request, res: express.Response) => {
+      try {
+        const agencyId = req.body.agency._id;
+        console.log("AGENCIJA: ", agencyId);
+        const worker = {
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
+          email: req.body.email,
+          phone: req.body.phone,
+          specialization: req.body.specialization,
+        };
+        console.log("WORKER: ", worker);
+    
+        const user = await User.findById(agencyId);
+        if (!user) {
+          return res.status(404).json({ message: "Agencija nije pronadjena." });
         }
-      );
+    
+        user.agency.workers.push(worker);
+        await user.save();
+    
+        res.status(200).json({ message: "Radnik uspesno dodat." });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Greska prilikom dodavanja radnika." });
+      }
     };
     
-    editWorker = (req: express.Request, res: express.Response) => {
-      const agencyId = req.body.agency._id;
-      const worker = req.body.worker;
+    editWorker = async (req: express.Request, res: express.Response) => {
+      try {
+        const agencyId = req.body.agencyId;
+        console.log("AGENCY:", agencyId);
+        const worker = req.body.worker;
+        console.log("WORKER:", worker);
     
-      User.updateOne(
-        { _id: agencyId, "agency.workers._id": worker._id },
-        { $set: { "agency.workers.$": worker } },
-        (err) => {
-          if (err) {
-            res.status(500).json({ message: 'Greska prilikom izmene radnika.' });
-          } else {
-            res.status(200).json({ message: 'Radnik uspesno izmenjen.' });
-          }
+        const result = await User.updateOne(
+          { _id: agencyId, "agency.workers._id": worker._id },
+          { $set: { "agency.workers.$": worker } }
+        );
+    
+        if (result.modifiedCount === 0) {
+          return res.status(404).json({ message: "Radnik nije pronadjen." });
         }
-      );
+    
+        res.status(200).json({ message: "Radnik uspesno izmenjen." });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Greska prilikom izmene radnika." });
+      }
     };
     
+    deleteWorker = async (req: express.Request, res: express.Response) => {
+      try {
+        const agencyId = req.body.agencyId;
+        const workerId = req.body.worker._id;
+        console.log(workerId);
+        console.log(agencyId);
+    
+        const result = await User.updateOne(
+          { _id: agencyId },
+          { $pull: { "agency.workers": { _id: workerId } } }
+        );
+    
+        if (result.modifiedCount === 0) {
+          return res.status(404).json({ message: "Radnik nije pronadjen u agenciji." });
+        }
+    
+        res.status(200).json({ message: "Radnik je uspesno obrisan iz agencije." });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Greska prilikom brisanja radnika." });
+      }
+    };
     
     
     
