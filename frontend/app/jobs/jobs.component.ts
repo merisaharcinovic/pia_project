@@ -11,13 +11,10 @@ import { Job, Review } from '../models/job';
 })
 export class JobsComponent implements OnInit {
 
-
-
-
   constructor(private userService:UserService) { }
 
   requests: CollaborationRequest[] = [];
-  jobs: Job[]=[];
+  jobs: any=[];
 
   loggedUser: User
 
@@ -39,10 +36,16 @@ export class JobsComponent implements OnInit {
     }
   }
 
+  toggleSketch(job: any) {
+    job.showSketch=!job.showSketch;
+  }
+
   getJobs(){
     this.userService.getJobsForClient(this.loggedUser._id).subscribe((response) => {
       if (response['jobs']) {
         this.jobs = response['jobs'];
+        this.jobs = response['jobs'].map(job => ({ ...job, showSketch:false }));
+
         console.log("JOBS:", this.jobs)
 
       } else if (response['message']) {
@@ -102,6 +105,14 @@ export class JobsComponent implements OnInit {
   }
 
   pay(job: Job) {
+    this.userService.payAndFinish(job).subscribe((response) => {
+      if (response['message'] === 'Posao placen i zavrsen.' ) {
+        this.getJobs();
+
+      } else {
+        console.log(response['message']);
+      }
+    });
   }
 
   addReview(job: Job) {

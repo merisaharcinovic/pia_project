@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RegistrationRequest } from '../models/registrationRequest';
 import { AdminService } from '../admin.service';
-import { User, Worker } from '../models/user';
+import { User } from '../models/user';
 import { UserService } from '../user.service';
-import { Job } from '../models/job';
+import { Worker } from '../models/worker';
 
 @Component({
   selector: 'app-admin',
@@ -12,7 +12,9 @@ import { Job } from '../models/job';
 })
 export class AdminComponent implements OnInit {
 
+
   selectedAgency: User;
+  selectedAgencyWorkers:Worker[]
   newWorker: Worker;
   addWorkerMessage: string;
   showAddWorker: boolean;
@@ -56,6 +58,19 @@ export class AdminComponent implements OnInit {
   }
   addClientMessage:string;
   addAgencyMessage:string;
+
+  selectAgency(agency: User) {
+    this.selectedAgency=agency;
+    this.adminService.getWorkers(agency).subscribe((data) => {
+      if(data['workers']){
+        this.selectedAgencyWorkers = data['workers'];
+        console.log(this.selectedAgencyWorkers);
+      }
+      else{
+        console.log(data['message'])
+      }
+    });
+  }
 
   getAllPendingRequests() {
     this.adminService.pendingRequests().subscribe((data: RegistrationRequest[]) => {
@@ -113,7 +128,9 @@ export class AdminComponent implements OnInit {
       firstname:"",
       lastname:"",
       specialization:"",
-      editMode:false
+      editMode:false,
+      available:true,
+      agency:""
     }
 
     this.newAgency={
@@ -270,11 +287,12 @@ export class AdminComponent implements OnInit {
 
 
   saveChanges(worker: Worker) {
-    this.adminService.editWorker(this.selectedAgency._id, worker).subscribe((resp)=>{
+    this.adminService.editWorker(worker).subscribe((resp)=>{
       console.log(resp['message'])
       if(resp['message']=='Radnik uspesno izmenjen.'){
         alert('Uspesno ste izmenili radnika')
         this.getAllUsers();
+        this.selectAgency(this.selectedAgency)
         worker.editMode=false;
       }
       else{
@@ -284,11 +302,12 @@ export class AdminComponent implements OnInit {
   }
 
   deleteWorker(toDelete: Worker) {
-    this.adminService.deleteWorker(this.selectedAgency._id, toDelete).subscribe((resp)=>{
+    this.adminService.deleteWorker(toDelete).subscribe((resp)=>{
       console.log(resp['message'])
       if(resp['message']=='Radnik je uspesno obrisan iz agencije.'){
         alert('Uspesno ste obrisali radnika')
         this.getAllUsers();
+        this.selectAgency(this.selectedAgency)
       }
       else{
         alert('Neuspesno brisanje radnika. Pokusajte ponovo.')
@@ -308,15 +327,18 @@ export class AdminComponent implements OnInit {
         if(resp['message']=='Radnik uspesno dodat.' ){
           alert('Uspesno ste dodali radnika')
           this.getAllUsers();
-          this.newWorker = {
-            _id:'',
-            firstname: '',
-            lastname: '',
-            email: '',
-            phone: '',
-            specialization: '',
-            editMode:false
-          };
+          this.selectAgency(this.selectedAgency)
+          this.newWorker= {
+            _id:"",
+            email:  "",
+            phone:  "",
+            firstname:"",
+            lastname:"",
+            specialization:"",
+            editMode:false,
+            available:true,
+            agency:""
+          }
         }
         else{
           alert('Neuspesno dodavanje radnika. Pokusajte ponovo.')

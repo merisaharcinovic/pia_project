@@ -57,6 +57,7 @@ export class ObjectsComponent implements OnInit {
 
     this.objectService.deleteObject(loggedUserId, object).subscribe(() => {
       this.loadObjects();
+      
     });
   }
 

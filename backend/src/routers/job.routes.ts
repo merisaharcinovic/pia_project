@@ -36,4 +36,21 @@ jobRouter.route('/deleteReview').post(
     (req, res) => new JobController().deleteReview(req, res)
 
 )
+jobRouter.route('/payAndFinish').post(
+    (req, res) => new JobController().payAndFinish(req, res)
+
+)
+
+jobRouter.route('/updateRoomStatus').post(
+    (req, res) => new JobController().updateRoomStatus(req, res)
+
+)
+jobRouter.route('/checkWorkerAvailability').post(
+    (req, res) => new JobController().checkWorkerAvailability(req, res)
+
+)
+
+jobRouter.route('/takeWorkers').post(
+    (req, res) => new JobController().takeWorkers(req, res)
+)
 export default jobRouter;

@@ -1,8 +1,12 @@
 import * as express from "express"
 import User from "../models/user";
-import WorkerSchema from "../models/user";
+import Worker from "../models/worker";
 
 import RegistrationRequest from "../models/registrationRequests";
+import mongoose from "mongoose";
+
+const ObjectId = mongoose.Types.ObjectId;
+
 
 
 
@@ -182,110 +186,28 @@ export class AdminController{
       })
     };
 
-    // addWorker = (req: express.Request, res: express.Response) => {
-    //   const agencyId = req.body.agency._id;
-    //   console.log("AGENCIJA: ",agencyId)
-    //   const worker ={
-    //     firstname: req.body.firstname,
-    //     lastname: req.body.lastname,
-    //     email: req.body.email,
-    //     phone: req.body.phone,
-    //     specialization: req.body.specialization
-    //   }
-    //   console.log("WORKER: ",worker)
-
-    //   User.updateOne(
-    //     { _id: agencyId },
-    //     { $push: { 'agency.workers': worker } },
-    //     (err) => {
-    //       if (err) {
-    //         res.status(500).json({ message: 'Greska prilikom dodavanja radnika.' });
-    //       } else {
-            
-    //         res.status(200).json({ message: 'Radnik uspesno dodat.' });
-    //       }
-    //     }
-    //   );
-    // };
-    
-    // editWorker = (req: express.Request, res: express.Response) => {
-    //   const agencyId=req.body.agencyId;
-    //   console.log("AGENCY:", agencyId)
-    //   const worker = req.body.worker;
-
-    //   console.log("WORKER:",worker)
-    
-    //   User.updateOne(
-    //     { _id: agencyId, "agency.workers._id": worker._id },
-    //     { $set: { "agency.workers.$": worker } },
-    //     (err) => {
-    //       if (err) {
-    //         res.status(500).json({ message: 'Greska prilikom izmene radnika.' });
-    //       } else {
-    //         res.status(200).json({ message: 'Radnik uspesno izmenjen.' });
-    //       }
-    //     }
-    //   );
-    // };
-    
-    // deleteWorker = (req: express.Request, res: express.Response) => {
-    //   const agencyId = req.body.agencyId;
-    //   const workerId = req.body.worker._id
-    //   console.log(workerId)
-    //   console.log(agencyId)
-    
-    //   User.findById(agencyId, (err, agency) => {
-    //     if (err) {
-    //       return res.status(500).json({ message: 'Greska prilikom pronalazenja agencije.' });
-    //     }
-    
-    //     if (!agency) {
-    //       return res.status(404).json({ message: 'Agencija nije pronadjena.' });
-    //     }
   
-    //     console.log(agency)
-    //     console.log(JSON.stringify(agency));
-  
-    //     console.log("WORKERS",agency.workers)
-    
-    //     const workerIndex = agency.workers.findIndex((worker) => worker._id.toString() == workerId);
-    
-    //     if (workerIndex === -1) {
-    //       return res.status(404).json({ message: 'Radnik nije pronadjen u agenciji.' });
-    //     }
-    
-    //     agency.workers.splice(workerIndex, 1);
-    
-    //     agency.save((err) => {
-    //       if (err) {
-    //         return res.status(500).json({ message: 'Greska prilikom brisanja radnika.' });
-    //       }
-    
-    //       return res.status(200).json({ message: 'Radnik je uspesno obrisan iz agencije.' });
-    //     });
-    //   });
-    // };
 
     addWorker = async (req: express.Request, res: express.Response) => {
       try {
         const agencyId = req.body.agency._id;
         console.log("AGENCIJA: ", agencyId);
-        const worker = {
+
+        const worker = new Worker({
           firstname: req.body.firstname,
           lastname: req.body.lastname,
           email: req.body.email,
           phone: req.body.phone,
           specialization: req.body.specialization,
-        };
+          agency: new ObjectId(agencyId)
+        }) 
+
+
         console.log("WORKER: ", worker);
-    
-        const user = await User.findById(agencyId);
-        if (!user) {
-          return res.status(404).json({ message: "Agencija nije pronadjena." });
-        }
-    
-        user.agency.workers.push(worker);
-        await user.save();
+
+        const savedWorker = await worker.save();
+
+        console.log("SAVED:",savedWorker)
     
         res.status(200).json({ message: "Radnik uspesno dodat." });
       } catch (err) {
@@ -296,14 +218,12 @@ export class AdminController{
     
     editWorker = async (req: express.Request, res: express.Response) => {
       try {
-        const agencyId = req.body.agencyId;
-        console.log("AGENCY:", agencyId);
         const worker = req.body.worker;
         console.log("WORKER:", worker);
     
-        const result = await User.updateOne(
-          { _id: agencyId, "agency.workers._id": worker._id },
-          { $set: { "agency.workers.$": worker } }
+        const result = await Worker.updateOne(
+          { _id: worker._id },
+          { $set: worker }
         );
     
         if (result.modifiedCount === 0) {
@@ -319,17 +239,12 @@ export class AdminController{
     
     deleteWorker = async (req: express.Request, res: express.Response) => {
       try {
-        const agencyId = req.body.agencyId;
         const workerId = req.body.worker._id;
         console.log(workerId);
-        console.log(agencyId);
     
-        const result = await User.updateOne(
-          { _id: agencyId },
-          { $pull: { "agency.workers": { _id: workerId } } }
-        );
+        const result = await Worker.deleteOne({_id: workerId });
     
-        if (result.modifiedCount === 0) {
+        if (result.deletedCount === 0) {
           return res.status(404).json({ message: "Radnik nije pronadjen u agenciji." });
         }
     
@@ -342,7 +257,21 @@ export class AdminController{
     
     
     
+    getWorkers = async (req: express.Request, res: express.Response) => {
+      try {
+        const agencyId = req.body.agency._id;
+        const convertedAgencyId = new ObjectId(agencyId);
     
+        const workers = await Worker.find({ agency: convertedAgencyId }).exec();
+
+        console.log(workers)
+    
+        res.status(200).json({ workers });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Greska prilikom dohvatanja radnika.' });
+      }
+    };
     
     
     

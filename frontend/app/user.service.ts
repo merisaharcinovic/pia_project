@@ -8,6 +8,18 @@ import { Job, Review } from './models/job';
   providedIn: 'root'
 })
 export class UserService {
+  takeWorkers(job: any) {
+    return this.http.post('http://localhost:4000/job/takeWorkers', {job:job})
+  }
+  checkWorkerAvailability(job: any) {
+    return this.http.post('http://localhost:4000/job/checkWorkerAvailability', {job:job})
+  }
+  updateRoomStatus(job: any, room: any) {
+    return this.http.post('http://localhost:4000/job/updateRoomStatus', {job:job, room:room})
+  }
+  payAndFinish(job: Job) {
+    return this.http.post('http://localhost:4000/job/payAndFinish', {job:job})
+  }
   editReview(job: Job, review: { rating: number; comment: string; }) {
     const data={
       'job':job,

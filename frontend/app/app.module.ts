@@ -19,6 +19,8 @@ import { JobsComponent } from './jobs/jobs.component';
 import { AgencyJobsComponent } from './agency-jobs/agency-jobs.component';
 import { CanvasAddComponent } from './canvas-add/canvas-add.component';
 import { CanvasDisplayComponent } from './canvas-display/canvas-display.component';
+import { CanvasProgressComponent } from './canvas-progress/canvas-progress.component';
+import { CanvasAgencyComponent } from './canvas-agency/canvas-agency.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { CanvasDisplayComponent } from './canvas-display/canvas-display.componen
     AgencyJobsComponent,
     CanvasAddComponent,
     CanvasDisplayComponent,
-    
+    CanvasProgressComponent,
+    CanvasAgencyComponent,
+
   ],
   imports: [
     BrowserModule,

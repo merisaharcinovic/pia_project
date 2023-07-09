@@ -54,4 +54,8 @@ adminRouter.route('/editAgency').post(
     (req,res)=>new AdminController().editAgency(req,res)
 )
 
+adminRouter.route('/getWorkers').post(
+    (req,res)=>new AdminController().getWorkers(req,res)
+)
+
 export default adminRouter;

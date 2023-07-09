@@ -20,7 +20,6 @@ export class User {
     };
     PIB: string;
     description: string;
-    workers: Worker[];
 
   };
   profilePicture: string;
@@ -48,12 +47,4 @@ export class RoomSketch {
 
 }
 
-export class Worker {
-  _id:string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  phone: string;
-  specialization: string;
-  editMode:boolean = false;
-}
+

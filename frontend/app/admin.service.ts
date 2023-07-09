@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
 import { RegistrationRequest } from './models/registrationRequest';
-import { User, Worker } from './models/user';
+import { User } from './models/user';
+import {Worker} from './models/worker'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
+  getWorkers(agency: User) {
+    return this.http.post('http://localhost:4000/admin/getWorkers', {agency:agency})
+  }
   editAgency(agency: any) {
     return this.http.post('http://localhost:4000/admin/editAgency', {agency:agency})
   }
@@ -14,9 +18,8 @@ export class AdminService {
   editClient(client: any) {
     return this.http.post('http://localhost:4000/admin/editClient', {client:client})
   }
-  editWorker(agencyId: string, worker: Worker) {
+  editWorker(worker: Worker) {
     const data={
-      'agencyId':agencyId,
       'worker':worker
     }
     return this.http.post('http://localhost:4000/admin/editWorker', data)
@@ -52,8 +55,8 @@ export class AdminService {
     return this.http.post('http://localhost:4000/admin/deleteUser', {'username':username})
   }
 
-  deleteWorker(agencyId:string, worker: any) {
-    return this.http.post('http://localhost:4000/admin/deleteWorker', {'agencyId':agencyId, 'worker':worker})
+  deleteWorker(worker: any) {
+    return this.http.post('http://localhost:4000/admin/deleteWorker', {'worker':worker})
   }
   acceptRequest(toAccept: RegistrationRequest) {
     return this.http.post('http://localhost:4000/admin/acceptRequest',toAccept)

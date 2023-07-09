@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { ClientObject, User } from '../models/user';
 import { retryWhen } from 'rxjs';
+import { ObjectService } from '../object.service';
 
 @Component({
   selector: 'app-agency-details',
@@ -11,7 +12,7 @@ import { retryWhen } from 'rxjs';
 })
 export class AgencyDetailsComponent implements OnInit {
 
-  constructor(private router:Router, private userService:UserService) { }
+  constructor(private router:Router, private userService:UserService, private objectService:ObjectService) { }
 
   agency:User
   showRequestForm:boolean=false;
@@ -36,6 +37,10 @@ export class AgencyDetailsComponent implements OnInit {
     if(this.user.username) {
       this.isLoggedIn=true;
       console.log(this.user)
+      this.objectService.getObjects(this.user._id).subscribe((response: any) => {
+        this.user.client.objects = response.objects;
+        this.user.client.objects = response.objects.map(obj => ({ ...obj, editMode: false, showSketch:false }));
+    });
     }
     else this.isLoggedIn=false;
   }
@@ -52,7 +57,7 @@ export class AgencyDetailsComponent implements OnInit {
       this.reqMessage="Morate uneti sva polja."
       return
     }
-    console.log(this.selectedObject);
+    console.log(this.selectedObjectId);
 
     const request = {
       agency:this.agency._id,

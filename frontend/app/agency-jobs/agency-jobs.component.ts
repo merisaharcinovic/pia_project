@@ -11,8 +11,35 @@ import { CollaborationRequest } from '../models/collaborationRequest';
 export class AgencyJobsComponent implements OnInit {
 
 
+  checkWorkerAvailability(job:any): boolean {
+    this.userService.checkWorkerAvailability(job).subscribe((response) => {
+      if (response['numAvailable']) {
+        let numAvailableWorkers= response['numAvailable'];
+        if(numAvailableWorkers<job.numWorkers) return false;
+        else return true;
+      } else {
+        console.log(response['message']);
+        return false;
+      }
+    });
+    return false;
+  }
+
+  updateRoomStatus(job: any,room: any) {
+    this.userService.updateRoomStatus(job, room).subscribe((response) => {
+      if (response['message']=='Status sobe je uspesno azuriran.') {
+        console.log(response['message'])
+        this.getJobs();
+      } else {
+        console.log(response['message']);
+      }
+    });
+  }
 
 
+  toggleSketch(job: any) {
+    job.showSketch=!job.showSketch;
+  }
   constructor(private userService:UserService) { }
 
   requests: any;
@@ -28,12 +55,20 @@ export class AgencyJobsComponent implements OnInit {
   }
 
   assignWorkers(job: any) {
-    
-
     this.userService.assignWorkers(job._id, this.numWorkers).subscribe((response) => {
       if (response['message']=='Uspesno dodeljen broj radnika.') {
         console.log(response['message'])
         this.getJobs();
+
+        job.hasEnoughWorkers = this.checkWorkerAvailability(job);
+
+        if(job.hasEnoughWorkers){
+          this.userService.takeWorkers(job).subscribe((response) => {
+            console.log(response['message']);
+          });
+
+        }
+
       } else {
         console.log(response['message']);
       }
@@ -44,6 +79,8 @@ export class AgencyJobsComponent implements OnInit {
     this.userService.getJobsForAgency(this.loggedUser._id).subscribe((response) => {
       if (response['jobs']) {
         this.jobs = response['jobs'];
+        this.jobs = response['jobs'].map(obj => ({ ...obj, showSketch:false, hasEnoughWorkers:false }));
+
         console.log("JOBS:", this.jobs)
 
       } else if (response['message']) {

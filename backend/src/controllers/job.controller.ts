@@ -3,6 +3,15 @@ import Job from "../models/job";
 import User from "../models/user";
 import mongoose from "mongoose";
 
+interface Worker {
+    firstname: string;
+    lastname: string;
+    email: string;
+    phone: string;
+    specialization: string;
+    available?: boolean;
+  }
+
 export class JobController {
 
     getJobs = async (req: express.Request, res: express.Response) => {
@@ -29,7 +38,7 @@ export class JobController {
               object: job.object,
               numWorkers: job.numWorkers,
               price: job.price,
-              deadline: job.deadline.toISOString().slice(0, 10),
+              deadline: job.deadline,
               status: job.status,
               review: job.review
             };
@@ -44,6 +53,8 @@ export class JobController {
       
             result.client = client;
             result.agency = agency;
+
+            console.log("JOB AGENCY",result.agency)
       
             resultArray.push(result);
           }
@@ -78,7 +89,7 @@ export class JobController {
                 object: job.object,
                 numWorkers: job.numWorkers,
                 price:job.price,
-                deadline: job.deadline.toISOString().slice(0, 10),
+                deadline: job.deadline,
                 status: job.status,
                 review: job.review
                 };
@@ -96,6 +107,9 @@ export class JobController {
                 if (client) {
                     result.client = client;
                 }
+
+                console.log("JOB AGENCY",result.agency)
+
         
                 resultArray.push(result);
             }
@@ -129,7 +143,7 @@ export class JobController {
               object: job.object,
               numWorkers: job.numWorkers,
               price: job.price,
-              deadline: job.deadline.toISOString().slice(0, 10),
+              deadline: job.deadline,
               status: job.status,
             };
       
@@ -141,6 +155,9 @@ export class JobController {
             }
       
             result.agency = await User.findById(agencyId).exec();
+
+            console.log("JOB AGENCY",result.agency)
+
       
             resultArray.push(result);
           }
@@ -231,6 +248,120 @@ export class JobController {
             return res.status(500).json({ message: 'Greska prilikom brisanja ocene', error });
         }
     }
-    
 
+    payAndFinish = async (req: express.Request, res: express.Response) => {
+        try {
+            const { job } = req.body;
+        
+            const updatedJob = await Job.findOneAndUpdate(
+              { _id: job },
+              { $set: { status: 'zavrsen' } },
+              { new: true }
+            );
+        
+            if (!updatedJob) {
+              return res.status(404).json({ message: 'Posao nije pronadjen.' });
+            }
+        
+            return res.status(200).json({ message: 'Posao placen i zavrsen.' });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: 'Greska prilikom placanja i zavrsetka posla.' });
+        }
+    };
+
+    updateRoomStatus = (req: express.Request, res: express.Response) => {
+        const { job, room } = req.body;
+
+        Job.findById(job._id)
+            .then((foundJob) => {
+            
+            const targetRoom = foundJob.object.sketch.find((r) => r._id.toString() == room._id);
+
+            if (targetRoom) {
+                
+                targetRoom.status = room.status;
+
+                foundJob.save()
+                .then(() => {
+                    res.status(200).json({ message: 'Status sobe je uspesno azuriran.' });
+                })
+                .catch((error) => {
+                    res.status(500).json({ error: 'Greska prilikom cuvanja promena u bazi podataka.' });
+                });
+            } else {
+                res.status(404).json({ error: 'Soba nije pronadjena.' });
+            }
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Greska prilikom pronalazenja posla u bazi podataka.' });
+            });
+    }
+
+
+    checkWorkerAvailability = (req: express.Request, res: express.Response) => {
+        const job = req.body.job
+        const jobId = job._id;
+
+        const agencyId = req.body.job.agency;
+      
+        User.findById(agencyId, (err, agency) => {
+          if (err) {
+            return res.status(500).json({ message: 'Greska pri pretrazi agencije.' });
+          }
+      
+          if (!agency) {
+            return res.status(404).json({ message: 'Agencija nije pronadjena.' });
+          }
+          const numAvailable=0;
+          
+          const response = {
+            job: job,
+            numAvailable: numAvailable
+          };
+      
+          return res.status(200).json(response);
+        });
+    };
+      
+      
+    takeWorkers = (req: express.Request, res: express.Response) => {
+        console.log("TAKE WORKERS")
+        const job = req.body.job;
+        const numWorkers = req.body.numWorkers;
+
+        console.log(job,numWorkers)
+
+      
+        User.findById(job.agency, (err, agency) => {
+          if (err) {
+            return res.status(500).json({ message: 'Greska u pretrazi agencije.' });
+          }
+      
+          if (!agency) {
+            return res.status(404).json({ message: 'Agencija nije pronadjena.' });
+          }
+      
+          const availableWorkers = agency.workers.filter(worker => worker.available === true);
+      
+          if (availableWorkers.length < numWorkers) {
+            return res.status(400).json({ message: 'Nema dovoljno slobodnih radnika u agenciji.' });
+          }
+      
+          const selectedWorkers = availableWorkers.slice(0, numWorkers);
+          selectedWorkers.forEach(worker => {
+            worker.available = false;
+          });
+      
+          agency.save((err, updatedAgency) => {
+            if (err) {
+              return res.status(500).json({ message: 'Greska pri azuriranju agencije.' });
+            }
+      
+            return res.status(200).json({ message: 'Radnici dodeljeni poslu.'});
+          });
+        });
+      };
+      
+    
 };

@@ -145,7 +145,6 @@ export class UserController{
           if (err) {
             res.status(500).json({ 'message': 'Greska pri azuriranju profila' });
           } else {
-            // Vratite ažurirane podatke profila kao deo odgovora
             res.status(200).json({
               'message': 'Uspesno azuriran profil',
               'updatedProfile': updatedProfile

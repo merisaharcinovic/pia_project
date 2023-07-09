@@ -26,14 +26,6 @@ export const ClientObjectSchema = new Schema({
   sketch: { type: [RoomSketchSchema] },
 });
 
-export const WorkerSchema = new Schema({
-  _id: { type: Schema.Types.ObjectId, auto: true },
-  firstname: { type: String, required: true },
-  lastname: { type: String, required: true },
-  email: { type: String, required: true },
-  phone: { type: String, required: true },
-  specialization: { type: String, required: true },
-});
 
 const UserSchema = new Schema({
   username: { type: String },
@@ -62,8 +54,6 @@ const UserSchema = new Schema({
       },
       PIB: { type: String },
       description: { type: String },
-      workers: [{ type: WorkerSchema }],
-      
     },
     default: null,
   },

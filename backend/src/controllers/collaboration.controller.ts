@@ -8,14 +8,19 @@ export class CollaborationController {
   requestCollaboration = (req: express.Request, res: express.Response) => {
     const request = req.body.request;
 
+    console.log(request)
+
     const newRequest = new CollaborationRequest({
       agency: request.agency,
       client: request.client,
       object: request.object,
-      deadline: request.deadline.toISOString().slice(0, 10),
+      deadline: request.deadline,
       status: request.status,
       price: request.price
     });
+
+    console.log(newRequest)
+
 
     newRequest.save((err, savedRequest) => {
       if (err) {
@@ -50,7 +55,7 @@ export class CollaborationController {
           _id: request._id,
           client: null,
           object: null,
-          deadline: request.deadline.toISOString().slice(0, 10),
+          deadline: request.deadline,
           status: request.status,
           price: request.price
         };
@@ -106,7 +111,7 @@ export class CollaborationController {
           client: null,
           agency: null,
           object: null,
-          deadline: request.deadline.toISOString().slice(0, 10),
+          deadline: request.deadline,
           status: request.status,
           price: request.price
         };

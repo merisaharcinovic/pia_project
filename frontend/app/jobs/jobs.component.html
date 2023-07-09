@@ -76,6 +76,7 @@
           <th>Rok za završetak</th>
           <th>Status</th>
           <th>Cena</th>
+          <th>Akcije</th>
         </tr>
       </thead>
       <tbody>
@@ -88,15 +89,22 @@
             </td>
             <td>{{ job.deadline }}</td>
             <td>{{ job.status }}</td>
-            <td >{{ job.price }}</td>
-            <td *ngIf="areAllRoomsCompleted(job.object.sketch)">
-              <button (click)="pay(job)">Plati</button>
+            <td>{{ job.price }}</td>
+            <td >
+              <button *ngIf="areAllRoomsCompleted(job.object.sketch)" (click)="pay(job)">Plati</button>
+              <button (click)="toggleSketch(job)">Skica</button>
+            </td>
+          </tr>
+          <tr *ngIf="job.showSketch">
+            <td colspan="6">
+              <app-canvas-progress [sketch]="job.object.sketch"></app-canvas-progress>
             </td>
           </tr>
         </ng-container>
       </tbody>
     </table>
   </div>
+
 
   <div *ngIf="showRequests">
     <h3>Zahtevi za saradnjom</h3>

@@ -167,7 +167,7 @@
         <input type="text" [(ngModel)]="agency.phone" *ngIf="agency.editMode">
       </td>
       <td>
-        <button (click)="selectedAgency=agency">Prikazi radnike</button>
+        <button (click)="selectAgency(agency)">Prikazi radnike</button>
         <button (click)="agency.editMode=!agency.editMode" *ngIf="!agency.editMode">Izmeni</button>
         <button (click)="agency.editMode=!agency.editMode" *ngIf="agency.editMode">Otkazi</button>
         <button (click)="saveChangesAgency(agency)" *ngIf="agency.editMode">Sacuvaj izmene</button>
@@ -181,7 +181,7 @@
 
 <div *ngIf="selectedAgency">
   <h2>Radnici - {{ selectedAgency.agency.name }}</h2>
-  <table *ngIf="selectedAgency.agency.workers && selectedAgency.agency.workers.length > 0">
+  <table *ngIf="selectedAgencyWorkers && selectedAgencyWorkers.length > 0">
     <thead>
       <tr>
         <th>Ime</th>
@@ -194,7 +194,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let worker of selectedAgency.agency.workers">
+      <tr *ngFor="let worker of selectedAgencyWorkers">
         <td *ngIf="!worker.editMode">{{ worker.firstname }}</td>
         <td *ngIf="worker.editMode"><input type="text" [(ngModel)]="worker.firstname"></td>
         <td *ngIf="!worker.editMode">{{ worker.lastname }}</td>
