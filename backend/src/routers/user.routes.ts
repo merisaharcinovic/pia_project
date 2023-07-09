@@ -21,9 +21,6 @@ userRouter.route('/allAgencies').get(
     (req,res)=>new UserController().allAgencies(req,res)
 )
 
-userRouter.route('/searchAgencies').get(
-    (req, res) => new UserController().searchAgencies(req, res)
-)
 
 userRouter.route('/getAgency').post(
     (req, res) => new UserController().getAgency(req, res)

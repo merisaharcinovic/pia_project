@@ -21,4 +21,19 @@ jobRouter.route('/assignWorkers').post(
     (req, res) => new JobController().assignWorkers(req, res)
 
 )
+
+jobRouter.route('/addReview').post(
+    (req, res) => new JobController().addReview(req, res)
+
+)
+
+jobRouter.route('/editReview').post(
+    (req, res) => new JobController().editReview(req, res)
+
+)
+
+jobRouter.route('/deleteReview').post(
+    (req, res) => new JobController().deleteReview(req, res)
+
+)
 export default jobRouter;

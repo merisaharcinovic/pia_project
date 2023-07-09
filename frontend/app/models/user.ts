@@ -21,12 +21,13 @@ export class User {
     PIB: string;
     description: string;
     workers: Worker[];
+
   };
   profilePicture: string;
 }
 
 export class ClientObject {
-  _id: string;
+  _id?: string;
   objectType: string;
   address: string;
   numRooms: number;
@@ -43,6 +44,8 @@ export class RoomSketch {
     x: number;
     y: number;
   };
+  status: string;
+
 }
 
 export class Worker {

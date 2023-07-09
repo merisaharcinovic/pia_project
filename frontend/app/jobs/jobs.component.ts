@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CollaborationRequest } from '../models/collaborationRequest';
-import { User } from '../models/user';
+import { RoomSketch, User } from '../models/user';
 import { UserService } from '../user.service';
-import { Job } from '../models/job';
+import { Job, Review } from '../models/job';
 
 @Component({
   selector: 'app-jobs',
@@ -10,6 +10,10 @@ import { Job } from '../models/job';
   styleUrls: ['./jobs.component.css']
 })
 export class JobsComponent implements OnInit {
+
+
+
+
   constructor(private userService:UserService) { }
 
   requests: CollaborationRequest[] = [];
@@ -20,6 +24,11 @@ export class JobsComponent implements OnInit {
   showFinished: boolean=true;
   showActive: boolean=true;
   showRequests: boolean=true;
+
+  showReviewForm: boolean;
+  reviewRating: number;
+  reviewComment: string;
+  showEditForm: boolean;
 
   ngOnInit(): void {
     this.loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
@@ -80,6 +89,74 @@ export class JobsComponent implements OnInit {
 
     }
   );
+  }
+
+
+  areAllRoomsCompleted(sketch: RoomSketch[]): boolean {
+    for (const room of sketch) {
+      if (room.status !== 'zavrseno') {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  pay(job: Job) {
+  }
+
+  addReview(job: Job) {
+    const review: Review = {
+      rating: this.reviewRating,
+      comment: this.reviewComment
+    };
+
+    this.userService.addReview(job, review).subscribe((response) => {
+      if (response['message'] === 'Ocena je uspesno dodata.') {
+        job.review = review;
+        this.getJobs();
+        this.reviewComment = null;
+        this.reviewRating = null;
+        this.showReviewForm = false;
+      } else {
+        console.log(response['message']);
+      }
+    });
+  }
+
+  editReview(job: Job) {
+    const review: Review = {
+      rating: this.reviewRating,
+      comment: this.reviewComment
+    };
+
+    this.userService.editReview(job, review).subscribe((response) => {
+      if (response['message'] === 'Ocena je uspesno izmenjena.') {
+        job.review = review;
+        this.getJobs();
+        this.reviewRating = null;
+        this.reviewComment = null;
+        this.showEditForm = false;
+      } else {
+        console.log(response['message']);
+      }
+    });
+  }
+
+  deleteReview(job: Job) {
+    this.userService.deleteReview(job).subscribe((response) => {
+      if (response['message'] === 'Ocena je uspesno obrisana.') {
+        job.review = null;
+        this.getJobs();
+      } else {
+        console.log(response['message']);
+      }
+    });
+  }
+
+  cancelReview() {
+    this.reviewComment = null;
+    this.reviewRating = null;
+    this.showReviewForm = false;
   }
 
 }

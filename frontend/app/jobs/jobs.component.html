@@ -14,9 +14,57 @@
   <div *ngIf="showFinished">
     <h3>Zavrseni poslovi</h3>
     <table>
+      <thead>
+        <tr>
+          <th>Agencija</th>
+          <th>Objekat</th>
+          <th>Rok za zavrsetak</th>
+          <th>Status</th>
+          <th>Cena</th>
+          <th>Ocena</th>
+          <th>Komentar</th>
+          <th>Akcije</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let job of jobs">
+          <tr *ngIf="job.status === 'zavrsen'">
+            <td>{{ job.agency.agency.name }}</td>
+            <td>
+              {{ job.object.objectType }}, {{ job.object.address }} <br>
+              Broj soba: {{ job.object.numRooms }}, Povrsina: {{ job.object.area }}
+            </td>
+            <td>{{ job.deadline }}</td>
+            <td>{{ job.status }}</td>
+            <td>{{ job.price }}</td>
 
+            <td>{{ job.review?.rating }}</td>
+            <td >{{ job.review?.comment }}</td>
+
+            <td>
+              <button *ngIf="!showReviewForm && !job.review" (click)="showReviewForm = true">Dodaj ocenu</button>
+              <div *ngIf="showReviewForm">
+                <input type="number" [(ngModel)]="reviewRating" placeholder="Ocena">
+                <input type="text" [(ngModel)]="reviewComment" placeholder="Komentar">
+                <button (click)="addReview(job)">Sacuvaj ocenu</button>
+                <button (click)="cancelReview()">Odustani</button>
+              </div>
+              <button *ngIf="job.review && !showEditForm" (click)="showEditForm=true">Izmeni ocenu</button>
+              <div *ngIf="showEditForm">
+                <input type="number" [(ngModel)]="reviewRating" placeholder="Ocena">
+                <input type="text" [(ngModel)]="reviewComment" placeholder="Komentar">
+                <button (click)="editReview(job)">Sacuvaj ocenu</button>
+                <button (click)="showEditForm=false">Odustani</button>
+              </div>
+              <button *ngIf="job.review && !showEditForm" (click)="deleteReview(job)">Obriši ocenu</button>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
     </table>
   </div>
+
+
 
   <div *ngIf="showActive">
     <h3>Trenutno aktivni poslovi</h3>
@@ -32,7 +80,7 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let job of jobs">
-          <tr>
+          <tr *ngIf="job.status=='aktivan'">
             <td>{{ job.agency.agency.name }}</td>
             <td>
               {{ job.object.objectType }}, {{ job.object.address }} <br>
@@ -41,6 +89,9 @@
             <td>{{ job.deadline }}</td>
             <td>{{ job.status }}</td>
             <td >{{ job.price }}</td>
+            <td *ngIf="areAllRoomsCompleted(job.object.sketch)">
+              <button (click)="pay(job)">Plati</button>
+            </td>
           </tr>
         </ng-container>
       </tbody>

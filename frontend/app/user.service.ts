@@ -2,11 +2,34 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
 import { User } from './models/user';
 import { CollaborationRequest } from './models/collaborationRequest';
+import { Job, Review } from './models/job';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  editReview(job: Job, review: { rating: number; comment: string; }) {
+    const data={
+      'job':job,
+      'review':review
+    }
+
+    return this.http.post('http://localhost:4000/job/editReview', data)
+  }
+  deleteReview(job: Job) {
+    return this.http.post('http://localhost:4000/job/deleteReview', {job:job})
+  }
+  addReview(job: Job, review: Review) {
+    const data={
+      'job':job,
+      'review':review
+    }
+
+    return this.http.post('http://localhost:4000/job/addReview', data)
+
+  }
+
+
   assignWorkers(id: string, numWorkers: number) {
     const data={
       'id':id,
@@ -82,19 +105,6 @@ export class UserService {
     return this.http.get('http://localhost:4000/users/allAgencies')
   }
 
-  searchAgencies(searchParam, searchByAddress:boolean, searchByName:boolean){
-    let url = `http://localhost:4000/users/searchAgencies/?param=${searchParam}`;
-
-    if (searchByAddress && searchByName) {
-      url += '&address=true&name=true';
-    } else if (searchByAddress) {
-      url += '&address=true';
-    } else if (searchByName) {
-      url += '&name=true';
-    }
-
-  return this.http.get(url);
-  }
 
   updateProfile(username: string,
     updatedProfile :{firstname: string,lastname: string,email: string,phone: string,profilePicture:string}) {

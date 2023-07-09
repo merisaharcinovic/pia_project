@@ -17,6 +17,8 @@ import { ObjectsComponent } from './objects/objects.component';
 import { AgencyDetailsComponent } from './agency-details/agency-details.component';
 import { JobsComponent } from './jobs/jobs.component';
 import { AgencyJobsComponent } from './agency-jobs/agency-jobs.component';
+import { CanvasAddComponent } from './canvas-add/canvas-add.component';
+import { CanvasDisplayComponent } from './canvas-display/canvas-display.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { AgencyJobsComponent } from './agency-jobs/agency-jobs.component';
     AgencyDetailsComponent,
     JobsComponent,
     AgencyJobsComponent,
+    CanvasAddComponent,
+    CanvasDisplayComponent,
     
   ],
   imports: [

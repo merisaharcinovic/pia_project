@@ -16,9 +16,12 @@ export class JobController {
           }
       
           const resultArray = [];
+
+          console.log(jobCount)
       
           for (let i = 0; i < jobs.length; i++) {
             const job = jobs[i];
+            console.log("JOB:", job)
             const result = {
               _id: job._id,
               client: null,
@@ -28,6 +31,7 @@ export class JobController {
               price: job.price,
               deadline: job.deadline.toISOString().slice(0, 10),
               status: job.status,
+              review: job.review
             };
       
             const clientId = job.client;
@@ -76,20 +80,21 @@ export class JobController {
                 price:job.price,
                 deadline: job.deadline.toISOString().slice(0, 10),
                 status: job.status,
+                review: job.review
                 };
         
                 const agencyId = job.agency;
         
                 const agency = await User.findById(agencyId).exec();
                 if (agency) {
-                result.agency = agency;
+                    result.agency = agency;
                 }
         
                 const clientId = job.client;
         
                 const client = await User.findById(clientId).exec();
                 if (client) {
-                result.client = client;
+                    result.client = client;
                 }
         
                 resultArray.push(result);
@@ -165,4 +170,67 @@ export class JobController {
             }
         });
     }
+
+    addReview = async (req: express.Request, res: express.Response) => {
+        const { job, review } = req.body;
+      
+        try {
+          const updatedJob = await Job.findByIdAndUpdate(
+            job._id,
+            { review: review },
+            { new: true }
+          );
+          console.log(updatedJob)
+      
+          if (!updatedJob) {
+            return res.status(404).json({ message: "Posao nije pronadjen" });
+          }
+      
+          return res.status(200).json({ message: "Ocena je uspesno dodata.", job: updatedJob });
+        } catch (error) {
+          return res.status(500).json({ message: "Greska prilikom dodavanja ocene", error });
+        }
+    };
+
+    editReview = async (req: express.Request, res: express.Response) => {
+        const { job, review } = req.body;
+
+        try {
+          const updatedJob = await Job.findByIdAndUpdate(
+            job._id,
+            { review: review },
+            { new: true }
+          );
+      
+          if (!updatedJob) {
+            return res.status(404).json({ message: 'Posao nije pronadjen' });
+          }
+      
+          return res.status(200).json({ message: 'Ocena je uspesno izmenjena.', job: updatedJob });
+        } catch (error) {
+          return res.status(500).json({ message: 'Greska prilikom izmene ocene', error });
+        }
+      
+    }
+    deleteReview = async (req: express.Request, res: express.Response) => {
+        const { job } = req.body;
+
+        try {
+            const updatedJob= await Job.findByIdAndUpdate(
+            job._id,
+            { review: null },
+            { new: true }
+            );
+
+            if (!updatedJob) {
+                return res.status(404).json({ message: 'Posao nije pronadjen' });
+            }
+
+            return res.status(200).json({ message: 'Ocena je uspesno obrisana.', job: updatedJob });
+        } catch (error) {
+            return res.status(500).json({ message: 'Greska prilikom brisanja ocene', error });
+        }
+    }
+    
+
 };

@@ -62,7 +62,8 @@ const UserSchema = new Schema({
       },
       PIB: { type: String },
       description: { type: String },
-      workers: [{ type: WorkerSchema }]
+      workers: [{ type: WorkerSchema }],
+      
     },
     default: null,
   },

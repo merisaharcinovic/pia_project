@@ -11,8 +11,6 @@ import { retryWhen } from 'rxjs';
 })
 export class AgencyDetailsComponent implements OnInit {
 
-
-
   constructor(private router:Router, private userService:UserService) { }
 
   agency:User
@@ -26,6 +24,7 @@ export class AgencyDetailsComponent implements OnInit {
 
 
   ngOnInit() {
+    this.isLoggedIn=false;
     const currentUrl = this.router.url;
     const segments = currentUrl.split('/');
     const agencyId = segments[segments.length - 1];
@@ -34,7 +33,11 @@ export class AgencyDetailsComponent implements OnInit {
     this.getAgency(agencyId)
 
     this.user = JSON.parse(localStorage.getItem('loggedUser') || '{}');
-    this.isLoggedIn = !!this.user;
+    if(this.user.username) {
+      this.isLoggedIn=true;
+      console.log(this.user)
+    }
+    else this.isLoggedIn=false;
   }
 
   getAgency(agencyId:string) {

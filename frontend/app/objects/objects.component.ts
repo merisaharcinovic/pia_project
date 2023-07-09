@@ -8,29 +8,43 @@ import { ClientObject } from '../models/user';
   styleUrls: ['./objects.component.css']
 })
 export class ObjectsComponent implements OnInit {
-  addMessage: string="";
 
+  selectedObjectSketch: any;
+
+  toggleSketch(object: any) {
+    object.showSketch=!object.showSketch;
+  }
+
+  addMessage: string="";
 
   constructor(private objectService:ObjectService) { }
 
   objects: ClientObject[];
   objectsEdit:any
 
+
   displayForm: boolean = false;
-  option: string = '';
+  option: string;
   selectedFile: File;
 
   ngOnInit(): void {
     this.loadObjects();
+    this.option='';
+  }
+
+  setOption(str: string) {
+    this.option=str;
+    console.log(this.option);
 
   }
+
 
   loadObjects() {
     const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
     const loggedUserId = loggedUser._id;
     this.objectService.getObjects(loggedUserId).subscribe((response: any) => {
         this.objects = response.objects;
-        this.objectsEdit = response.objects.map(obj => ({ ...obj, editMode: false }));
+        this.objectsEdit = response.objects.map(obj => ({ ...obj, editMode: false, showSketch:false }));
     });
 
 }
@@ -124,8 +138,8 @@ export class ObjectsComponent implements OnInit {
     }
   }
 
-  addObject() {
-  }
+
+
 
   validateObject(objectToAdd: any): boolean {
     console.log(!objectToAdd.objectType,

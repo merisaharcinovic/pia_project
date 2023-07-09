@@ -109,55 +109,7 @@ export class UserController{
         })
     }
 
-    searchAgencies = (req: express.Request, res: express.Response) => {
-      let searchParam = req.query.param;
-      let searchByAddress = req.query.searchByAddress === 'true';
-      let searchByName = req.query.searchByName === 'true';
-    
-      let query: any = {
-        role: 'agency'
-      };
-    
-      if (searchByAddress && searchByName) {
-        query.$or = [
-          { 'agency.name': { $regex: searchParam, $options: 'i' } },
-          {
-            'agency.address': {
-              $elemMatch: {
-                $or: [
-                  { country: { $regex: searchParam, $options: 'i' } },
-                  { city: { $regex: searchParam, $options: 'i' } },
-                  { street: { $regex: searchParam, $options: 'i' } },
-                  { number: { $regex: searchParam, $options: 'i' } }
-                ]
-              }
-            }
-          }
-        ];
-      } else if (searchByAddress) {
-        query['agency.address'] = {
-          $elemMatch: {
-            $or: [
-              { country: { $regex: searchParam, $options: 'i' } },
-              { city: { $regex: searchParam, $options: 'i' } },
-              { street: { $regex: searchParam, $options: 'i' } },
-              { number: { $regex: searchParam, $options: 'i' } }
-            ]
-          }
-        };
-      } else if (searchByName) {
-        query['agency.name'] = { $regex: searchParam, $options: 'i' };
-      }
-    
-      User.find(query, (err, agencies) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).json({ message: 'Error searching agencies' });
-        }
-    
-        res.json(agencies);
-      });
-    };
+  
 
     getAgency = (req: express.Request, res: express.Response) => {
       let id= req.body.id
