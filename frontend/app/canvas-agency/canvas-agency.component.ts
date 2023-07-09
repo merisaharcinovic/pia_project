@@ -11,6 +11,8 @@ export class CanvasAgencyComponent{
 
   @ViewChild('canvasContainer', { static: false }) canvasContainer: ElementRef;
   @Input() sketch: any;
+  @Input() hasEnoughWorkers: boolean;
+
 
   ngAfterViewInit() {
     this.renderSketch();
@@ -29,13 +31,26 @@ export class CanvasAgencyComponent{
 
     console.log(this.sketch);
 
-
     this.sketch.forEach((room) => {
+      let color = 'white';
+
+      if (this.hasEnoughWorkers) {
+        if (room.status === 'radi se') {
+          color = 'red';
+        } else if (room.status === 'zavrseno') {
+          color = 'green';
+        }
+
+      } else {
+        color = 'yellow';
+      }
+
       const rect = new Konva.Rect({
         x: room.x,
         y: room.y,
         width: room.width,
         height: room.height,
+        fill: color,
         stroke: 'black',
         strokeWidth: 1,
       });
@@ -47,7 +62,4 @@ export class CanvasAgencyComponent{
     layer.draw();
   }
 
-
-
 }
-

@@ -40,9 +40,9 @@
 
         <tr *ngIf="job.status==='aktivan' && job.showSketch">
           <td colspan="5">
-            <app-canvas-agency [sketch]="job.object.sketch"></app-canvas-agency>
+            <app-canvas-agency [sketch]="job.object.sketch" [hasEnoughWorkers]="job.hasEnoughWorkers"></app-canvas-agency>
           </td>
-          <td colspan="2" *ngIf="job.hasEnoughAvailable">
+          <td colspan="2" *ngIf="job.hasEnoughWorkers">
             <ng-container *ngFor="let room of job.object.sketch; let i = index">
               <label for="roomStatus{{i}}">Status sobe {{i}}:</label>
               <select id="roomStatus{{i}}" [(ngModel)]="room.status" (change)="updateRoomStatus(job, room)">

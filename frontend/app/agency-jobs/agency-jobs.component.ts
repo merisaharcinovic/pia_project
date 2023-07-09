@@ -11,20 +11,6 @@ import { CollaborationRequest } from '../models/collaborationRequest';
 export class AgencyJobsComponent implements OnInit {
 
 
-  checkWorkerAvailability(job:any): boolean {
-    this.userService.checkWorkerAvailability(job).subscribe((response) => {
-      if (response['numAvailable']) {
-        let numAvailableWorkers= response['numAvailable'];
-        if(numAvailableWorkers<job.numWorkers) return false;
-        else return true;
-      } else {
-        console.log(response['message']);
-        return false;
-      }
-    });
-    return false;
-  }
-
   updateRoomStatus(job: any,room: any) {
     this.userService.updateRoomStatus(job, room).subscribe((response) => {
       if (response['message']=='Status sobe je uspesno azuriran.') {
@@ -52,37 +38,56 @@ export class AgencyJobsComponent implements OnInit {
     this.loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
     this.getCollaborationRequests();
     this.getJobs();
+
   }
 
-  assignWorkers(job: any) {
-    this.userService.assignWorkers(job._id, this.numWorkers).subscribe((response) => {
-      if (response['message']=='Uspesno dodeljen broj radnika.') {
-        console.log(response['message'])
-        this.getJobs();
+  checkAllJobsWorkers() {
+    for (let i = 0; i < this.jobs.length; i++) {
+      const job = this.jobs[i];
+      if(job.status!='aktivan' || job.numWorkers==0) continue;
+      this.checkWorkerAvailability(job);
+    }
+  }
 
-        job.hasEnoughWorkers = this.checkWorkerAvailability(job);
+  checkWorkerAvailability(job) {
+    this.userService.checkWorkerAvailability(job).subscribe((response) => {
+      if (response['numAvailable'] != null) {
+        let numAvailableWorkers = response['numAvailable'];
 
-        if(job.hasEnoughWorkers){
-          this.userService.takeWorkers(job).subscribe((response) => {
-            console.log(response['message']);
-          });
-
+        if (numAvailableWorkers >= job.numWorkers) {
+          job.hasEnoughWorkers = true;
+          console.log('Agencija ima dovoljno radnika za početak posla.', job);
+        } else {
+          job.hasEnoughWorkers = false;
+          console.log('Agencija nema dovoljno radnika za početak posla.', job);
         }
-
       } else {
         console.log(response['message']);
+        job.hasEnoughWorkers = false;
       }
     });
   }
 
-  getJobs(){
+  assignWorkers(job: any) {
+    this.userService.assignWorkers(job._id, this.numWorkers).subscribe((response) => {
+      if (response['message'] == 'Uspesno dodeljen broj radnika.') {
+        console.log(response['message']);
+        job.numWorkers = this.numWorkers;
+
+        this.checkWorkerAvailability(job);
+      }
+    });
+  }
+
+
+  getJobs() {
     this.userService.getJobsForAgency(this.loggedUser._id).subscribe((response) => {
       if (response['jobs']) {
         this.jobs = response['jobs'];
-        this.jobs = response['jobs'].map(obj => ({ ...obj, showSketch:false, hasEnoughWorkers:false }));
+        this.jobs = response['jobs'].map(obj => ({ ...obj, showSketch: false, hasEnoughWorkers: false }));
 
         console.log("JOBS:", this.jobs)
-
+        this.checkAllJobsWorkers();
       } else if (response['message']) {
         console.log(response['message']);
       }
@@ -139,11 +144,5 @@ export class AgencyJobsComponent implements OnInit {
 
     );
   }
-
-
-
-
-
-
 
 }

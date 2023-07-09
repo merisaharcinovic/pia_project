@@ -1,16 +1,11 @@
 import * as express from "express";
 import Job from "../models/job";
 import User from "../models/user";
+import Worker from "../models/worker";
+
 import mongoose from "mongoose";
 
-interface Worker {
-    firstname: string;
-    lastname: string;
-    email: string;
-    phone: string;
-    specialization: string;
-    available?: boolean;
-  }
+
 
 export class JobController {
 
@@ -54,7 +49,6 @@ export class JobController {
             result.client = client;
             result.agency = agency;
 
-            console.log("JOB AGENCY",result.agency)
       
             resultArray.push(result);
           }
@@ -108,8 +102,6 @@ export class JobController {
                     result.client = client;
                 }
 
-                console.log("JOB AGENCY",result.agency)
-
         
                 resultArray.push(result);
             }
@@ -155,8 +147,6 @@ export class JobController {
             }
       
             result.agency = await User.findById(agencyId).exec();
-
-            console.log("JOB AGENCY",result.agency)
 
       
             resultArray.push(result);
@@ -300,21 +290,19 @@ export class JobController {
 
 
     checkWorkerAvailability = (req: express.Request, res: express.Response) => {
-        const job = req.body.job
-        const jobId = job._id;
-
+        const job = req.body.job;
+      
         const agencyId = req.body.job.agency;
       
-        User.findById(agencyId, (err, agency) => {
+        Worker.find({ agency: agencyId, available: true }, (err, workers) => {
           if (err) {
-            return res.status(500).json({ message: 'Greska pri pretrazi agencije.' });
+            return res.status(500).json({ message: 'Greska prilikom pretrage slobodnih radnika.' });
           }
       
-          if (!agency) {
-            return res.status(404).json({ message: 'Agencija nije pronadjena.' });
-          }
-          const numAvailable=0;
-          
+          const numAvailable = workers.length;
+
+          console.log("AVAILABLE WORKERS", workers, "NUM:", numAvailable)
+      
           const response = {
             job: job,
             numAvailable: numAvailable
@@ -322,46 +310,38 @@ export class JobController {
       
           return res.status(200).json(response);
         });
-    };
+      };
       
       
-    takeWorkers = (req: express.Request, res: express.Response) => {
-        console.log("TAKE WORKERS")
+      
+      takeWorkers = (req: express.Request, res: express.Response) => {
+        console.log("TAKE WORKERS");
         const job = req.body.job;
-        const numWorkers = req.body.numWorkers;
-
-        console.log(job,numWorkers)
-
+        const numWorkers = job.numWorkers;
       
-        User.findById(job.agency, (err, agency) => {
-          if (err) {
-            return res.status(500).json({ message: 'Greska u pretrazi agencije.' });
-          }
+        console.log(job, numWorkers);
       
-          if (!agency) {
-            return res.status(404).json({ message: 'Agencija nije pronadjena.' });
-          }
-      
-          const availableWorkers = agency.workers.filter(worker => worker.available === true);
-      
-          if (availableWorkers.length < numWorkers) {
-            return res.status(400).json({ message: 'Nema dovoljno slobodnih radnika u agenciji.' });
-          }
-      
-          const selectedWorkers = availableWorkers.slice(0, numWorkers);
-          selectedWorkers.forEach(worker => {
-            worker.available = false;
-          });
-      
-          agency.save((err, updatedAgency) => {
+        Worker.find({ agency: job.agency._id, available: true })
+          .exec((err, workers) => {
             if (err) {
-              return res.status(500).json({ message: 'Greska pri azuriranju agencije.' });
+              return res.status(500).json({ message: 'Greska prilikom pretrage radnika.' });
             }
       
-            return res.status(200).json({ message: 'Radnici dodeljeni poslu.'});
+            if (workers.length < numWorkers) {
+              return res.status(400).json({ message: 'Nema dovoljno slobodnih radnika u agenciji.' });
+            }
+      
+            for(let i=0; i<numWorkers;i++){
+                workers[i].available=false;
+                workers[i].save();
+            }
+      
+            
+            return res.status(200).json({ message: 'Radnici dodeljeni poslu.' });
+            
           });
-        });
       };
+      
       
     
 };
