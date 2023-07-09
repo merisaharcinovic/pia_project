@@ -55,10 +55,12 @@ export class JobsComponent implements OnInit {
   }
 
   getCollaborationRequests() {
+    console.log("POZIVAM COLLABREQ");
+
     this.userService.getCollaborationsForClient(this.loggedUser._id).subscribe((response) => {
       if (response['requests']) {
         this.requests = response['requests'];
-        console.log(this.requests)
+        console.log("COLLAB:",this.requests)
 
       } else if (response['message']) {
         console.log(response['message']);
@@ -70,7 +72,9 @@ export class JobsComponent implements OnInit {
   acceptOffer(request: CollaborationRequest) {
     console.log("ZAHTEV",request)
     this.userService.acceptOffer(request).subscribe((response) => {
+      console.log(response)
       if(response['message']=='Ponuda prihvacena.'){
+        console.log("POZIVAM");
         this.getCollaborationRequests();
         this.getJobs();
       }

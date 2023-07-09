@@ -44,7 +44,7 @@ export class CollaborationController {
       const requestCount = requests.length;
   
       if (requestCount === 0) {
-        return res.status(200).json([]);
+        return res.status(200).json({requests:[]});
       }
   
       let processedCount = 0;
@@ -99,7 +99,7 @@ export class CollaborationController {
       const requestCount = requests.length;
     
       if (requestCount === 0) {
-        return res.status(200).json([]);
+        return res.status(200).json({requests:[]});
       }
     
       const resultArray = [];
@@ -204,7 +204,7 @@ export class CollaborationController {
   };
   
 
-  acceptOffer = (req: express.Request, res: express.Response) => {
+  acceptOffer = async (req: express.Request, res: express.Response) => {
     let request=req.body.request
 
     const jobData ={
@@ -221,7 +221,7 @@ export class CollaborationController {
     const job = new Job(jobData);
     console.log(job)
 
-    job.save((err) => {
+    await job.save((err) => {
         if (err) {
           console.log(err)
         } else {

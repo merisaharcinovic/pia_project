@@ -4,6 +4,7 @@ import { UserService } from '../user.service';
 import { ClientObject, User } from '../models/user';
 import { retryWhen } from 'rxjs';
 import { ObjectService } from '../object.service';
+import { Job, Review } from '../models/job';
 
 @Component({
   selector: 'app-agency-details',
@@ -23,6 +24,20 @@ export class AgencyDetailsComponent implements OnInit {
   isLoggedIn: boolean;
   reqMessage: string;
 
+  allJobs:any[];
+
+
+  getAllJobs(agencyId:string){
+    this.userService.getJobsForAgency(agencyId).subscribe((response) => {
+      if (response['jobs']) {
+        this.allJobs = response['jobs'];
+        console.log(this.allJobs)
+
+      } else if (response['message']) {
+        console.log(response['message']);
+      }
+    });
+  }
 
   ngOnInit() {
     this.isLoggedIn=false;
@@ -32,6 +47,7 @@ export class AgencyDetailsComponent implements OnInit {
     this.reqMessage="";
 
     this.getAgency(agencyId)
+    this.getAllJobs(agencyId)
 
     this.user = JSON.parse(localStorage.getItem('loggedUser') || '{}');
     if(this.user.username) {

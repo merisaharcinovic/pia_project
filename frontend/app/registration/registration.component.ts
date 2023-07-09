@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-registration',
@@ -9,6 +10,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
+
+file:File;
 
 registrationType: string = 'client';
 username: string;
@@ -29,16 +32,16 @@ message: string;
   profilePicture: string = ""
 
   onProfilePictureSelected(event: any) {
-    let file: File = event.target.files[0];
+    this.file= event.target.files[0];
 
     const image = new Image();
-    image.src = URL.createObjectURL(file);
+    image.src = URL.createObjectURL(this.file);
 
     const allowedFormats = ['image/jpeg', 'image/png'];
-    if (!allowedFormats.includes(file.type)) {
+    if (!allowedFormats.includes(this.file.type)) {
       alert('Nedozvoljen format slike. Dozvoljeni formati su JPG i PNG.');
       this.profilePicture="";
-      file=undefined;
+      this.file=undefined;
       event.target.value = null;
       return;
     }
@@ -50,7 +53,7 @@ message: string;
       if (width > 300 || width<100 || height<100 || height > 300) {
         alert('Velicina slike moze biti minimalno 100x100px, a maksimalno 300x300px.');
         this.profilePicture="";
-        file=undefined
+        this.file=undefined
         event.target.value = null;
         return;
       }
@@ -63,8 +66,12 @@ message: string;
         console.log(this.profilePicture)
 
       }
+
     };
+
   }
+
+
 
 
   ngOnInit(): void {
@@ -120,6 +127,7 @@ message: string;
             this.email,this.firstName,this.lastName, this.profilePicture).subscribe((resp)=>{
               if(resp['message']=='ok'){
                 alert('Uspesno ste se poslali zahtev za registraciju kao klijent.')
+                this.userService.uploadProfilePicture(this.file, this.username)
                 this.router.navigate(['/login'])
               }
               else{
@@ -150,6 +158,7 @@ message: string;
             this.email,this.agencyName,this.agencyAddress, this.agencyPIB, this.agencyDescription, this.profilePicture).subscribe((resp)=>{
               if(resp['message']=='ok'){
                 alert('Uspesno ste poslali zahtev za registraciju kao agencija.')
+                this.userService.uploadProfilePicture(this.file, this.username)
                 this.router.navigate(['/login'])
               }
               else{

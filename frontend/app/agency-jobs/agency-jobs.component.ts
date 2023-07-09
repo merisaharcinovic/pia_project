@@ -56,6 +56,10 @@ export class AgencyJobsComponent implements OnInit {
 
         if (numAvailableWorkers >= job.numWorkers) {
           job.hasEnoughWorkers = true;
+          this.userService.takeWorkers(job).subscribe((response) => {
+            console.log(response['message']);
+          });
+
           console.log('Agencija ima dovoljno radnika za početak posla.', job);
         } else {
           job.hasEnoughWorkers = false;
@@ -75,6 +79,8 @@ export class AgencyJobsComponent implements OnInit {
         job.numWorkers = this.numWorkers;
 
         this.checkWorkerAvailability(job);
+
+
       }
     });
   }

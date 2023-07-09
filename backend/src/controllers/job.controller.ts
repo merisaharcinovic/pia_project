@@ -137,6 +137,7 @@ export class JobController {
               price: job.price,
               deadline: job.deadline,
               status: job.status,
+              review:job.review
             };
       
             const clientId = job.client;
@@ -313,33 +314,30 @@ export class JobController {
       };
       
       
-      
-      takeWorkers = (req: express.Request, res: express.Response) => {
+      takeWorkers = async (req: express.Request, res: express.Response) => {
         console.log("TAKE WORKERS");
         const job = req.body.job;
         const numWorkers = job.numWorkers;
       
         console.log(job, numWorkers);
       
-        Worker.find({ agency: job.agency._id, available: true })
-          .exec((err, workers) => {
-            if (err) {
-              return res.status(500).json({ message: 'Greska prilikom pretrage radnika.' });
-            }
+        try {
+          const workers = await Worker.find({ agency: job.agency._id, available: true }).exec();
       
-            if (workers.length < numWorkers) {
-              return res.status(400).json({ message: 'Nema dovoljno slobodnih radnika u agenciji.' });
-            }
+          console.log("FOUND WORKERS:", workers)
+          if (workers.length < numWorkers) {
+            return res.status(400).json({ message: 'Nema dovoljno slobodnih radnika u agenciji.' });
+          }
       
-            for(let i=0; i<numWorkers;i++){
-                workers[i].available=false;
-                workers[i].save();
-            }
+          for (let i = 0; i < numWorkers; i++) {
+            await Worker.findByIdAndUpdate(workers[i]._id, { available: false }).exec();
+          }
       
-            
-            return res.status(200).json({ message: 'Radnici dodeljeni poslu.' });
-            
-          });
+          return res.status(200).json({ message: 'Radnici dodeljeni poslu.' });
+        } catch (err) {
+          console.error(err);
+          return res.status(500).json({ message: 'Greška prilikom dodele radnika.' });
+        }
       };
       
       

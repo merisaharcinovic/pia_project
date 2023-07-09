@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http'
 import { User } from './models/user';
 import { CollaborationRequest } from './models/collaborationRequest';
 import { Job, Review } from './models/job';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -176,4 +177,18 @@ export class UserService {
     return this.http.get('http://localhost:4000/job/getJobs')
 
   }
+
+  uploadProfilePicture(profilePicture: File, username:string): Observable<any> {
+
+    const formData = new FormData();
+    if (profilePicture) {
+      formData.append('profilePicture', profilePicture, `${username}.${profilePicture.name.split('.').pop()}`);
+    } else {
+      const defaultImageFile = new File(['path/to/default/image.jpg'], 'default.jpg', { type: 'image/jpeg' });
+      formData.append('profilePicture', defaultImageFile, `${username}_default.jpg`);
+    }
+    return this.http.post<any>('http://localhost:4000/users/upload-profile-picture', formData);
+  }
+
+
 }

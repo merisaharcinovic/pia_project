@@ -16,6 +16,8 @@ export class NonregisteredComponent implements OnInit {
   allAgencies: User[];
   searchByAddress: boolean;
   searchByName: boolean;
+  sortBy: string;
+  sortOrder: string;
   constructor(private adminService:AdminService, private userService:UserService, private router:Router) { }
 
   ngOnInit(): void {
@@ -63,35 +65,38 @@ export class NonregisteredComponent implements OnInit {
     }
   }
 
-  // sortAgencies() {
-  //   if (this.sortBy === 'name') {
-  //     this.filteredAgencies.sort((a, b) => {
-  //       const nameA = a.agency.name.toLowerCase();
-  //       const nameB = b.agency.name.toLowerCase();
+  sortAgencies() {
+    if (this.sortBy === 'name') {
+      this.filteredAgencies.sort((a, b) => {
+        const nameA = a.agency.name.toLowerCase();
+        const nameB = b.agency.name.toLowerCase();
 
-  //       if (nameA < nameB) {
-  //         return this.sortOrder === 'asc' ? -1 : 1;
-  //       } else if (nameA > nameB) {
-  //         return this.sortOrder === 'asc' ? 1 : -1;
-  //       } else {
-  //         return 0;
-  //       }
-  //     });
-  //   } else if (this.sortBy === 'address') {
-  //     this.filteredAgencies.sort((a, b) => {
-  //       const addressA = a.agency.address.toLowerCase();
-  //       const addressB = b.agency.address.toLowerCase();
-
-  //       if (addressA < addressB) {
-  //         return this.sortOrder === 'asc' ? -1 : 1;
-  //       } else if (addressA > addressB) {
-  //         return this.sortOrder === 'asc' ? 1 : -1;
-  //       } else {
-  //         return 0;
-  //       }
-  //     });
-  //   }
-  // }
+        if (nameA < nameB) {
+          return this.sortOrder === 'asc' ? -1 : 1;
+        } else if (nameA > nameB) {
+          return this.sortOrder === 'asc' ? 1 : -1;
+        } else {
+          return 0;
+        }
+      });
+    } else if (this.sortBy === 'address') {
+      this.filteredAgencies.sort((a, b) => {
+        let addressA = a.agency.address
+        let strA= addressA.street+' '+addressA.number+' '+addressA.city+' '+addressA.country
+        strA=strA.toLowerCase();
+        let addressB = b.agency.address
+        let strB= addressB.street+' '+addressB.number+' '+addressB.city+' '+addressB.country
+        strB=strB.toLowerCase();
+        if (strA < strB) {
+          return this.sortOrder === 'asc' ? -1 : 1;
+        } else if (addressA > addressB) {
+          return this.sortOrder === 'asc' ? 1 : -1;
+        } else {
+          return 0;
+        }
+      });
+    }
+  }
 
 
 

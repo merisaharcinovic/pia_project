@@ -1,7 +1,10 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Output, ViewChild } from '@angular/core';
 import Konva from 'konva'
 import { ClientObject } from '../models/user';
 import { ObjectService } from '../object.service';
+import { Router } from '@angular/router';
+import { EventEmitter } from '@angular/core';
+
 
 @Component({
   selector: 'app-canvas-add',
@@ -10,10 +13,9 @@ import { ObjectService } from '../object.service';
 })
 export class CanvasAddComponent implements OnInit, AfterViewInit {
   @ViewChild('canvasContainer', { static: false }) canvasContainer: ElementRef;
-
+  @Output() objectAdded: EventEmitter<ClientObject> = new EventEmitter<ClientObject>();
   newObject: ClientObject;
   stage:Konva.Stage;
-
 
   ngAfterViewInit(): void {
 
@@ -66,17 +68,51 @@ export class CanvasAddComponent implements OnInit, AfterViewInit {
       strokeWidth: 1,
     });
 
-    layer.add(rect1);
-    layer.add(rect2);
-    layer.add(rect3);
+    const doorImage = new Image();
+    doorImage.src = 'assets/door.png';
 
-    this.stage.add(layer);
+    doorImage.onload = () => {
+      const door1 = new Konva.Image({
+        x: 150,
+        y: 80,
+        image: doorImage,
+        width: 50,
+        height: 50,
+      });
 
-    layer.draw();
+      const door2 = new Konva.Image({
+        x: 240,
+        y: 100,
+        image: doorImage,
+        width: 50,
+        height: 50,
+      });
+
+      const door3 = new Konva.Image({
+        x: 150,
+        y: 180,
+        image: doorImage,
+        width: 50,
+        height: 50,
+      });
+
+      layer.add(rect1);
+      layer.add(rect2);
+      layer.add(rect3);
+      layer.add(door1);
+      layer.add(door2);
+      layer.add(door3);
+
+      this.stage.add(layer);
+
+      layer.draw();
+    };
   }
 
 
-  constructor(private objectService:ObjectService) { }
+
+
+  constructor(private objectService:ObjectService, private router:Router) { }
 
   ngOnInit(): void {
     this.newObject = new ClientObject();
@@ -94,23 +130,27 @@ export class CanvasAddComponent implements OnInit, AfterViewInit {
     const sketch = [];
 
     const rectangles = this.stage.find('Rect');
+    const doors=this.stage.find('Image')
 
-    rectangles.forEach((rect) => {
+
+    rectangles.forEach((rect, i) => {
       const x = rect.x();
       const y = rect.y();
       const width = rect.width();
       const height = rect.height();
+
+      const door = doors[i];
+      const doorX = door.x();
+      const doorY = door.y();
 
       const room = {
         x: x,
         y: y,
         width: width,
         height: height,
-        door: { x: 0, y: 0 },
+        door: { x: doorX, y: doorY },
         status: 'nedovrseno',
       };
-      console.log("SOBA: ",room);
-
 
       sketch.push(room);
     });
@@ -123,8 +163,9 @@ export class CanvasAddComponent implements OnInit, AfterViewInit {
     const loggedUserId = loggedUser._id;
 
     this.objectService.addObject(loggedUserId, this.newObject).subscribe((response) => {
-        if(response['message']=="Objekat je uspesno sacuvan."){
+        if(response['message']=="Objekat uspesno dodat korisniku."){
           this.newObject = new ClientObject();
+          this.objectAdded.emit(this.newObject);
         }
         else{
           console.log(response['message']);

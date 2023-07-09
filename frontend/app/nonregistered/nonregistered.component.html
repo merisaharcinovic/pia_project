@@ -9,6 +9,22 @@
   <button (click)="search()">Pretraga</button>
 </div>
 
+<div class="sort-bar">
+  <label for="sortBy">Sortiraj po:</label>
+  <select id="sortBy" [(ngModel)]="sortBy">
+    <option value="name">Naziv</option>
+    <option value="address">Adresa</option>
+  </select>
+
+  <label for="sortOrder">Redosled:</label>
+  <select id="sortOrder" [(ngModel)]="sortOrder">
+    <option value="asc">Rastuce</option>
+    <option value="desc">Opadajuce</option>
+  </select>
+
+  <button (click)="sortAgencies()">Sortiraj</button>
+</div>
+
 <table>
   <thead>
     <tr>

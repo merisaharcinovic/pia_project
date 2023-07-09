@@ -9,6 +9,7 @@ import { ClientObject } from '../models/user';
 })
 export class ObjectsComponent implements OnInit {
 
+
   selectedObjectSketch: any;
 
   toggleSketch(object: any) {
@@ -39,6 +40,13 @@ export class ObjectsComponent implements OnInit {
   }
 
 
+  async handleObjectAdded(newObject:ClientObject) {
+    console.log("HANDLE")
+    await this.loadObjects();
+    this.displayForm=false;
+  }
+
+
   loadObjects() {
     const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
     const loggedUserId = loggedUser._id;
@@ -57,7 +65,7 @@ export class ObjectsComponent implements OnInit {
 
     this.objectService.deleteObject(loggedUserId, object).subscribe(() => {
       this.loadObjects();
-      
+
     });
   }
 

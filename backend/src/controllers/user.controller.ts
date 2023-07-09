@@ -3,6 +3,9 @@ import User from "../models/user";
 import RegistrationRequest from "../models/registrationRequests";
 
 export class UserController{
+  uploadProfilePicture=(req:express.Request, res:express.Response)=>{
+    res.status(200);
+  }
     registerAgency=(req:express.Request, res:express.Response)=>{
         console.log(req.body.agencyAddress)
         let registrationRequest = new RegistrationRequest({

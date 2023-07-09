@@ -26,7 +26,7 @@
       </td>
     </tr>
     <tr *ngFor="let object of objectsEdit; let i = index">
-      <td *ngIf="object.showSketch" colspan="5"> <app-canvas-display [sketch]="object.sketch"></app-canvas-display></td>
+      <td *ngIf="object.showSketch" colspan="5"> <app-canvas-display [sketch]="object.sketch" (objectAdded)="handleObjectAdded(object)" ></app-canvas-display></td>
     </tr>
 
   </tbody>

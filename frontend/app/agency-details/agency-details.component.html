@@ -4,6 +4,11 @@
   <table>
 
     <tr>
+      <th>Profilna slika:</th>
+      <td><img [src]="'http://localhost:4000/pictures/'+agency.username+'.jpg'" alt="img" width="100" height="100"></td>
+    </tr>
+
+    <tr>
       <th>Adresa:</th>
       <td>{{ agency.agency.address.street }} {{ agency.agency.address.number }}, {{ agency.agency.address.city }}, {{ agency.agency.address.country }}</td>
     </tr>
@@ -16,12 +21,22 @@
       <td>{{ agency.agency.description }}</td>
     </tr>
   </table>
-  <div *ngIf="isLoggedIn">
-    personalizovane ocene
-  </div>
-  <div *ngIf="!isLoggedIn">
-    depersonalizovane ocene
-  </div>
+  Ocene i komentari:
+  <ng-container *ngFor="let job of allJobs">
+    <div *ngIf="job.review">
+      <div *ngIf="isLoggedIn">
+        Korisnik: {{job.client.username}}
+      </div>
+      Ocena: {{job.review.rating}}
+      Komentar: {{job.review.comment}}
+
+    </div>
+
+
+  </ng-container>
+
+
+
 
   <button *ngIf="isLoggedIn" (click)="showRequestForm=true">Zatrazi saradnju</button>
 
