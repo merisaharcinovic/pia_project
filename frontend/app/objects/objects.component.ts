@@ -181,9 +181,9 @@ export class ObjectsComponent implements OnInit {
         room.y === null ||
         room.width === null ||
         room.height === null ||
-        room.door === null||
-        !this.checkDoorCoordinates(room)
+        room.door === null
       ) {
+        // || !this.checkDoorCoordinates(room)
         console.log("Invalid room:", room);
         return false;
       }

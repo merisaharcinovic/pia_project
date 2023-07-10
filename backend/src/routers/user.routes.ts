@@ -1,18 +1,7 @@
 import express from 'express'
 import { UserController } from '../controllers/user.controller';
-import multer from 'multer';
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'profilePictures/'); 
-    },
-    filename: function (req, file, cb) {
-      
-      cb(null, file.originalName);
-    }
-  });
-  
-const upload = multer({ storage: storage });
+
 
 const userRouter = express.Router();
 
@@ -77,9 +66,9 @@ userRouter.route('/addObject').post(
 
 )
 
-userRouter.route('/upload-profile-picture').post(upload.single('profilePicture'),
-    (req, res) => new UserController().uploadProfilePicture(req, res)
+// userRouter.route('/upload-profile-picture').post(upload.single('profilePicture'),
+//     (req, res) => new UserController().uploadProfilePicture(req, res)
 
-)
+// )
 
 export default userRouter;
