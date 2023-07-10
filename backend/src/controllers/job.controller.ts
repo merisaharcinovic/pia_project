@@ -250,10 +250,18 @@ export class JobController {
     payAndFinish = async (req: express.Request, res: express.Response) => {
         try {
             const { job } = req.body;
+
+            const workers = await Worker.find({ agency: job.agency._id, available: false });
+
+            const workersToUpdate = workers.slice(0, job.numWorkers);
+            workersToUpdate.forEach(async (worker) => {
+              worker.available = true;
+              await worker.save();
+            });
         
             const updatedJob = await Job.findOneAndUpdate(
               { _id: job },
-              { $set: { status: 'zavrsen' } },
+              { $set: { status: 'zavrsen', hasEnoughWorkers:false } },
               { new: true }
             );
         
