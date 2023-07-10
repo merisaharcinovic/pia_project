@@ -31,7 +31,6 @@ export class AgencyJobsComponent implements OnInit {
   requests: any;
   jobs:any;
   loggedUser: User
-  numWorkers: number;
 
 
   ngOnInit(): void {
@@ -41,11 +40,11 @@ export class AgencyJobsComponent implements OnInit {
 
   }
 
-  checkAllJobsWorkers() {
+  async checkAllJobsWorkers() {
     for (let i = 0; i < this.jobs.length; i++) {
       const job = this.jobs[i];
-      if(job.status!='aktivan' || job.numWorkers==0) continue;
-      this.checkWorkerAvailability(job);
+      if(job.status!='aktivan' || job.numWorkers==0 || job.hasEnoughWorkers) continue;
+      await this.checkWorkerAvailability(job);
     }
   }
 
@@ -56,14 +55,17 @@ export class AgencyJobsComponent implements OnInit {
 
         if (numAvailableWorkers >= job.numWorkers) {
           job.hasEnoughWorkers = true;
-          this.userService.takeWorkers(job).subscribe((response) => {
+          this.userService.hasEnough(job).subscribe((response) => {
             console.log(response['message']);
+            this.userService.takeWorkers(job).subscribe((response) => {
+              console.log(response['message']);
+            });
           });
 
-          console.log('Agencija ima dovoljno radnika za početak posla.', job);
+
+          console.log('Agencija ima dovoljno radnika za pocetak posla.', job);
         } else {
-          job.hasEnoughWorkers = false;
-          console.log('Agencija nema dovoljno radnika za početak posla.', job);
+          console.log('Agencija nema dovoljno radnika za pocetak posla.', job);
         }
       } else {
         console.log(response['message']);
@@ -73,10 +75,10 @@ export class AgencyJobsComponent implements OnInit {
   }
 
   assignWorkers(job: any) {
-    this.userService.assignWorkers(job._id, this.numWorkers).subscribe((response) => {
+    this.userService.assignWorkers(job._id, job.numRequired).subscribe((response) => {
       if (response['message'] == 'Uspesno dodeljen broj radnika.') {
         console.log(response['message']);
-        job.numWorkers = this.numWorkers;
+        job.numWorkers = job.numRequired;
 
         this.checkWorkerAvailability(job);
 
@@ -90,7 +92,7 @@ export class AgencyJobsComponent implements OnInit {
     this.userService.getJobsForAgency(this.loggedUser._id).subscribe((response) => {
       if (response['jobs']) {
         this.jobs = response['jobs'];
-        this.jobs = response['jobs'].map(obj => ({ ...obj, showSketch: false, hasEnoughWorkers: false }));
+        this.jobs = response['jobs'].map(obj => ({ ...obj, showSketch: false, numRequired:0}));
 
         console.log("JOBS:", this.jobs)
         this.checkAllJobsWorkers();

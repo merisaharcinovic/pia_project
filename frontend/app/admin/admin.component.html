@@ -1,10 +1,11 @@
-<h1>Admin</h1>
+<h1 class="text-center">Admin</h1>
 
+<div class="container">
   <h2>Zahtevi za registraciju</h2>
-  <table *ngIf="pendingRequests && pendingRequests.length">
+  <table class="table" *ngIf="pendingRequests && pendingRequests.length">
     <thead>
       <tr>
-        <th>Korisnicko ime</th>
+        <th>Korisničko ime</th>
         <th>Email</th>
         <th>Status</th>
         <th></th>
@@ -17,10 +18,10 @@
         <td>{{ request.email }}</td>
         <td>{{ request.status }}</td>
         <td>
-          <button (click)="acceptRequest(request)">Prihvati</button>
+          <button class="btn btn-success" (click)="acceptRequest(request)">Prihvati</button>
         </td>
         <td>
-          <button (click)="declineRequest(request)">Odbij</button>
+          <button class="btn btn-danger" (click)="declineRequest(request)">Odbij</button>
         </td>
       </tr>
     </tbody>
@@ -29,7 +30,7 @@
   <hr>
 
   <h2>Klijenti</h2>
-  <table>
+  <table class="table">
     <thead *ngIf="allClients && allClients.length > 0">
       <tr>
         <th>Ime</th>
@@ -44,266 +45,263 @@
       <tr *ngFor="let client of allClients">
         <td>
           <ng-container *ngIf="!client.editMode">{{ client.client.firstname }}</ng-container>
-          <input type="text" [(ngModel)]="client.client.firstname" *ngIf="client.editMode" />
+          <input type="text" class="form-control" [(ngModel)]="client.client.firstname" *ngIf="client.editMode" />
         </td>
         <td>
           <ng-container *ngIf="!client.editMode">{{ client.client.lastname }}</ng-container>
-          <input type="text" [(ngModel)]="client.client.lastname" *ngIf="client.editMode" />
+          <input type="text" class="form-control" [(ngModel)]="client.client.lastname" *ngIf="client.editMode" />
         </td>
         <td>
           <ng-container *ngIf="!client.editMode">{{ client.username }}</ng-container>
-          <input type="text" [(ngModel)]="client.username" *ngIf="client.editMode" />
+          <input type="text" class="form-control" [(ngModel)]="client.username" *ngIf="client.editMode" />
         </td>
         <td>
           <ng-container *ngIf="!client.editMode">{{ client.email }}</ng-container>
-          <input type="text" [(ngModel)]="client.email" *ngIf="client.editMode" />
+          <input type="text" class="form-control" [(ngModel)]="client.email" *ngIf="client.editMode" />
         </td>
         <td>
           <ng-container *ngIf="!client.editMode">{{ client.phone }}</ng-container>
-          <input type="text" [(ngModel)]="client.phone" *ngIf="client.editMode" />
+          <input type="text" class="form-control" [(ngModel)]="client.phone" *ngIf="client.editMode" />
         </td>
         <td>
           <ng-container *ngIf="!client.editMode">
-            <button (click)="client.editMode = true">Izmeni</button>
+            <button class="btn btn-primary" (click)="client.editMode = true">Izmeni</button>
           </ng-container>
           <ng-container *ngIf="client.editMode">
-            <button (click)="client.editMode = false">Odustani</button>
-            <button (click)="saveClientChanges(client)">Sačuvaj</button>
+            <button class="btn btn-secondary" (click)="client.editMode = false">Odustani</button>
+            <button class="btn btn-success" (click)="saveClientChanges(client)">Sačuvaj</button>
           </ng-container>
-          <button (click)="deleteUser(client)">Obriši</button>
+          <button class="btn btn-danger" (click)="deleteUser(client)">Obriši</button>
         </td>
       </tr>
     </tbody>
   </table>
 
+  <hr>
 
-
-<hr>
-<h2>Novi klijent</h2>
-<table>
-  <tr>
-    <td>Korisničko ime:</td>
-    <td><input type="text" [(ngModel)]="newClient.username"></td>
-  </tr>
-  <tr>
-    <td>Lozinka:</td>
-    <td><input type="password" [(ngModel)]="newClient.password"></td>
-  </tr>
-  <tr>
-    <td>Potvrda lozinke:</td>
-    <td><input type="password" [(ngModel)]="newClient.confirmPassword"></td>
-  </tr>
-  <tr>
-    <td>Kontakt telefon:</td>
-    <td><input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="newClient.phone"></td>
-  </tr>
-  <tr>
-    <td>E-mail adresa:</td>
-    <td><input type="email" [(ngModel)]="newClient.email"></td>
-  </tr>
-  <tr>
-    <td>Ime:</td>
-    <td><input type="text" onkeypress="return /[a-z]/i.test(event.key)" [(ngModel)]="newClient.firstname"></td>
-  </tr>
-  <tr>
-    <td>Prezime:</td>
-    <td><input type="text" onkeypress="return /[a-z]/i.test(event.key)" [(ngModel)]="newClient.lastname"></td>
-  </tr>
-  <tr><td>
-    <button (click)="addClient()">Dodaj klijenta</button>
-  </td>
-  </tr>
-
-</table>
-<span class="error">{{addClientMessage}}</span>
-
-<hr>
-
-<h2>Agencije</h2>
-<table *ngIf="allAgencies && allAgencies.length > 0">
-  <thead>
+  <h2>Novi klijent</h2>
+  <table class="table">
     <tr>
-      <th>Naziv</th>
-      <th>Adresa</th>
-      <th>PIB</th>
-      <th>Opis</th>
-      <th>Korisničko ime</th>
-      <th>Email</th>
-      <th>Telefon</th>
-      <th></th>
+      <td>Korisničko ime:</td>
+      <td><input type="text" class="form-control" [(ngModel)]="newClient.username"></td>
     </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let agency of allAgencies">
+    <tr>
+      <td>Lozinka:</td>
+      <td><input type="password" class="form-control" [(ngModel)]="newClient.password"></td>
+    </tr>
+    <tr>
+      <td>Potvrda lozinke:</td>
+      <td><input type="password" class="form-control" [(ngModel)]="newClient.confirmPassword"></td>
+    </tr>
+    <tr>
+      <td>Kontakt telefon:</td>
+      <td><input type="text" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="newClient.phone"></td>
+    </tr>
+    <tr>
+      <td>E-mail adresa:</td>
+      <td><input type="email" class="form-control" [(ngModel)]="newClient.email"></td>
+    </tr>
+    <tr>
+      <td>Ime:</td>
+      <td><input type="text" class="form-control" onkeypress="return /[a-z]/i.test(event.key)" [(ngModel)]="newClient.firstname"></td>
+    </tr>
+    <tr>
+      <td>Prezime:</td>
+      <td><input type="text" class="form-control" onkeypress="return /[a-z]/i.test(event.key)" [(ngModel)]="newClient.lastname"></td>
+    </tr>
+    <tr>
       <td>
-        <ng-container *ngIf="!agency.editMode">{{ agency.agency.name }}</ng-container>
-        <input type="text" [(ngModel)]="agency.agency.name" *ngIf="agency.editMode">
-      </td>
-      <td>
-        <ng-container *ngIf="!agency.editMode">{{ agency.agency.address.street }} {{ agency.agency.address.number }}, {{ agency.agency.address.city }}, {{ agency.agency.address.country }}</ng-container>
-        <input type="text" [(ngModel)]="agency.agency.address.street" *ngIf="agency.editMode">
-        <input type="text" [(ngModel)]="agency.agency.address.number" *ngIf="agency.editMode">
-        <input type="text" [(ngModel)]="agency.agency.address.city" *ngIf="agency.editMode">
-        <input type="text" [(ngModel)]="agency.agency.address.country" *ngIf="agency.editMode">
-      </td>
-      <td>
-        <ng-container *ngIf="!agency.editMode">{{ agency.agency.PIB }}</ng-container>
-        <input type="text" [(ngModel)]="agency.agency.PIB" *ngIf="agency.editMode">
-      </td>
-      <td>
-        <ng-container *ngIf="!agency.editMode">{{ agency.agency.description }}</ng-container>
-        <input type="text" [(ngModel)]="agency.agency.description" *ngIf="agency.editMode">
-      </td>
-      <td>
-        <ng-container *ngIf="!agency.editMode">{{ agency.username }}</ng-container>
-        <input type="text" [(ngModel)]="agency.username" *ngIf="agency.editMode">
-      </td>
-      <td>
-        <ng-container *ngIf="!agency.editMode">{{ agency.email }}</ng-container>
-        <input type="text" [(ngModel)]="agency.email" *ngIf="agency.editMode">
-      </td>
-      <td>
-        <ng-container *ngIf="!agency.editMode">{{ agency.phone }}</ng-container>
-        <input type="text" [(ngModel)]="agency.phone" *ngIf="agency.editMode">
-      </td>
-      <td>
-        <button (click)="selectAgency(agency)">Prikazi radnike</button>
-        <button (click)="agency.editMode=!agency.editMode" *ngIf="!agency.editMode">Izmeni</button>
-        <button (click)="agency.editMode=!agency.editMode" *ngIf="agency.editMode">Otkazi</button>
-        <button (click)="saveChangesAgency(agency)" *ngIf="agency.editMode">Sacuvaj izmene</button>
-        <button (click)="deleteUser(agency)">Obrisi</button>
+        <button class="btn btn-primary" (click)="addClient()">Dodaj klijenta</button>
       </td>
     </tr>
-  </tbody>
-</table>
+  </table>
+  <span class="error">{{addClientMessage}}</span>
 
+  <hr>
 
-
-<div *ngIf="selectedAgency">
-  <h2>Radnici - {{ selectedAgency.agency.name }}</h2>
-  <table *ngIf="selectedAgencyWorkers && selectedAgencyWorkers.length > 0">
+  <h2>Agencije</h2>
+  <table class="table" *ngIf="allAgencies && allAgencies.length > 0">
     <thead>
       <tr>
-        <th>Ime</th>
-        <th>Prezime</th>
+        <th>Naziv</th>
+        <th>Adresa</th>
+        <th>PIB</th>
+        <th>Opis</th>
+        <th>Korisničko ime</th>
         <th>Email</th>
-        <th>Kontakt telefon</th>
-        <th>Specijalizacija</th>
-        <th></th>
+        <th>Telefon</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let worker of selectedAgencyWorkers">
-        <td *ngIf="!worker.editMode">{{ worker.firstname }}</td>
-        <td *ngIf="worker.editMode"><input type="text" [(ngModel)]="worker.firstname"></td>
-        <td *ngIf="!worker.editMode">{{ worker.lastname }}</td>
-        <td *ngIf="worker.editMode"><input type="text" [(ngModel)]="worker.lastname"></td>
-        <td *ngIf="!worker.editMode">{{ worker.email }}</td>
-        <td *ngIf="worker.editMode"><input type="email" [(ngModel)]="worker.email"></td>
-        <td *ngIf="!worker.editMode">{{ worker.phone }}</td>
-        <td *ngIf="worker.editMode"><input type="text" [(ngModel)]="worker.phone"></td>
-        <td *ngIf="!worker.editMode">{{ worker.specialization }}</td>
-        <td *ngIf="worker.editMode"><input type="text" [(ngModel)]="worker.specialization"></td>
+      <tr *ngFor="let agency of allAgencies">
         <td>
-          <button *ngIf="!worker.editMode" (click)="worker.editMode=!worker.editMode">Izmeni</button>
-          <button *ngIf="worker.editMode" (click)="saveChanges(worker)">Sacuvaj</button>
+          <ng-container *ngIf="!agency.editMode">{{ agency.agency.name }}</ng-container>
+          <input type="text" class="form-control" [(ngModel)]="agency.agency.name" *ngIf="agency.editMode">
         </td>
         <td>
-
-          <button (click)="deleteWorker(worker)">Obriši</button>
+          <ng-container *ngIf="!agency.editMode">{{ agency.agency.address.street }} {{ agency.agency.address.number }}, {{ agency.agency.address.city }}, {{ agency.agency.address.country }}</ng-container>
+          <input type="text" class="form-control" [(ngModel)]="agency.agency.address.street" *ngIf="agency.editMode">
+          <input type="text" class="form-control" [(ngModel)]="agency.agency.address.number" *ngIf="agency.editMode">
+          <input type="text" class="form-control" [(ngModel)]="agency.agency.address.city" *ngIf="agency.editMode">
+          <input type="text" class="form-control" [(ngModel)]="agency.agency.address.country" *ngIf="agency.editMode">
+        </td>
+        <td>
+          <ng-container *ngIf="!agency.editMode">{{ agency.agency.PIB }}</ng-container>
+          <input type="text" class="form-control" [(ngModel)]="agency.agency.PIB" *ngIf="agency.editMode">
+        </td>
+        <td>
+          <ng-container *ngIf="!agency.editMode">{{ agency.agency.description }}</ng-container>
+          <input type="text" class="form-control" [(ngModel)]="agency.agency.description" *ngIf="agency.editMode">
+        </td>
+        <td>
+          <ng-container *ngIf="!agency.editMode">{{ agency.username }}</ng-container>
+          <input type="text" class="form-control" [(ngModel)]="agency.username" *ngIf="agency.editMode">
+        </td>
+        <td>
+          <ng-container *ngIf="!agency.editMode">{{ agency.email }}</ng-container>
+          <input type="text" class="form-control" [(ngModel)]="agency.email" *ngIf="agency.editMode">
+        </td>
+        <td>
+          <ng-container *ngIf="!agency.editMode">{{ agency.phone }}</ng-container>
+          <input type="text" class="form-control" [(ngModel)]="agency.phone" *ngIf="agency.editMode">
+        </td>
+        <td>
+          <button class="btn btn-primary" (click)="selectAgency(agency)">Prikaži radnike</button>
+          <button class="btn btn-primary" (click)="agency.editMode=!agency.editMode" *ngIf="!agency.editMode">Izmeni</button>
+          <button class="btn btn-secondary" (click)="agency.editMode=!agency.editMode" *ngIf="agency.editMode">Otkaži</button>
+          <button class="btn btn-success" (click)="saveChangesAgency(agency)" *ngIf="agency.editMode">Sačuvaj izmene</button>
+          <button class="btn btn-danger" (click)="deleteUser(agency)">Obriši</button>
         </td>
       </tr>
     </tbody>
   </table>
-<button (click)="showAddWorker=!showAddWorker">Dodaj radnika</button>
 
-  <div *ngIf="showAddWorker">
-    <h2>Dodaj radnika</h2>
-    <table>
-      <tr>
-        <td>Ime:</td>
-        <td><input type="text" [(ngModel)]="newWorker.firstname"></td>
-      </tr>
-      <tr>
-        <td>Prezime:</td>
-        <td><input type="text" [(ngModel)]="newWorker.lastname"></td>
-      </tr>
-      <tr>
-        <td>Email adresa:</td>
-        <td><input type="email" [(ngModel)]="newWorker.email"></td>
-      </tr>
-      <tr>
-        <td>Kontakt telefon:</td>
-        <td><input type="text" [(ngModel)]="newWorker.phone"></td>
-      </tr>
+  <div *ngIf="selectedAgency">
+    <h2>Radnici - {{ selectedAgency.agency.name }}</h2>
+    <table class="table" *ngIf="selectedAgencyWorkers && selectedAgencyWorkers.length > 0">
+      <thead>
+        <tr>
+          <th>Ime</th>
+          <th>Prezime</th>
+          <th>Email</th>
+          <th>Kontakt telefon</th>
+          <th>Specijalizacija</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let worker of selectedAgencyWorkers">
+          <td *ngIf="!worker.editMode">{{ worker.firstname }}</td>
+          <td *ngIf="worker.editMode"><input type="text" class="form-control" [(ngModel)]="worker.firstname"></td>
+          <td *ngIf="!worker.editMode">{{ worker.lastname }}</td>
+          <td *ngIf="worker.editMode"><input type="text" class="form-control" [(ngModel)]="worker.lastname"></td>
+          <td *ngIf="!worker.editMode">{{ worker.email }}</td>
+          <td *ngIf="worker.editMode"><input type="email" class="form-control" [(ngModel)]="worker.email"></td>
+          <td *ngIf="!worker.editMode">{{ worker.phone }}</td>
+          <td *ngIf="worker.editMode"><input type="text" class="form-control" [(ngModel)]="worker.phone"></td>
+          <td *ngIf="!worker.editMode">{{ worker.specialization }}</td>
+          <td *ngIf="worker.editMode"><input type="text" class="form-control" [(ngModel)]="worker.specialization"></td>
+          <td>
+            <button class="btn btn-primary" *ngIf="!worker.editMode" (click)="worker.editMode=!worker.editMode">Izmeni</button>
+            <button class="btn btn-success" *ngIf="worker.editMode" (click)="saveChanges(worker)">Sačuvaj</button>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="deleteWorker(worker)">Obriši</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="btn btn-primary" (click)="showAddWorker=!showAddWorker">Dodaj radnika</button>
+
+    <div *ngIf="showAddWorker">
+      <h2>Dodaj radnika</h2>
+      <table class="table">
+        <tr>
+          <td>Ime:</td>
+          <td><input type="text" class="form-control" [(ngModel)]="newWorker.firstname"></td>
+        </tr>
+        <tr>
+          <td>Prezime:</td>
+          <td><input type="text" class="form-control" [(ngModel)]="newWorker.lastname"></td>
+        </tr>
+        <tr>
+          <td>Email adresa:</td>
+          <td><input type="email" class="form-control" [(ngModel)]="newWorker.email"></td>
+        </tr>
+        <tr>
+          <h2>Kontakt telefon:</h2>
+        <td><input type="text" class="form-control" [(ngModel)]="newWorker.phone"></td>
+        </tr>
+
       <tr>
         <td>Specijalizacija:</td>
-        <td><input type="text" [(ngModel)]="newWorker.specialization"></td>
+        <td><input type="text" class="form-control" [(ngModel)]="newWorker.specialization"></td>
       </tr>
       <tr>
         <td>
-          <button (click)="addWorker()">Dodaj radnika</button>
+          <button class="btn btn-primary" (click)="addWorker()">Dodaj radnika</button>
         </td>
       </tr>
     </table>
     <span class="error">{{ addWorkerMessage }}</span>
   </div>
-
 </div>
 
 
 <hr>
+
 <h2>Nova agencija</h2>
-<table>
+<table class="table">
   <tr>
     <td>Korisničko ime:</td>
-    <td><input type="text" [(ngModel)]="newAgency.username"></td>
+    <td><input type="text" class="form-control" [(ngModel)]="newAgency.username"></td>
   </tr>
   <tr>
     <td>Lozinka:</td>
-    <td><input type="password" [(ngModel)]="newAgency.password"></td>
+    <td><input type="password" class="form-control" [(ngModel)]="newAgency.password"></td>
   </tr>
   <tr>
     <td>Potvrda lozinke:</td>
-    <td><input type="password" [(ngModel)]="newAgency.confirmPassword"></td>
+    <td><input type="password" class="form-control" [(ngModel)]="newAgency.confirmPassword"></td>
   </tr>
   <tr>
     <td>Kontakt telefon:</td>
-    <td><input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="newAgency.phone"></td>
+    <td><input type="text" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="newAgency.phone"></td>
   </tr>
   <tr>
     <td>E-mail adresa:</td>
-    <td><input type="email" [(ngModel)]="newAgency.email"></td>
+    <td><input type="email" class="form-control" [(ngModel)]="newAgency.email"></td>
   </tr>
-
   <tr>
     <td>Naziv agencije:</td>
-    <td><input type="text" [(ngModel)]="newAgency.name"></td>
+    <td><input type="text" class="form-control" [(ngModel)]="newAgency.name"></td>
   </tr>
   <tr>
     <td>Adresa sedišta agencije:</td>
     <td>
-      <input type="text" placeholder="Država" onkeypress="return /[a-z\s]/i.test(event.key)"  [(ngModel)]="newAgency.address.country">
-      <input type="text" placeholder="Grad" onkeypress="return /[a-z\s]/i.test(event.key)"  [(ngModel)]="newAgency.address.city">
-      <input type="text" placeholder="Ulica" [(ngModel)]="newAgency.address.street">
-      <input type="text" placeholder="Broj" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="newAgency.address.number">
+      <input type="text" class="form-control" placeholder="Država" onkeypress="return /[a-z\s]/i.test(event.key)" [(ngModel)]="newAgency.address.country">
+      <input type="text" class="form-control" placeholder="Grad" onkeypress="return /[a-z\s]/i.test(event.key)" [(ngModel)]="newAgency.address.city">
+      <input type="text" class="form-control" placeholder="Ulica" [(ngModel)]="newAgency.address.street">
+      <input type="text" class="form-control" placeholder="Broj" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="newAgency.address.number">
     </td>
   </tr>
   <tr>
     <td>Matični broj agencije:</td>
     <td>
-      <input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="newAgency.PIB"></td>
+      <input type="text" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="newAgency.PIB"></td>
   </tr>
   <tr>
     <td>Kratki opis agencije:</td>
-    <td><textarea [(ngModel)]="newAgency.description"></textarea></td>
+    <td><textarea class="form-control" [(ngModel)]="newAgency.description"></textarea></td>
   </tr>
-  <tr><td>
-    <button (click)="addAgency()">Dodaj agenciju</button>
-  </td>
+  <tr>
+    <td>
+      <button class="btn btn-primary" (click)="addAgency()">Dodaj agenciju</button>
+    </td>
   </tr>
-
 </table>
 <span class="error">{{addAgencyMessage}}</span>
 
@@ -311,30 +309,32 @@
 
 <h1>Poslovi</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Klijent</th>
-      <th>Agencija</th>
-      <th>Objekat</th>
-      <th>Broj radnika</th>
-      <th>Cena</th>
-      <th>Rok</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let job of jobs">
-      <td>{{ job.client?.client.firstname }} {{ job.client?.client.lastname }}</td>
-      <td>{{ job.agency?.agency.name }}</td>
-      <td>{{ job.object.objectType }} Adresa: {{ job.object.address }} <br>
-         Broj soba: {{job.object.numRooms }} Povrsina: {{ job.object.area }}</td>
-      <td>{{ job.numWorkers }}</td>
-      <td>{{ job.price }}</td>
-      <td>{{ job.deadline | date }}</td>
-      <td>{{ job.status }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Klijent</th>
+        <th>Agencija</th>
+        <th>Objekat</th>
+        <th>Broj radnika</th>
+        <th>Cena</th>
+        <th>Rok</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let job of jobs">
+        <td>{{ job.client?.client.firstname }} {{ job.client?.client.lastname }}</td>
+        <td>{{ job.agency?.agency.name }}</td>
+        <td>{{ job.object.objectType }} Adresa: {{ job.object.address }} <br>Broj soba: {{job.object.numRooms }} Povrsina: {{ job.object.area }}</td>
+        <td>{{ job.numWorkers }}</td>
+        <td>{{ job.price }}</td>
+        <td>{{ job.deadline | date }}</td>
+        <td>{{ job.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
 
 

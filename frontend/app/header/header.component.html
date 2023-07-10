@@ -1,5 +1,8 @@
-<h1>Aplikacija za uređenje</h1>
-<nav class="navbar">
+<div class="container">
+  <h1>Aplikacija za uređenje</h1>
+  <nav class="navbar">
     <a routerLink="/">Početna</a>
     <a routerLink="/login" (click)="logout()">Izloguj se</a>
-</nav>
+    <a *ngIf="!loggedUser" routerLink="/registration">Registruj se</a>
+  </nav>
+</div>

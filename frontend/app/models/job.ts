@@ -14,5 +14,6 @@ export class Job {
   status: string;
   deadline:Date;
   price: number;
+  hasEnoughWorkers:boolean;
   review: Review
 }

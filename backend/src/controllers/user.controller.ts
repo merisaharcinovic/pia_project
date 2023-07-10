@@ -4,7 +4,7 @@ import RegistrationRequest from "../models/registrationRequests";
 
 export class UserController{
   uploadProfilePicture=(req:express.Request, res:express.Response)=>{
-    res.status(200);
+    res.status(200).json({message:"Image uploaded!"});
   }
     registerAgency=(req:express.Request, res:express.Response)=>{
         console.log(req.body.agencyAddress)

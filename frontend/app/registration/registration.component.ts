@@ -127,8 +127,7 @@ message: string;
             this.email,this.firstName,this.lastName, this.profilePicture).subscribe((resp)=>{
               if(resp['message']=='ok'){
                 alert('Uspesno ste se poslali zahtev za registraciju kao klijent.')
-                this.userService.uploadProfilePicture(this.file, this.username)
-                this.router.navigate(['/login'])
+                this.userService.uploadProfilePicture(this.file, this.username).subscribe(res => this.router.navigate(['/login']))
               }
               else{
                 alert('Neuspesna registracija. Pokusajte ponovo.')
@@ -158,8 +157,8 @@ message: string;
             this.email,this.agencyName,this.agencyAddress, this.agencyPIB, this.agencyDescription, this.profilePicture).subscribe((resp)=>{
               if(resp['message']=='ok'){
                 alert('Uspesno ste poslali zahtev za registraciju kao agencija.')
-                this.userService.uploadProfilePicture(this.file, this.username)
-                this.router.navigate(['/login'])
+                this.userService.uploadProfilePicture(this.file, this.username).subscribe(res=>
+                  this.router.navigate(['/login']))
               }
               else{
                 alert('Neuspesna registracija. Pokusajte ponovo.')

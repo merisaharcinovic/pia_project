@@ -1,4 +1,4 @@
-<table class="object-table">
+<table class="table object-table">
   <thead>
     <tr>
       <th>Tip objekta</th>
@@ -11,53 +11,51 @@
   <tbody>
     <tr *ngFor="let object of objectsEdit; let i = index">
       <td *ngIf="!object.editMode">{{ object.objectType }}</td>
-      <td *ngIf="object.editMode"><input type="text" [(ngModel)]="object.objectType"></td>
+      <td *ngIf="object.editMode"><input class="form-control" type="text" [(ngModel)]="object.objectType"></td>
       <td *ngIf="!object.editMode">{{ object.address }}</td>
-      <td *ngIf="object.editMode"><input type="text" [(ngModel)]="object.address"></td>
+      <td *ngIf="object.editMode"><input class="form-control" type="text" [(ngModel)]="object.address"></td>
       <td *ngIf="!object.editMode">{{ object.numRooms }}</td>
-      <td *ngIf="object.editMode"><input type="number" [(ngModel)]="object.numRooms"></td>
+      <td *ngIf="object.editMode"><input class="form-control" type="number" [(ngModel)]="object.numRooms"></td>
       <td *ngIf="!object.editMode">{{ object.area }}</td>
-      <td *ngIf="object.editMode"><input type="number" [(ngModel)]="object.area"></td>
+      <td *ngIf="object.editMode"><input class="form-control" type="number" [(ngModel)]="object.area"></td>
       <td>
-        <button *ngIf="!object.editMode" (click)="toggleEditMode(i)">Izmeni</button>
-        <button *ngIf="object.editMode" (click)="saveChanges(i)">Sacuvaj</button>
-        <button (click)="deleteObject(object)">Obrisi</button>
-        <button (click)="toggleSketch(object)">Skica</button>
+        <button class="btn btn-primary" *ngIf="!object.editMode" (click)="toggleEditMode(i)">Izmeni</button>
+        <button class="btn btn-success" *ngIf="object.editMode" (click)="saveChanges(i)">Sacuvaj</button>
+        <button class="btn btn-danger" (click)="deleteObject(object)">Obrisi</button>
+        <button class="btn btn-primary" (click)="toggleSketch(object)">Skica</button>
       </td>
     </tr>
     <tr *ngFor="let object of objectsEdit; let i = index">
-      <td *ngIf="object.showSketch" colspan="5"> <app-canvas-display [sketch]="object.sketch" (objectAdded)="handleObjectAdded(object)" ></app-canvas-display></td>
+      <td *ngIf="object.showSketch" colspan="5">
+        <app-canvas-display [sketch]="object.sketch" (objectAdded)="handleObjectAdded(object)"></app-canvas-display>
+      </td>
     </tr>
-
   </tbody>
 </table>
 
-
-<button (click)="displayForm=true">Novi objekat</button>
+<button class="btn btn-primary" (click)="displayForm=true">Novi objekat</button>
 
 <div *ngIf="displayForm">
   <h2>Dodavanje objekta</h2>
-  <table>
+  <table class="table">
     <tr>
       <td>
-        <input type="radio" name="opt" value="json" [(ngModel)]="option" (change)="setOption('json')">Dodavanje putem JSON fajla
+        <input class="form-check-input" type="radio" name="opt" value="json" [(ngModel)]="option" (change)="setOption('json')">Dodavanje putem JSON fajla
       </td>
       <td>
-        <input type="radio" name="opt" value="manual" [(ngModel)]="option" (change)="setOption('manual')"> Unos podataka
+        <input class="form-check-input" type="radio" name="opt" value="manual" [(ngModel)]="option" (change)="setOption('manual')"> Unos podataka
       </td>
     </tr>
   </table>
 
   <div *ngIf="option === 'json'">
-    <input type="file" (change)="handleFileInput($event)">
-    <button (click)="addObjectJSON()">Dodaj</button>
+    <input class="form-control" type="file" (change)="handleFileInput($event)">
+    <button class="btn btn-primary" (click)="addObjectJSON()">Dodaj</button>
   </div>
 
   <div *ngIf="option === 'manual'">
-
     <app-canvas-add></app-canvas-add>
   </div>
-
 </div>
 
 <span class="error">{{addMessage}}</span>

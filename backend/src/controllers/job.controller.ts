@@ -9,6 +9,8 @@ import mongoose from "mongoose";
 
 export class JobController {
 
+
+
     getJobs = async (req: express.Request, res: express.Response) => {
         try {
           const jobs = await Job.find({}).exec();
@@ -35,7 +37,8 @@ export class JobController {
               price: job.price,
               deadline: job.deadline,
               status: job.status,
-              review: job.review
+              review: job.review,
+              hasEnoughWorkers: job.hasEnoughWorkers
             };
       
             const clientId = job.client;
@@ -85,7 +88,9 @@ export class JobController {
                 price:job.price,
                 deadline: job.deadline,
                 status: job.status,
-                review: job.review
+                review: job.review,
+                hasEnoughWorkers: job.hasEnoughWorkers
+
                 };
         
                 const agencyId = job.agency;
@@ -137,7 +142,9 @@ export class JobController {
               price: job.price,
               deadline: job.deadline,
               status: job.status,
-              review:job.review
+              review:job.review,
+              hasEnoughWorkers: job.hasEnoughWorkers
+
             };
       
             const clientId = job.client;
@@ -339,7 +346,18 @@ export class JobController {
           return res.status(500).json({ message: 'Greška prilikom dodele radnika.' });
         }
       };
-      
-      
-    
+
+      hasEnough =  (req: express.Request, res: express.Response) => {
+        let jobId=req.body.job._id
+        Job.findOneAndUpdate({ _id: jobId }, { hasEnoughWorkers: true }, { new: true })
+        .then(updatedJob => {
+          console.log(updatedJob);
+          res.status(200).json({ message: 'Posao ima dovoljno radnika.' });
+
+        })
+        .catch(error => {
+          res.status(500).json({ error: 'Greska prilikom pronalazenja posla u bazi podataka.' });
+        });
+
+      }
 };

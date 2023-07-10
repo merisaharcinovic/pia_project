@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-header',
@@ -8,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
+  loggedUser:User
 
   constructor(private router:Router) { }
 
@@ -17,6 +19,8 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let logged=localStorage.getItem('loggedUser')
+    if(logged) this.loggedUser=JSON.parse(logged)
   }
 
 }

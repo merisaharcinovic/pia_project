@@ -1,7 +1,7 @@
 <div>
-  <h2>Trenutni zahtevi od klijenata</h2>
+  <h2 class="mb-4">Trenutni zahtevi od klijenata</h2>
   <ng-container *ngFor="let request of requests">
-    <div *ngIf="request.status === 'na cekanju'">
+    <div *ngIf="request.status === 'na cekanju'" class="mb-4">
       <div>
         <strong>Klijent:</strong> {{ request.client.client.firstname }} {{ request.client.client.lastname }}
       </div>
@@ -15,22 +15,22 @@
       <div>
         <strong>Status:</strong> {{ request.status }}
       </div>
-      <div *ngIf="!request.isAccepted">
-        <button (click)="request.isAccepted=true">Prihvati</button>
-        <button (click)="declineRequest(request)">Odbij</button>
+      <div *ngIf="!request.isAccepted" class="mt-3">
+        <button class="btn btn-primary" (click)="request.isAccepted=true">Prihvati</button>
+        <button class="btn btn-danger" (click)="declineRequest(request)">Odbij</button>
       </div>
-      <div *ngIf="request.isAccepted">
-        <input type="number" [(ngModel)]="request.price" placeholder="Cena">
-        <button (click)="sendOffer(request)">Pošalji ponudu</button>
+      <div *ngIf="request.isAccepted" class="mt-3">
+        <input type="number" [(ngModel)]="request.price" placeholder="Cena" class="form-control">
+        <button class="btn btn-primary" (click)="sendOffer(request)">Pošalji ponudu</button>
       </div>
-      <hr>
+      <hr class="my-4">
     </div>
   </ng-container>
 </div>
 
 <div>
-  <h3>Trenutno aktivni poslovi</h3>
-  <table>
+  <h3 class="mb-4">Trenutno aktivni poslovi</h3>
+  <table class="table">
     <thead>
       <tr>
         <th>Klijent</th>
@@ -43,8 +43,8 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let job of jobs" >
-        <tr *ngIf="job.status === 'aktivan'" >
+      <ng-container *ngFor="let job of jobs">
+        <tr *ngIf="job.status === 'aktivan'">
           <td>{{ job.client.client.firstname }} {{ job.client.client.lastname }}</td>
           <td>
             {{ job.object.objectType }}, {{ job.object.address }} <br>
@@ -53,21 +53,15 @@
           <td>{{ job.deadline }}</td>
           <td>{{ job.status }}</td>
           <td>{{ job.price }}</td>
-          <td  *ngIf="job.numWorkers == 0">
-            <input type="number" name="numWorkers" id="numWorkers" [(ngModel)]="numWorkers" placeholder="Potreban broj radnika">
-            <button (click)="assignWorkers(job)" *ngIf="job.numWorkers == 0">Dodeli</button>
+          <td *ngIf="job.numWorkers == 0">
+            <input type="number" name="numWorkers" id="numWorkers" [(ngModel)]="job.numRequired" placeholder="Potreban broj radnika" class="form-control">
+            <button class="btn btn-primary" (click)="assignWorkers(job)" *ngIf="job.numWorkers == 0">Dodeli</button>
           </td>
-
-          <td *ngIf="job.numWorkers > 0">
-            {{job.numWorkers}}
-          </td>
-
+          <td *ngIf="job.numWorkers > 0">{{job.numWorkers}}</td>
           <td>
-            <button (click)="toggleSketch(job)">Skica</button>
+            <button class="btn btn-primary" (click)="toggleSketch(job)">Skica</button>
           </td>
         </tr>
-
-
         <tr *ngIf="job.status==='aktivan' && job.showSketch">
           <td colspan="5">
             <app-canvas-agency [sketch]="job.object.sketch" [hasEnoughWorkers]="job.hasEnoughWorkers"></app-canvas-agency>
@@ -75,18 +69,16 @@
           <td colspan="2" *ngIf="job.hasEnoughWorkers">
             <ng-container *ngFor="let room of job.object.sketch; let i = index">
               <label for="roomStatus{{i}}">Status sobe {{i}}:</label>
-              <select id="roomStatus{{i}}" [(ngModel)]="room.status" (change)="updateRoomStatus(job, room)">
+              <select id="roomStatus{{i}}" [(ngModel)]="room.status" (change)="updateRoomStatus(job, room)" class="form-select">
                 <option value="zavrseno">Zavrseno</option>
                 <option value="radi se">Radi se</option>
                 <option value="nedovrseno">Nedovrseno</option>
               </select>
               <br>
             </ng-container>
-
           </td>
         </tr>
       </ng-container>
-
     </tbody>
   </table>
 </div>

@@ -1,10 +1,8 @@
-
 <div *ngIf="agency">
-  <h2>Agencija {{agency.agency.name}}</h2>
-  <table>
+  <h2 class="mb-4">Agencija {{agency.agency.name}}</h2>
+  <table class="table">
 
     <tr>
-      <th>Profilna slika:</th>
       <td><img [src]="'http://localhost:4000/pictures/'+agency.username+'.jpg'" alt="img" width="100" height="100"></td>
     </tr>
 
@@ -21,34 +19,25 @@
       <td>{{ agency.agency.description }}</td>
     </tr>
   </table>
-  Ocene i komentari:
+  <p class="mb-4">Ocene i komentari:</p>
   <ng-container *ngFor="let job of allJobs">
     <div *ngIf="job.review">
       <div *ngIf="isLoggedIn">
-        Korisnik: {{job.client.username}}
+        <p>Korisnik: {{job.client.username}}</p>
       </div>
-      Ocena: {{job.review.rating}}
-      Komentar: {{job.review.comment}}
-
+      <p>Ocena: {{job.review.rating}}, Komentar: {{job.review.comment}}</p>
     </div>
-
-
   </ng-container>
 
-
-
-
-  <button *ngIf="isLoggedIn" (click)="showRequestForm=true">Zatrazi saradnju</button>
-
-
+  <button *ngIf="isLoggedIn" class="btn btn-primary mt-4" (click)="showRequestForm=true">Zatrazi saradnju</button>
 
   <div *ngIf="showRequestForm && isLoggedIn">
-    <h4>Unos podataka:</h4>
-    <table>
+    <h4 class="mt-4">Unos podataka:</h4>
+    <table class="table">
       <tr>
         <td>Objekat:</td>
         <td>
-          <select [(ngModel)]="selectedObjectId">
+          <select class="form-select" [(ngModel)]="selectedObjectId">
             <option *ngFor="let object of user.client.objects" [value]="object._id">{{ object.objectType }}</option>
           </select>
         </td>
@@ -56,14 +45,12 @@
       <tr>
         <td>Vremenski period za zavrsetak:</td>
         <td>
-          <input type="date" [(ngModel)]="deadline">
+          <input type="date" class="form-control" [(ngModel)]="deadline">
         </td>
       </tr>
     </table>
 
-    <button (click)="requestCollaboration()">Pošalji zahtev</button>
+    <button class="btn btn-primary" (click)="requestCollaboration()">Pošalji zahtev</button>
     <span>{{reqMessage}}</span>
   </div>
 </div>
-
-

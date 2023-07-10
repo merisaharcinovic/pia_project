@@ -1,51 +1,47 @@
-<div class="search-bar">
-  <input type="text" [(ngModel)]="searchParam" placeholder="Pretraga po nazivu ili adresi">
-  <label>
-    <input type="checkbox" [(ngModel)]="searchByAddress"> Pretraži po adresi
-  </label>
-  <label>
-    <input type="checkbox" [(ngModel)]="searchByName"> Pretraži po nazivu
-  </label>
-  <button (click)="search()">Pretraga</button>
+<div class="container">
+  <div class="search-bar">
+    <input class="form-control" type="text" [(ngModel)]="searchParam" placeholder="Pretraga po nazivu ili adresi">
+    <label class="form-check-label">
+      <input class="form-check-input" type="checkbox" [(ngModel)]="searchByAddress"> Pretraži po adresi
+    </label>
+    <label class="form-check-label">
+      <input class="form-check-input" type="checkbox" [(ngModel)]="searchByName"> Pretraži po nazivu
+    </label>
+    <button class="btn btn-primary" (click)="search()">Pretraga</button>
+  </div>
+
+  <div class="sort-bar">
+    <label for="sortBy">Sortiraj po:</label>
+    <select class="form-select" id="sortBy" [(ngModel)]="sortBy">
+      <option value="name">Naziv</option>
+      <option value="address">Adresa</option>
+    </select>
+
+    <label for="sortOrder">Redosled:</label>
+    <select class="form-select" id="sortOrder" [(ngModel)]="sortOrder">
+      <option value="asc">Rastuce</option>
+      <option value="desc">Opadajuce</option>
+    </select>
+
+    <button class="btn btn-primary" (click)="sortAgencies()">Sortiraj</button>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Profilna slika</th>
+        <th>Naziv</th>
+        <th>Opis</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let a of filteredAgencies" (click)="viewAgencyDetails(a)">
+        <td>
+          <img class="rounded-circle" [src]="a.profilePicture" alt="Profilna slika" width="50" height="50">
+        </td>
+        <td>{{ a.agency.name }}</td>
+        <td>{{ a.agency.description }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-
-<div class="sort-bar">
-  <label for="sortBy">Sortiraj po:</label>
-  <select id="sortBy" [(ngModel)]="sortBy">
-    <option value="name">Naziv</option>
-    <option value="address">Adresa</option>
-  </select>
-
-  <label for="sortOrder">Redosled:</label>
-  <select id="sortOrder" [(ngModel)]="sortOrder">
-    <option value="asc">Rastuce</option>
-    <option value="desc">Opadajuce</option>
-  </select>
-
-  <button (click)="sortAgencies()">Sortiraj</button>
-</div>
-
-<table>
-  <thead>
-    <tr>
-      <th>Profilna slika</th>
-      <th>Naziv</th>
-      <th>Opis</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let a of filteredAgencies" (click)="viewAgencyDetails(a)">
-      <td>
-        <img [src]="a.profilePicture" alt="Profilna slika" width="50" height="50">
-      </td>
-      <td>{{ a.agency.name }}</td>
-      <td>{{ a.agency.description }}</td>
-    </tr>
-  </tbody>
-</table>
-
-
-
-
-
-

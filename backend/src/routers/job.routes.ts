@@ -53,4 +53,8 @@ jobRouter.route('/checkWorkerAvailability').post(
 jobRouter.route('/takeWorkers').post(
     (req, res) => new JobController().takeWorkers(req, res)
 )
+
+jobRouter.route('/hasEnough').post(
+    (req, res) => new JobController().hasEnough(req, res)
+)
 export default jobRouter;

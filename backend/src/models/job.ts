@@ -18,6 +18,8 @@ let JobSchema = new Schema({
     status: { type: String, default: "aktivan" },
     price: { type: Number, required: true },
     review: { type: ReviewSchema },
+    hasEnoughWorkers: { type: Boolean, default: false },
+
 });
 
 export default mongoose.model('Job', JobSchema, 'jobs');

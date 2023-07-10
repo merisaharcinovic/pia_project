@@ -45,9 +45,24 @@ export class CanvasProgressComponent {
       });
 
       layer.add(rect);
+
+      const doorImage = new Image();
+      doorImage.src = 'assets/door.png';
+
+      doorImage.onload = () => {
+        const door = new Konva.Image({
+          x: room.door.x,
+          y: room.door.y,
+          image: doorImage,
+          width: 50,
+          height: 50,
+        });
+
+        layer.add(door);
+        stage.add(layer);
+        layer.draw();
+      };
     });
 
-    stage.add(layer);
-    layer.draw();
   }
 }

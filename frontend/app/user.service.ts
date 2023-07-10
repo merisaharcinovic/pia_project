@@ -9,6 +9,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
+  hasEnough(job: any) {
+    return this.http.post('http://localhost:4000/job/hasEnough', {job:job})
+  }
   takeWorkers(job: any) {
     return this.http.post('http://localhost:4000/job/takeWorkers', {job:job})
   }
@@ -180,13 +183,17 @@ export class UserService {
 
   uploadProfilePicture(profilePicture: File, username:string): Observable<any> {
 
-    const formData = new FormData();
+    var formData = new FormData();
     if (profilePicture) {
+      console.log("appending image");
+
       formData.append('profilePicture', profilePicture, `${username}.${profilePicture.name.split('.').pop()}`);
+      formData.append('test','test');
     } else {
       const defaultImageFile = new File(['path/to/default/image.jpg'], 'default.jpg', { type: 'image/jpeg' });
       formData.append('profilePicture', defaultImageFile, `${username}_default.jpg`);
     }
+    console.log(formData);
     return this.http.post<any>('http://localhost:4000/users/upload-profile-picture', formData);
   }
 

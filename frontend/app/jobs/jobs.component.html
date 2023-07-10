@@ -12,8 +12,8 @@
   </div>
 
   <div *ngIf="showFinished">
-    <h3>Zavrseni poslovi</h3>
-    <table>
+    <h3>Završeni poslovi</h3>
+    <table class="table">
       <thead>
         <tr>
           <th>Agencija</th>
@@ -42,21 +42,21 @@
             <td >{{ job.review?.comment }}</td>
 
             <td>
-              <button *ngIf="!showReviewForm && !job.review" (click)="showReviewForm = true">Dodaj ocenu</button>
+              <button class="btn btn-primary" *ngIf="!showReviewForm && !job.review" (click)="showReviewForm = true">Dodaj ocenu</button>
               <div *ngIf="showReviewForm">
-                <input type="number" [(ngModel)]="reviewRating" placeholder="Ocena">
-                <input type="text" [(ngModel)]="reviewComment" placeholder="Komentar">
-                <button (click)="addReview(job)">Sacuvaj ocenu</button>
-                <button (click)="cancelReview()">Odustani</button>
+                <input class="form-control" type="number" [(ngModel)]="reviewRating" placeholder="Ocena">
+                <input class="form-control" type="text" [(ngModel)]="reviewComment" placeholder="Komentar">
+                <button class="btn btn-primary" (click)="addReview(job)">Sačuvaj ocenu</button>
+                <button class="btn btn-secondary" (click)="cancelReview()">Odustani</button>
               </div>
-              <button *ngIf="job.review && !showEditForm" (click)="showEditForm=true">Izmeni ocenu</button>
+              <button class="btn btn-primary" *ngIf="job.review && !showEditForm" (click)="showEditForm=true">Izmeni ocenu</button>
               <div *ngIf="showEditForm">
-                <input type="number" [(ngModel)]="reviewRating" placeholder="Ocena">
-                <input type="text" [(ngModel)]="reviewComment" placeholder="Komentar">
-                <button (click)="editReview(job)">Sacuvaj ocenu</button>
-                <button (click)="showEditForm=false">Odustani</button>
+                <input class="form-control" type="number" [(ngModel)]="reviewRating" placeholder="Ocena">
+                <input class="form-control" type="text" [(ngModel)]="reviewComment" placeholder="Komentar">
+                <button class="btn btn-primary" (click)="editReview(job)">Sačuvaj ocenu</button>
+                <button class="btn btn-secondary" (click)="showEditForm=false">Odustani</button>
               </div>
-              <button *ngIf="job.review && !showEditForm" (click)="deleteReview(job)">Obriši ocenu</button>
+              <button class="btn btn-primary" *ngIf="job.review && !showEditForm" (click)="deleteReview(job)">Obriši ocenu</button>
             </td>
           </tr>
         </ng-container>
@@ -68,7 +68,7 @@
 
   <div *ngIf="showActive">
     <h3>Trenutno aktivni poslovi</h3>
-    <table>
+    <table class="table">
       <thead>
         <tr>
           <th>Agencija</th>
@@ -90,9 +90,9 @@
             <td>{{ job.deadline }}</td>
             <td>{{ job.status }}</td>
             <td>{{ job.price }}</td>
-            <td >
-              <button *ngIf="areAllRoomsCompleted(job.object.sketch)" (click)="pay(job)">Plati</button>
-              <button (click)="toggleSketch(job)">Skica</button>
+            <td>
+              <button class="btn btn-primary" *ngIf="areAllRoomsCompleted(job.object.sketch)" (click)="pay(job)">Plati</button>
+              <button class="btn btn-primary" (click)="toggleSketch(job)">Skica</button>
             </td>
           </tr>
           <tr *ngIf="job.showSketch">
@@ -108,7 +108,7 @@
 
   <div *ngIf="showRequests">
     <h3>Zahtevi za saradnjom</h3>
-    <table>
+    <table class="table">
       <thead>
         <tr>
           <th>Agencija</th>
@@ -132,8 +132,8 @@
             <td *ngIf="request.status === 'prihvacen'">{{ request.price }}</td>
             <td *ngIf="request.status != 'prihvacen'"> </td>
             <td *ngIf="request.status === 'prihvacen'">
-              <button (click)="acceptOffer(request)">Prihvati</button>
-              <button (click)="declineOffer(request)">Odbij</button>
+              <button class="btn btn-primary" (click)="acceptOffer(request)">Prihvati</button>
+              <button class="btn btn-primary" (click)="declineOffer(request)">Odbij</button>
             </td>
           </tr>
         </ng-container>

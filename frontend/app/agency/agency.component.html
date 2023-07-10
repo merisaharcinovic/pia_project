@@ -1,9 +1,15 @@
 <div class="container">
   <nav class="main-menu">
-    <ul>
-      <li><a (click)="showComponent('profil')">Profil</a></li>
-      <li><a (click)="showComponent('radnici')">Radnici</a></li>
-      <li><a (click)="showComponent('poslovi')">Poslovi</a></li>
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link" (click)="showComponent('profil')">Profil</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="showComponent('radnici')">Radnici</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="showComponent('poslovi')">Poslovi</a>
+      </li>
     </ul>
   </nav>
 
@@ -24,25 +30,25 @@
           <label>Naziv:</label>
           <div *ngIf="!editingName" class="field-value">
             <span>{{ profile.name }}</span>
-            <button (click)="editName()">Ažuriraj</button>
+            <button class="btn btn-primary" (click)="editName()">Ažuriraj</button>
           </div>
           <div *ngIf="editingName" class="field-value">
-            <input type="text" [(ngModel)]="updatedName">
-            <button (click)="updateName()">Sačuvaj</button>
+            <input type="text" class="form-control" [(ngModel)]="updatedName">
+            <button class="btn btn-success" (click)="updateName()">Sačuvaj</button>
           </div>
         </div>
         <div class="profile-field">
           <label>Adresa:</label>
           <div *ngIf="!editingAddress" class="field-value">
             <span>{{ profile.address.country }}, {{ profile.address.city }}, {{ profile.address.street }} {{ profile.address.number }}</span>
-            <button (click)="editAddress()">Ažuriraj</button>
+            <button class="btn btn-primary" (click)="editAddress()">Ažuriraj</button>
           </div>
           <div *ngIf="editingAddress" class="field-value">
-            <input type="text" [(ngModel)]="updatedAddress.country" placeholder="Država">
-            <input type="text" [(ngModel)]="updatedAddress.city" placeholder="Grad">
-            <input type="text" [(ngModel)]="updatedAddress.street" placeholder="Ulica">
-            <input type="text" [(ngModel)]="updatedAddress.number" placeholder="Broj">
-            <button (click)="updateAddress()">Sačuvaj</button>
+            <input type="text" class="form-control" [(ngModel)]="updatedAddress.country" placeholder="Država">
+            <input type="text" class="form-control" [(ngModel)]="updatedAddress.city" placeholder="Grad">
+            <input type="text" class="form-control" [(ngModel)]="updatedAddress.street" placeholder="Ulica">
+            <input type="text" class="form-control" [(ngModel)]="updatedAddress.number" placeholder="Broj">
+            <button class="btn btn-success" (click)="updateAddress()">Sačuvaj</button>
           </div>
         </div>
 
@@ -50,11 +56,11 @@
           <label>Kratak opis:</label>
           <div *ngIf="!editingDescription" class="field-value">
             <span>{{ profile.description }}</span>
-            <button (click)="editDescription()">Ažuriraj</button>
+            <button class="btn btn-primary" (click)="editDescription()">Ažuriraj</button>
           </div>
           <div *ngIf="editingDescription" class="field-value">
-            <input type="text" [(ngModel)]="updatedDescription">
-            <button (click)="updateDescription()">Sačuvaj</button>
+            <input type="text" class="form-control" [(ngModel)]="updatedDescription">
+            <button class="btn btn-success" (click)="updateDescription()">Sačuvaj</button>
           </div>
         </div>
 
@@ -62,28 +68,28 @@
           <label>Email adresa:</label>
           <div *ngIf="!editingEmail" class="field-value">
             <span>{{ profile.email }}</span>
-            <button (click)="editEmail()">Ažuriraj</button>
+            <button class="btn btn-primary" (click)="editEmail()">Ažuriraj</button>
           </div>
           <div *ngIf="editingEmail" class="field-value">
-            <input type="text" [(ngModel)]="updatedEmail">
-            <button (click)="updateEmail()">Sačuvaj</button>
+            <input type="text" class="form-control" [(ngModel)]="updatedEmail">
+            <button class="btn btn-success" (click)="updateEmail()">Sačuvaj</button>
           </div>
         </div>
         <div class="profile-field">
           <label>Kontakt telefon:</label>
           <div *ngIf="!editingPhone" class="field-value">
             <span>{{ profile.phone }}</span>
-            <button (click)="editPhone()">Ažuriraj</button>
+            <button class="btn btn-primary" (click)="editPhone()">Ažuriraj</button>
           </div>
           <div *ngIf="editingPhone" class="field-value">
-            <input type="text" [(ngModel)]="updatedPhone">
-            <button (click)="updatePhone()">Sačuvaj</button>
+            <input type="text" class="form-control" [(ngModel)]="updatedPhone">
+            <button class="btn btn-success" (click)="updatePhone()">Sačuvaj</button>
           </div>
         </div>
 
         <div class="profile-actions">
-          <button (click)="updateProfile()">Ažuriraj profil</button>
-          <button (click)="showChangePassword = true" class="btn btn-primary">Promena lozinke</button>
+          <button class="btn btn-primary" (click)="updateProfile()">Ažuriraj profil</button>
+          <button class="btn btn-primary" (click)="showChangePassword = true">Promena lozinke</button>
         </div>
 
         <div *ngIf="showChangePassword">
@@ -91,17 +97,17 @@
           <div>
             <div>
               <label for="oldPassword">Stara lozinka</label>
-              <input type="password" id="oldPassword" [(ngModel)]="oldPassword" name="oldPassword" >
+              <input type="password" id="oldPassword" [(ngModel)]="oldPassword" name="oldPassword" class="form-control">
             </div>
             <div>
               <label for="newPassword">Nova lozinka</label>
-              <input type="password" id="newPassword" [(ngModel)]="newPassword" name="newPassword" >
+              <input type="password" id="newPassword" [(ngModel)]="newPassword" name="newPassword" class="form-control">
             </div>
             <div>
               <label for="confirmPassword">Potvrdi lozinku</label>
-              <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" >
+              <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" class="form-control">
             </div>
-            <button (click)="changePassword()">Promeni lozinku</button>
+            <button class="btn btn-primary" (click)="changePassword()">Promeni lozinku</button>
             <span>{{passMessage}}</span>
           </div>
         </div>
