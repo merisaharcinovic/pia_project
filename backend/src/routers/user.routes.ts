@@ -66,9 +66,4 @@ userRouter.route('/addObject').post(
 
 )
 
-// userRouter.route('/upload-profile-picture').post(upload.single('profilePicture'),
-//     (req, res) => new UserController().uploadProfilePicture(req, res)
-
-// )
-
 export default userRouter;

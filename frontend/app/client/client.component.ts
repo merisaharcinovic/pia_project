@@ -127,7 +127,6 @@ export class ClientComponent implements OnInit {
 
   onProfilePictureChange(event: any) {
     const file = event.target.files[0];
-    // Ovde izvršiti dalju obradu slike, npr. upload na server
   }
 
   updateProfile() {
@@ -205,7 +204,7 @@ export class ClientComponent implements OnInit {
     this.showChangePassword = false;
   }
 
-  
+
   logout() {
     localStorage.removeItem('loggedUser');
     this.router.navigate(['/login']);

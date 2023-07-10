@@ -14,7 +14,6 @@
         <h2>Profil</h2>
         <div class="profile-field">
           <label>Profilna slika:</label>
-          <!-- <img [src]="'http://localhost:4000/pictures/'+loggedUser.username+'.jpg'" alt="img" width="100" height="100"> -->
           <img class="rounded-circle" [src]="loggedUser.profilePicture" alt="Profilna slika" width="50" height="50">
           <div class="file-input">
             <input type="file" (change)="onProfilePictureChange($event)">

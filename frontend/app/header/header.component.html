@@ -1,6 +1,8 @@
 <div class="container">
   <h1>Aplikacija za uređenje</h1>
   <nav class="navbar">
+    <a *ngIf="loggedUser && loggedUser.role=='client'" routerLink="/client">Klijent</a>
+    <a *ngIf="loggedUser && loggedUser.role=='agency'" routerLink="/agency">Agencija</a>
     <a routerLink="/">Početna</a>
     <a routerLink="/login" (click)="logout()">Izloguj se</a>
     <a *ngIf="!loggedUser" routerLink="/registration">Registruj se</a>

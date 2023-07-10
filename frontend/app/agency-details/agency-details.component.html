@@ -1,9 +1,11 @@
+
+<a routerLink="/client" *ngIf="isLoggedIn" >Nazad na klijentsku stranu</a>
+
 <div *ngIf="agency">
   <h2 class="mb-4">Agencija {{agency.agency.name}}</h2>
   <table class="table">
 
     <tr>
-      <!-- <td><img [src]="'http://localhost:4000/pictures/'+agency.username+'.jpg'" alt="img" width="100" height="100"></td> -->
       <img class="rounded-circle" [src]="agency.profilePicture" alt="Profilna slika" width="50" height="50">
 
     </tr>
@@ -56,3 +58,6 @@
     <span>{{reqMessage}}</span>
   </div>
 </div>
+
+
+
