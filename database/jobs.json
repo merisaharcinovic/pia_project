@@ -1,0 +1,329 @@
+[{
+  "_id": {
+    "$oid": "64aba6b03ed0212dc9a4282e"
+  },
+  "client": {
+    "$oid": "64aba3c83ed0212dc9a42713"
+  },
+  "agency": {
+    "$oid": "64aba3ce3ed0212dc9a42733"
+  },
+  "object": {
+    "_id": {
+      "$oid": "64aba5c13ed0212dc9a427a6"
+    },
+    "objectType": "Kuca",
+    "address": "Vojislava Ilica 6",
+    "numRooms": 3,
+    "area": 100,
+    "sketch": [
+      {
+        "x": 50,
+        "y": 50,
+        "width": 100,
+        "height": 200,
+        "door": {
+          "x": 150,
+          "y": 80,
+          "_id": {
+            "$oid": "64aba5c13ed0212dc9a427a8"
+          }
+        },
+        "status": "nedovrseno",
+        "_id": {
+          "$oid": "64aba5c13ed0212dc9a427a7"
+        }
+      },
+      {
+        "x": 150,
+        "y": 50,
+        "width": 200,
+        "height": 100,
+        "door": {
+          "x": 240,
+          "y": 100,
+          "_id": {
+            "$oid": "64aba5c13ed0212dc9a427aa"
+          }
+        },
+        "status": "nedovrseno",
+        "_id": {
+          "$oid": "64aba5c13ed0212dc9a427a9"
+        }
+      },
+      {
+        "x": 150,
+        "y": 150,
+        "width": 150,
+        "height": 200,
+        "door": {
+          "x": 150,
+          "y": 180,
+          "_id": {
+            "$oid": "64aba5c13ed0212dc9a427ac"
+          }
+        },
+        "status": "nedovrseno",
+        "_id": {
+          "$oid": "64aba5c13ed0212dc9a427ab"
+        }
+      }
+    ]
+  },
+  "numWorkers": 3,
+  "deadline": {
+    "$date": {
+      "$numberLong": "1689811200000"
+    }
+  },
+  "status": "aktivan",
+  "price": 13000,
+  "hasEnoughWorkers": true,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64aba7533ed0212dc9a428e0"
+  },
+  "client": {
+    "$oid": "64aba3c83ed0212dc9a42713"
+  },
+  "agency": {
+    "$oid": "64a7f28ef138196d553b14b6"
+  },
+  "object": {
+    "_id": {
+      "$oid": "64aba5f03ed0212dc9a427bd"
+    },
+    "objectType": "Stan",
+    "address": "Resavska 3",
+    "numRooms": 3,
+    "area": 90,
+    "sketch": [
+      {
+        "x": 50,
+        "y": 50,
+        "width": 100,
+        "height": 200,
+        "door": {
+          "x": 150,
+          "y": 80,
+          "_id": {
+            "$oid": "64aba5f03ed0212dc9a427bf"
+          }
+        },
+        "status": "radi se",
+        "_id": {
+          "$oid": "64aba5f03ed0212dc9a427be"
+        }
+      },
+      {
+        "x": 150,
+        "y": 50,
+        "width": 200,
+        "height": 100,
+        "door": {
+          "x": 240,
+          "y": 100,
+          "_id": {
+            "$oid": "64aba5f03ed0212dc9a427c1"
+          }
+        },
+        "status": "nedovrseno",
+        "_id": {
+          "$oid": "64aba5f03ed0212dc9a427c0"
+        }
+      },
+      {
+        "x": 150,
+        "y": 150,
+        "width": 150,
+        "height": 200,
+        "door": {
+          "x": 150,
+          "y": 180,
+          "_id": {
+            "$oid": "64aba5f03ed0212dc9a427c3"
+          }
+        },
+        "status": "nedovrseno",
+        "_id": {
+          "$oid": "64aba5f03ed0212dc9a427c2"
+        }
+      }
+    ]
+  },
+  "numWorkers": 3,
+  "deadline": {
+    "$date": {
+      "$numberLong": "1690588800000"
+    }
+  },
+  "status": "aktivan",
+  "price": 12350,
+  "hasEnoughWorkers": true,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64abbfe28cfc67e6002188cc"
+  },
+  "client": {
+    "$oid": "64aba3d23ed0212dc9a42744"
+  },
+  "agency": {
+    "$oid": "64abaf6a4a8da235f92b0f74"
+  },
+  "object": {
+    "_id": {
+      "$oid": "64abbf708cfc67e600218802"
+    },
+    "objectType": "Kuca",
+    "address": "Gojka Bacanina 4",
+    "numRooms": 3,
+    "area": 120,
+    "sketch": [
+      {
+        "x": 50,
+        "y": 50,
+        "width": 100,
+        "height": 200,
+        "door": {
+          "x": 150,
+          "y": 80,
+          "_id": {
+            "$oid": "64abbf708cfc67e600218804"
+          }
+        },
+        "status": "nedovrseno",
+        "_id": {
+          "$oid": "64abbf708cfc67e600218803"
+        }
+      },
+      {
+        "x": 150,
+        "y": 50,
+        "width": 200,
+        "height": 100,
+        "door": {
+          "x": 240,
+          "y": 100,
+          "_id": {
+            "$oid": "64abbf708cfc67e600218806"
+          }
+        },
+        "status": "nedovrseno",
+        "_id": {
+          "$oid": "64abbf708cfc67e600218805"
+        }
+      },
+      {
+        "x": 150,
+        "y": 150,
+        "width": 150,
+        "height": 200,
+        "door": {
+          "x": 150,
+          "y": 180,
+          "_id": {
+            "$oid": "64abbf708cfc67e600218808"
+          }
+        },
+        "status": "nedovrseno",
+        "_id": {
+          "$oid": "64abbf708cfc67e600218807"
+        }
+      }
+    ]
+  },
+  "numWorkers": 3,
+  "deadline": {
+    "$date": {
+      "$numberLong": "1690675200000"
+    }
+  },
+  "status": "aktivan",
+  "price": 13000,
+  "hasEnoughWorkers": true,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64abbfe88cfc67e600218906"
+  },
+  "client": {
+    "$oid": "64aba3d23ed0212dc9a42744"
+  },
+  "agency": {
+    "$oid": "64abaf6a4a8da235f92b0f74"
+  },
+  "object": {
+    "_id": {
+      "$oid": "64abbb448cfc67e600218471"
+    },
+    "objectType": "Stan",
+    "address": "Kosanciceva 23",
+    "numRooms": 3,
+    "area": 92,
+    "sketch": [
+      {
+        "x": 50,
+        "y": 50,
+        "width": 100,
+        "height": 200,
+        "door": {
+          "x": 150,
+          "y": 80,
+          "_id": {
+            "$oid": "64abbb448cfc67e600218473"
+          }
+        },
+        "status": "nedovrseno",
+        "_id": {
+          "$oid": "64abbb448cfc67e600218472"
+        }
+      },
+      {
+        "x": 150,
+        "y": 50,
+        "width": 200,
+        "height": 100,
+        "door": {
+          "x": 240,
+          "y": 100,
+          "_id": {
+            "$oid": "64abbb448cfc67e600218475"
+          }
+        },
+        "status": "nedovrseno",
+        "_id": {
+          "$oid": "64abbb448cfc67e600218474"
+        }
+      },
+      {
+        "x": 150,
+        "y": 150,
+        "width": 150,
+        "height": 200,
+        "door": {
+          "x": 150,
+          "y": 180,
+          "_id": {
+            "$oid": "64abbb448cfc67e600218477"
+          }
+        },
+        "status": "nedovrseno",
+        "_id": {
+          "$oid": "64abbb448cfc67e600218476"
+        }
+      }
+    ]
+  },
+  "numWorkers": 0,
+  "deadline": {
+    "$date": {
+      "$numberLong": "1689811200000"
+    }
+  },
+  "status": "aktivan",
+  "price": 32110,
+  "hasEnoughWorkers": false,
+  "__v": 0
+}]

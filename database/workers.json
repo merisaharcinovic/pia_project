@@ -1,0 +1,211 @@
+[{
+  "_id": {
+    "$oid": "64aae19e885d6dfe01d305ba"
+  },
+  "firstname": "Pera",
+  "lastname": "Peric",
+  "email": "pera@gmail.com",
+  "phone": "062323232",
+  "specialization": "moler",
+  "available": false,
+  "agency": {
+    "$oid": "64a7f28ef138196d553b14b6"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64aae501a58cb8dc67d2a077"
+  },
+  "firstname": "Zika",
+  "lastname": "Zikic",
+  "email": "zika@gmail.com",
+  "phone": "065555555",
+  "specialization": "elektricar",
+  "available": false,
+  "agency": {
+    "$oid": "64a7f28ef138196d553b14b6"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64aae514a58cb8dc67d2a091"
+  },
+  "firstname": "Mika",
+  "lastname": "Mikic",
+  "email": "mika@rad.com",
+  "phone": "066333333",
+  "specialization": "vodoinstalater",
+  "available": false,
+  "agency": {
+    "$oid": "64a7f28ef138196d553b14b6"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64ab9b93da1147d7073520db"
+  },
+  "firstname": "Ivan",
+  "lastname": "Ivanovic",
+  "email": "enterijer@gmail.com",
+  "phone": "066222222",
+  "specialization": "dizajner enterijera",
+  "available": true,
+  "agency": {
+    "$oid": "64a7f28ef138196d553b14b6"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64ab9bd1da1147d7073523d2"
+  },
+  "firstname": "Laza",
+  "lastname": "Lazarevic",
+  "email": "laza@gmail.com",
+  "phone": "066111111",
+  "specialization": "moler",
+  "available": true,
+  "agency": {
+    "$oid": "64a7f28ef138196d553b14b6"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64aba0c4b0ceb770ab216773"
+  },
+  "firstname": "Marko",
+  "lastname": "Markovic",
+  "email": "marko@gmail.com",
+  "phone": "066123123",
+  "specialization": "ekspert za podove",
+  "available": true,
+  "agency": {
+    "$oid": "64a7f28ef138196d553b14b6"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64abb9708cfc67e60021832e"
+  },
+  "firstname": "Milutin",
+  "lastname": "Milankovic",
+  "email": "mili@gmail.com",
+  "phone": "065444555",
+  "specialization": "zidar",
+  "available": false,
+  "agency": {
+    "$oid": "64abaf6a4a8da235f92b0f74"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64abb98a8cfc67e60021834c"
+  },
+  "firstname": "Milan",
+  "lastname": "Stankovic",
+  "email": "milan@stan.com",
+  "phone": "065234234",
+  "specialization": "elektricar",
+  "available": false,
+  "agency": {
+    "$oid": "64abaf6a4a8da235f92b0f74"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64abb9a48cfc67e60021836a"
+  },
+  "firstname": "Ivan",
+  "lastname": "Ivancic",
+  "email": "ivan@gmail.com",
+  "phone": "065443322",
+  "specialization": "vodoinstalater",
+  "available": false,
+  "agency": {
+    "$oid": "64abaf6a4a8da235f92b0f74"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64abb9b78cfc67e600218388"
+  },
+  "firstname": "Marija",
+  "lastname": "Maric",
+  "email": "marija@gmail.com",
+  "phone": "065423423",
+  "specialization": "dizajn",
+  "available": true,
+  "agency": {
+    "$oid": "64abaf6a4a8da235f92b0f74"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64abb9db8cfc67e6002183a6"
+  },
+  "firstname": "Goran",
+  "lastname": "Nikolic",
+  "email": "goran@gmail.com",
+  "phone": "063214214",
+  "specialization": "stolarija",
+  "available": true,
+  "agency": {
+    "$oid": "64abaf6a4a8da235f92b0f74"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64abba048cfc67e6002183c7"
+  },
+  "firstname": "Masa",
+  "lastname": "Markovic",
+  "email": "masa@gmail.com",
+  "phone": "063333222",
+  "specialization": "dizajn enterijera",
+  "available": false,
+  "agency": {
+    "$oid": "64aba3ce3ed0212dc9a42733"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64abba348cfc67e6002183e5"
+  },
+  "firstname": "Marija",
+  "lastname": "Milutinovic",
+  "email": "marijam@gmail.com",
+  "phone": "062314213",
+  "specialization": "elektronicar",
+  "available": false,
+  "agency": {
+    "$oid": "64aba3ce3ed0212dc9a42733"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64abba4b8cfc67e600218403"
+  },
+  "firstname": "Igor",
+  "lastname": "Igic",
+  "email": "igor@gmail.com",
+  "phone": "061234234",
+  "specialization": "vodoinstalater",
+  "available": false,
+  "agency": {
+    "$oid": "64aba3ce3ed0212dc9a42733"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64abba8e8cfc67e600218421"
+  },
+  "firstname": "Stefan",
+  "lastname": "Stefanovic",
+  "email": "stefan@gmail.com",
+  "phone": "0633442442",
+  "specialization": "zidar",
+  "available": true,
+  "agency": {
+    "$oid": "64aba3ce3ed0212dc9a42733"
+  },
+  "__v": 0
+}]
